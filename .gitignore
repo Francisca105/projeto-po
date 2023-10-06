@@ -1,3 +1,5 @@
+.gitignore
+
 # Compiled class file
 *.class
 
@@ -22,3 +24,5 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# /home/jose/po/dev-xxl/xxl-app/xxl-app.jar:/home/jose/po/dev-xxl/xxl-core/xxl-core.jar:/home/jose/po/po-uilib/po-uilib.jar
