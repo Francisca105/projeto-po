@@ -25,4 +25,4 @@
 hs_err_pid*
 replay_pid*
 
-# /home/jose/po/dev-xxl/xxl-app/xxl-app.jar:/home/jose/po/dev-xxl/xxl-core/xxl-core.jar:/home/jose/po/po-uilib/po-uilib.jar
+# export CLASSPATH=/home/jose/po/dev-xxl/xxl-app/xxl-app.jar:/home/jose/po/dev-xxl/xxl-core/xxl-core.jar:/home/jose/po/po-uilib/po-uilib.jar
