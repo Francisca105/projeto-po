@@ -1,4 +1,6 @@
-package xxl.content;
+package xxl.content.functions;
+
+import xxl.content.Content;
 
 public class Function extends Content<Function>{
     /**

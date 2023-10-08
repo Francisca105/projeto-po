@@ -1,4 +1,6 @@
-package xxl.content;
+package xxl.content.literals;
+
+import xxl.content.Content;
 
 public class Integer extends Content<Integer>{
 

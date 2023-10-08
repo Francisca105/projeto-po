@@ -1,4 +1,7 @@
-package xxl.content;
+package xxl.content.functions.binary;
+
+import xxl.content.Content;
+import xxl.content.functions.Function;
 
 public class Add extends Function {
     private Content<?> _n1;

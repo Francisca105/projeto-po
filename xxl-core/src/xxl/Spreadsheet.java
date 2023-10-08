@@ -13,9 +13,9 @@ public class Spreadsheet implements Serializable {
     @Serial
     private static final long serialVersionUID = 202308312359L;
 
-    private int _line;
+    private int _lines;
 
-    private int _column;
+    private int _columns;
 
     // FIXME define attributes
     // FIXME define contructor(s)

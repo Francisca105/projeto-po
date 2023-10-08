@@ -1,18 +1,24 @@
 # ToDo
+
 * Cell
 * Content
-	* Int
-	* Str
-	* Reference
-	* Function
-		* Add
-		* Sub
-		* Mul
-		* Div
-		* Avg
-		* Prod
-		* Conc
-		* Coal
+  * Int
+  * Str
+  * Reference
+  * Function
+
+    * Binary
+
+      * Add
+      * Sub
+      * Mul
+      * Div
+    * Interval
+
+      * Avg
+      * Prod
+      * Conc
+      * Coal
 * Import
 * New, Open, Save
 * Abertura de Menus
