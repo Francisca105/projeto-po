@@ -1,15 +1,31 @@
 package xxl.content.literals;
 
-import xxl.content.Content;
+public class Int extends Literal {
+    private int _value;
 
-public class Int extends Content<Integer>{
+    // temporary
+    public Int() {}
 
-    /**
-     *
-     * @param n
-     */
-    public Int(Integer n) {
-        super(n);
+    public Int(int value) {
+        _value = value;
     }
 
+    public int getValue() {
+        return _value;
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(_value);
+    }
+
+    @Override
+    public String asString() {
+        return Integer.toString(_value);
+    }
+
+    @Override
+    public Literal value() {
+        return this;
+    }
 }

@@ -1,0 +1,11 @@
+{
+    "java.project.outputPath": "bin",
+    "java.project.sourcePaths": [
+        "xxl-app/src",
+        "xxl-core/src"
+    ],
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/home/jose/po/po-uilib/po-uilib.jar"
+    ]
+}

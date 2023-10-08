@@ -3,14 +3,18 @@ package xxl.utils;
 import xxl.Spreadsheet;
 import xxl.content.Content;
 import xxl.content.literals.*;
+import xxl.content.Reference;
+import xxl.content.functions.binary.*;
+import xxl.content.functions.interval.nospaces.*;
+import xxl.content.functions.interval.spaces.*;
 
-import java.io.IOException;
+/*import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.Reader;
 
 import java.util.Collection;
-import java.util.ArrayList;
+import java.util.ArrayList;*/
 
 import xxl.exceptions.UnrecognizedEntryException;
 
@@ -24,7 +28,7 @@ public class Parser {
     Parser() {
     }
 
-    public Content<?> parseContent(String content) {
+    public Content parseContent(String content) throws UnrecognizedEntryException {
         if(content.charAt(0) == '=') {
             return parseContentExpression(content);
         } else {
@@ -32,12 +36,57 @@ public class Parser {
         }
     }
 
-    public Content<?> parseContentExpression(String content) {
+    public Content parseContentExpression(String content) {
+        if(content.contains("(")) {
+            return parseContentFunction(content);
+        } else {
+            return parseContentReference(content);
+        }
+    }
+
+    public Content parseContentFunction(String content) throws UnrecognizedEntryException {
         // TODO
+        String functionName = content.substring(1, content.indexOf("("));
+        String[] args = content.split(",");
+        Content arg1 = parseContent(args[0]);
+        Content arg2 = parseContent(args[1]);
+
+        switch (functionName) {
+            case "ADD":
+                return new Add(arg1, arg2);
+            case "DIV":
+                return new Div(arg1, arg2);
+            case "MUL":
+                return new Mul(arg1, arg2);
+            case "SUB":
+                return new Sub(arg1, arg2);
+            case "AVERAGE ":
+                return new Avg(arg1, arg2);
+            case "PRODUCT":
+                return new Prod(arg1, arg2);
+            case "CONCAT":
+                return new Conc(arg1, arg2);
+            case "COALESCE":
+                return new Coal(arg1, arg2);
+        }
         return new Str(content);
     }
 
-    public Content<?> parseContentLiteral(String content) throws UnrecognizedEntryException {
+    public Content parseContentReference(String content) throws NumberFormatException {
+        String position = content.substring(1);
+        String[] split = position.split(";");
+        try {
+            int row = Integer.parseInt(split[0]);
+            int col = Integer.parseInt(split[1]);
+
+            return new Reference(row, col);
+        } catch(NumberFormatException e) {
+            throw new NumberFormatException();
+        }
+
+    }
+
+    public Content parseContentLiteral(String content) throws UnrecognizedEntryException {
         if(content.charAt(0) == '\'') {
             return new Str(content.substring(1));
         } else {
@@ -48,5 +97,4 @@ public class Parser {
             }
         }
     }
-
 }

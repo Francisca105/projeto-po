@@ -13,13 +13,22 @@ public class Spreadsheet implements Serializable {
     @Serial
     private static final long serialVersionUID = 202308312359L;
 
-    private int _lines;
+    private int _nLines;
 
-    private int _columns;
+    private int _nColumns;
 
-    // FIXME define attributes
-    // FIXME define contructor(s)
-    // FIXME define methods
+    public Spreadsheet(int nLines, int nColumns) {
+        _nLines = nLines;
+        _nColumns = nColumns;
+    }
+
+    public int getNLines() {
+        return _nLines;
+    }
+
+    public int getNColumns() {
+        return _nColumns;
+    }
 
     /**
      * Insert specified content in specified range.

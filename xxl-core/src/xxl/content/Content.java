@@ -1,27 +1,12 @@
 package xxl.content;
 
-public class Content<T> {
-    private T _content;
-    
+import java.io.Serializable;
 
-    public Content(T content) {
-        setContent(content);
-    }
+import xxl.content.literals.Literal;
 
-    public Content() { }
+public abstract class Content implements Serializable {
 
-    /**
-     * @param
-     * @return void
-    */
-    protected void setContent(T content) {
-        _content = content;
-    }
+    public abstract Literal value();
 
-    /**
-     * @return requested content
-     */
-    public T getContent() {
-        return _content;
-    }
+    public abstract String asString();
 }

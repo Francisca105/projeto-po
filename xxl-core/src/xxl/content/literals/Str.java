@@ -1,15 +1,31 @@
 package xxl.content.literals;
 
-import xxl.content.Content;
+public class Str extends Literal {
+    private String _value;
 
-public class Str extends Content<String> {
+    // temporary
+    public Str() {}
 
-    /**
-     *
-     * @param s
-     */
-    public Str(String s) {
-        super(s);
+    public Str(String value) {
+        _value = value;
     }
 
+    public String getValue() {
+        return _value;
+    }
+
+    @Override
+    public String toString() {
+        return "'" + _value;
+    }
+
+    @Override
+    public String asString() {
+        return _value;
+    }
+
+    @Override
+    public Literal value() {
+        return this;
+    }
 }
