@@ -2,13 +2,13 @@ package xxl.content.literals;
 
 import xxl.content.Content;
 
-public class Integer extends Content<Integer>{
+public class Int extends Content<Integer>{
 
     /**
      *
      * @param n
      */
-    public Integer(Integer n) {
+    public Int(Integer n) {
         super(n);
     }
 
