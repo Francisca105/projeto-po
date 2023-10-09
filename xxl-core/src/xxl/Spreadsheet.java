@@ -1,7 +1,12 @@
 package xxl;
+
+import xxl.content.Content;
 // FIXME import classes
 import xxl.ds.DS;
+import xxl.ds.DS1;
 import xxl.exceptions.UnrecognizedEntryException;
+import xxl.utils.Parser;
+import xxl.utils.Position;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,32 +19,28 @@ public class Spreadsheet implements Serializable {
     @Serial
     private static final long serialVersionUID = 202308312359L;
 
-    /** Number of rows of the spreadsheet. */
-    private int _nRows;
-
-    /** Number of columns of the spreadsheet. */
-    private int _nColumns;
-
     /** Data structure for the spreadsheet. */
-    private DS _ds;
+    private DS _ds = new DS1();
 
     /** Data structure for the cut buffer. */
     private DS _cutBuffer;
 
+    private Parser _parser = new Parser();
+
     public Spreadsheet() {
     }
-    
+
     public Spreadsheet(int nRows, int nColumns) {
-        _nRows = nRows;
-        _nColumns = nColumns;
+        _ds = new DS1(nRows, nColumns);
+
     }
 
     public void setRows(int nRows) {
-        _nRows = nRows;
+        _ds.setRows(nRows);
     }
 
     public void setColumns(int nColumns) {
-        _nColumns = nColumns;
+        _ds.setColumns(nColumns);
     }
 
     /**
@@ -64,9 +65,20 @@ public class Spreadsheet implements Serializable {
      * @param rangeSpecification
      * @param contentSpecification
      */
-    public void insertContents(String rangeSpecification, String contentSpecification) throws UnrecognizedEntryException /* FIXME maybe add exceptions */ {
-        
-        
+    public void insertContents(String rangeSpecification, String contentSpecification)
+            throws UnrecognizedEntryException /* FIXME maybe add exceptions */ {
+        Position[] pos = _parser.parseRange(rangeSpecification);
+        for (Position p : pos) {
+            Content content = _parser.parseContent(contentSpecification);
+            Cell cell = new Cell(p);
+            if (content != null) {
+                cell.setContent(content);
+            }
+            /*
+             * TODO
+             * Inserir na spreadsheet
+             */
+        }
     }
 
 }

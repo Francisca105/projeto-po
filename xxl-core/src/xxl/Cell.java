@@ -25,6 +25,13 @@ public class Cell {
         _hasContent = true;
     }
 
+    public Cell (Position p) {
+        this(p.getRow(), p.getColumn());
+    }
+
+    public Cell () {
+    }
+
     /**
      * @return the requested position.
      */
@@ -80,6 +87,11 @@ public class Cell {
      * @return void
      */
     public void setContent(Content content) {
+        if (content != null)
+            _hasContent = true;
+        else 
+            _hasContent = false;
+
         _content = content;
     }
 

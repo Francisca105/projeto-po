@@ -9,6 +9,10 @@ public class Position {
         _column = column;
     }
 
+    public Position(String coord) {
+        toPosition(coord);
+    }
+
     /**
      * @return the requested line
      */

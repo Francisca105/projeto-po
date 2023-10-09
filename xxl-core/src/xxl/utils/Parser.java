@@ -8,6 +8,7 @@ import xxl.content.functions.binary.*;
 import xxl.content.functions.interval.nospaces.*;
 import xxl.content.functions.interval.spaces.*;
 import xxl.exceptions.UnrecognizedEntryException;
+import xxl.utils.Position;
 
 import java.io.IOException;
 import java.io.FileReader;
@@ -22,7 +23,9 @@ import xxl.exceptions.UnrecognizedEntryException;
 public class Parser {
 
     public Content parseContent(String content) throws UnrecognizedEntryException {
-        if(content.charAt(0) == '=') {
+        if(content.length() == 0) {
+            return null;
+        } else if(content.charAt(0) == '=') {
             return parseContentExpression(content);
         } else {
             return parseContentLiteral(content);
@@ -88,6 +91,41 @@ public class Parser {
             } catch(NumberFormatException e) {
                 throw new UnrecognizedEntryException(content);
             }
+        }
+    }
+
+    public Position[] parseRange(String rangeSpecification) throws UnrecognizedEntryException {
+        String[] coords = rangeSpecification.split(":");
+        Position[] range;
+
+        if(coords.length == 1) {
+            range = new Position[1];
+            range[0] = new Position(coords[0]);
+            return range;
+        }
+        
+        String[] coord_1 = coords[0].split(";");
+        String[] coord_2 = coords[1].split(";");
+
+        if(coord_1[0].equals(coord_2[0])) {
+            int nColumns = Integer.parseInt(coord_2[1]) - Integer.parseInt(coord_1[1]);
+            range = new Position[nColumns];
+
+            for (int i=0; i < nColumns; i++)
+                range[i] = new Position(Integer.parseInt(coord_1[0]), Integer.parseInt(coord_1[0])+i);
+
+            return range;
+                
+        } else if(coord_1[1].equals(coord_2[1])) {
+            int nRows = Integer.parseInt(coord_2[0]) - Integer.parseInt(coord_1[0]);
+            range = new Position[nRows];
+            
+            for (int i=0; i < nRows; i++)
+                range[i] = new Position(Integer.parseInt(coord_1[1])+i, Integer.parseInt(coord_1[1]));
+
+            return range;
+        } else {
+            throw new UnrecognizedEntryException(rangeSpecification);
         }
     }
 
