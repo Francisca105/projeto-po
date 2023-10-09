@@ -1,16 +1,15 @@
 package xxl;
 
 public class User {
-    private String _name = "root";
+    private String _name;
 
     public User(String name) {
         _name = name;
     }
 
     /**
-     * returns name of user
      * 
-     * @return name
+     * @return name of the user
      */
     public String getName() {
         return _name;

@@ -7,26 +7,19 @@ import xxl.content.Reference;
 import xxl.content.functions.binary.*;
 import xxl.content.functions.interval.nospaces.*;
 import xxl.content.functions.interval.spaces.*;
+import xxl.exceptions.UnrecognizedEntryException;
 
-/*import java.io.IOException;
+import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.Reader;
-
+import java.nio.Buffer;
 import java.util.Collection;
-import java.util.ArrayList;*/
+import java.util.ArrayList;
 
 import xxl.exceptions.UnrecognizedEntryException;
 
 public class Parser {
-    private Spreadsheet _spreadsheet;
-
-    Parser(Spreadsheet spreadsheet) {
-        _spreadsheet = spreadsheet;
-    }
-
-    Parser() {
-    }
 
     public Content parseContent(String content) throws UnrecognizedEntryException {
         if(content.charAt(0) == '=') {
@@ -36,7 +29,7 @@ public class Parser {
         }
     }
 
-    public Content parseContentExpression(String content) {
+    public Content parseContentExpression(String content) throws UnrecognizedEntryException {
         if(content.contains("(")) {
             return parseContentFunction(content);
         } else {
@@ -94,6 +87,54 @@ public class Parser {
                 return new Int(Integer.parseInt(content));
             } catch(NumberFormatException e) {
                 throw new UnrecognizedEntryException(content);
+            }
+        }
+    }
+
+    /**
+     * Parses the imported file
+     * 
+     * @param filename
+     * @throws IOException
+     * @throws UnrecognizedEntryException
+     */
+    public BufferedReader parseFile(String filename, Spreadsheet spreadsheet) throws IOException, UnrecognizedEntryException{
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            parseDimensions(reader, spreadsheet);
+            return reader;
+        } catch (IOException e) {
+             throw new IOException();
+        }
+    }
+
+    /**
+     * Parses
+     * 
+     * @param reader
+     * @throws IOException
+     * @throws UnrecognizedEntryException
+     */
+    public void parseDimensions(BufferedReader reader, Spreadsheet spreadsheet) throws IOException, UnrecognizedEntryException{
+
+        for (int i=0; i<2; i++) {
+            String line = reader.readLine();
+            String[] fields = line.split("=");
+            int number = Integer.parseInt(fields[1]);
+
+            if(number < 0) {
+                throw new UnrecognizedEntryException("TODO"); // TODO
+            }
+            
+            if(spreadsheet == null) {
+                spreadsheet = new Spreadsheet();
+            }
+
+            switch(fields[0]) {
+                case "linhas": 
+                    spreadsheet.setRows(number);
+                case "colunas":
+                    spreadsheet.setColumns(number);
             }
         }
     }

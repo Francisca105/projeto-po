@@ -11,7 +11,7 @@ public abstract class BinaryF extends Function {
     }
 
     public boolean checkArgument(Content arg) {
-        if ((arg instanceof Reference && ((Reference)arg).getCell().isEmpty()))
+        if ((arg instanceof Reference && ((Reference)arg).getCell().hasContent()))
             return false;
         if (arg.value() instanceof Int)
             return true;

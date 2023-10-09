@@ -1,7 +1,8 @@
 package xxl;
-
 // FIXME import classes
-import xxl.exceptions.UnrecognizedEntryException; //TODO
+import xxl.ds.DS;
+import xxl.exceptions.UnrecognizedEntryException;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -13,19 +14,46 @@ public class Spreadsheet implements Serializable {
     @Serial
     private static final long serialVersionUID = 202308312359L;
 
-    private int _nLines;
+    /** Number of rows of the spreadsheet. */
+    private int _nRows;
 
+    /** Number of columns of the spreadsheet. */
     private int _nColumns;
 
-    public Spreadsheet(int nLines, int nColumns) {
-        _nLines = nLines;
+    /** Data structure for the spreadsheet. */
+    private DS _ds;
+
+    /** Data structure for the cut buffer. */
+    private DS _cutBuffer;
+
+    public Spreadsheet() {
+    }
+    
+    public Spreadsheet(int nRows, int nColumns) {
+        _nRows = nRows;
         _nColumns = nColumns;
     }
 
-    public int getNLines() {
-        return _nLines;
+    public void setRows(int nRows) {
+        _nRows = nRows;
     }
 
+    public void setColumns(int nColumns) {
+        _nColumns = nColumns;
+    }
+
+    /**
+     * 
+     * @return the number of rows of the spreadsheet.
+     */
+    public int getNRows() {
+        return _nRows;
+    }
+
+    /**
+     * 
+     * @return the number of columns of the spreadsheet.
+     */
     public int getNColumns() {
         return _nColumns;
     }
@@ -37,7 +65,8 @@ public class Spreadsheet implements Serializable {
      * @param contentSpecification
      */
     public void insertContents(String rangeSpecification, String contentSpecification) throws UnrecognizedEntryException /* FIXME maybe add exceptions */ {
-        //FIXME implement method
+        
+        
     }
 
 }

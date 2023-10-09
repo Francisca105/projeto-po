@@ -1,12 +1,14 @@
 package xxl;
 
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 
 import xxl.exceptions.ImportFileException;
 import xxl.exceptions.MissingFileAssociationException;
 import xxl.exceptions.UnavailableFileException;
 import xxl.exceptions.UnrecognizedEntryException;
+import xxl.utils.Parser;
 
 // FIXME import classes
 
@@ -17,6 +19,7 @@ public class Calculator {
 
     /** The current spreadsheet. */
     private Spreadsheet _spreadsheet = null;
+    private Parser _parser = null;
 
     // FIXME add more fields if needed
 
@@ -70,14 +73,30 @@ public class Calculator {
      * @throws ImportFileException
      */
     public void importFile(String filename) throws ImportFileException {
-        try {
             // FIXME open import file and feed entries to new spreadsheet (in a cycle)
 	    //       each entry is inserted with:
-	    _spreadsheet.insertContents("TODO","TODO"/* FIXME produce arguments */);
+        _spreadsheet = new Spreadsheet();
+
+        try (BufferedReader reader = _parser.parseFile(filename, _spreadsheet)) {
+            for(int i = 1; i <= _spreadsheet.getNRows(); i++) {
+                for (int j = 1; j <= _spreadsheet.getNColumns(); j++) {
+                    String line = reader.readLine();
+                    String pos = line.substring(0, line.indexOf("|"));
+                    String content = line.substring(line.indexOf("|") + 1);
+                    
+                    String[] posArray = pos.split(";");
+                    int row = Integer.parseInt(posArray[0]);
+                    int col = Integer.parseInt(posArray[1]);
+
+                    if(i == row && col == j) {
+                        _spreadsheet.insertContents(String.format("%d;%d", i,j), content); 
+                    }
+                    
+                }
+            }
 	    // ....
-        } catch (/*IOException |*/ UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
+        } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
             throw new ImportFileException(filename, e);
         }
     }
-
 }

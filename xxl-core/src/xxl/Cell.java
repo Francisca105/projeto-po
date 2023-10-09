@@ -4,11 +4,15 @@ import xxl.content.Content;
 import xxl.utils.Position;
 
 public class Cell {
+
+    /** Coordinates of the cell. */
     private Position _position;
 
+    /** Content of the cell. */
     private Content _content;
 
-    private boolean _isEmpty = true;
+    /** Is the cell empty of content? */
+    private boolean _hasContent;
 
     public Cell(int row, int column) {
         setColumn(column);
@@ -18,7 +22,7 @@ public class Cell {
     public Cell(int row, int column, Content content) {
         this(row, column);
         _content = content;
-        _isEmpty = false;
+        _hasContent = true;
     }
 
     /**
@@ -55,6 +59,9 @@ public class Cell {
         _position.setRow(row);
     }
 
+    /**
+     * @return the requested position.
+     */
     public Position getPosition() {
         return _position;
     }
@@ -76,8 +83,11 @@ public class Cell {
         _content = content;
     }
 
-    public boolean isEmpty() {
-        return _isEmpty;
+    /**
+     * @return true if the cell has content.
+     */
+    public boolean hasContent() {
+        return _hasContent;
     }
 
     @Override
