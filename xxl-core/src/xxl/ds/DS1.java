@@ -18,7 +18,7 @@ public class DS1 extends DS {
     }
 
     public DS1(int nRows, int nColumns) {
-        cells = new ArrayList<Cell>(nRows * nColumns);
+        cells = new ArrayList<Cell>(nRows * nColumns); // TODO Iterador para meter celuals bazias
 
         setColumns(nColumns);
         setRows(nRows);
