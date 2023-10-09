@@ -40,6 +40,16 @@ public class Position {
     }
 
     /**
+     * 
+     * @param coordinate
+     * @return the requested position as a Position
+     */
+    public Position toPosition(String coordinate) {
+        String coords[] = coordinate.split(";");
+        return new Position(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
+    }
+
+    /**
      * @return the requested position as a string
      */
     @Override

@@ -91,7 +91,8 @@ public class Calculator {
                     if(i == row && col == j) {
                         _spreadsheet.insertContents(String.format("%d;%d", i,j), content); 
                     }
-                    
+                    else
+                        _spreadsheet.insertContents(String.format("%d;%d", i,j), "");
                 }
             }
 	    // ....
