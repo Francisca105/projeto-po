@@ -94,8 +94,13 @@ public class Calculator {
     public void importFile(String filename) throws ImportFileException {
         // FIXME open import file and feed entries to new spreadsheet (in a cycle)
         // each entry is inserted with:
+        if(_spreadsheet == null)
+            System.out.println("spreadsheet is null");
 
         setSpreadsheet(new Spreadsheet());
+
+        if(_spreadsheet == null)
+            System.out.println("spreadsheet is null 2.0");
         
 
         try (BufferedReader reader = _parser.parseFile(filename, _spreadsheet)) {
