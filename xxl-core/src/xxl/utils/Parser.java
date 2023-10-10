@@ -1,6 +1,5 @@
 package xxl.utils;
 
-import xxl.Calculator;
 import xxl.Spreadsheet;
 import xxl.content.Content;
 import xxl.content.literals.*;
@@ -156,11 +155,8 @@ public class Parser {
      * @throws IOException
      * @throws UnrecognizedEntryException
      */
-    public void parseDimensions(BufferedReader reader, Calculator calculator)
+    public void parseDimensions(BufferedReader reader, Spreadsheet spreadsheet)
             throws IOException, UnrecognizedEntryException {
-
-        int linhas = 0;
-        int colunas = 0;
 
         for (int i = 0; i < 2; i++) {
             String line = reader.readLine();
@@ -168,20 +164,25 @@ public class Parser {
             int number = Integer.parseInt(fields[1]);
 
             if (number < 0) {
-                throw new UnrecognizedEntryException("Rows or Columns non positive numbers."); // TODO: não sei se é para fazer isto
+                throw new UnrecognizedEntryException("Rows or Columns non positive numbers."); // TODO: não sei se é
+                                                                                               // para fazer isto
+            }
+
+            if (spreadsheet == null) {
+                spreadsheet = new Spreadsheet();
             }
 
             switch (fields[0]) {
                 case "linhas":
-                    linhas = number;
+                    spreadsheet.setRows(number);
                     break;
                 case "colunas":
-                    colunas = number;
+                    spreadsheet.setColumns(number);
                     break;
                 default:
-                    throw new UnrecognizedEntryException("Invalid format for dimensions entries."); // TODO: não sei se é para fazer isto
+                    throw new UnrecognizedEntryException("Invalid format for dimensions entries."); // TODO: não sei se
+                                                                                                    // é para fazer isto
             }
         }
-        calculator.setSpreadsheet(new Spreadsheet(linhas, colunas));
     }
 }
