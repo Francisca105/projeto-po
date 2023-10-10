@@ -91,8 +91,10 @@ public class Calculator {
         // FIXME open import file and feed entries to new spreadsheet (in a cycle)
         // each entry is inserted with:
         if(_spreadsheet == null)
-            _spreadsheet = new Spreadsheet();
-
+        _spreadsheet = new Spreadsheet();
+        
+        _parser = new Parser(_spreadsheet);
+        
         try (BufferedReader reader = _parser.parseFile(filename, _spreadsheet)) {
             for (int i = 1; i <= _spreadsheet.getNRows(); i++) {
                 for (int j = 1; j <= _spreadsheet.getNColumns(); j++) {
