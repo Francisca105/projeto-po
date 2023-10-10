@@ -1,6 +1,8 @@
 package xxl;
 
 public class User {
+
+    /** Name of the user. */
     private String _name;
 
     public User(String name) {
@@ -16,7 +18,7 @@ public class User {
     }
 
     /**
-     * sets name of user
+     * Sets name of the user.
      * 
      * @param name
      */
@@ -25,7 +27,7 @@ public class User {
     }
 
     /**
-     * compares two users
+     * Compares two users.
      * 
      * @param user
      * @return true if users are the same
@@ -37,6 +39,5 @@ public class User {
         }
         return false;
     }
-
 
 }

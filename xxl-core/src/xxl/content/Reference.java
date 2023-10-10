@@ -20,23 +20,20 @@ public class Reference extends Content {
     }
 
     public Cell getCell() {
-        return new Cell(0,0); // TODO
+        return new Cell(0, 0); // TODO
     }
 
     public Literal value() {
         return getCell().getContent().value();
     }
 
-    /**
-     * @return the value of the referenced cell as a string
-     */
-
-    public String asString() {
-        return getCell().getContent().toString();
+    @Override
+    public String toString() {
+        return _position.toString();
     }
 
     @Override
-    public String toString() {
-        return "=" + asString();
+    public String asString() {
+        return "=" + toString();
     }
 }

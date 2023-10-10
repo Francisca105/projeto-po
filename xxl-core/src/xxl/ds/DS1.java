@@ -14,14 +14,16 @@ public class DS1 extends DS {
     private List<Cell> cells;
 
     public DS1() {
-
     }
 
     public DS1(int nRows, int nColumns) {
-        cells = new ArrayList<Cell>(nRows * nColumns); // TODO Iterador para meter celuals bazias
-
-        setColumns(nColumns);
+        int nCells = nRows * nColumns;
+        cells = new ArrayList<Cell>(nCells);
+        for (int i = 0; i < nRows; i++)
+            for (int j = 0; j < nColumns; j++)
+                cells.add(i * nColumns + j, new Cell(i + 1, j + 1));
         setRows(nRows);
+        setColumns(nColumns);
     }
 
     public Cell getCell(String coords) {
@@ -33,12 +35,12 @@ public class DS1 extends DS {
         return cells.get((pos.getRow() - 1) * getNColumns() + (pos.getColumn() - 1));
     }
 
-    public Cell[] getCells(String coords, String coords2) {
+    /*public Cell[] getCells(String coords, String coords2) {
         String c = coords + ":" + coords2;
-        return getCells(c);
-    }
+        return new Cell[1]; // TODO
+    }*/
 
-    public Cell[] getCells(String coords) throws UnrecognizedEntryException { // FIXME
+    public Cell[] getCells(String coords) throws UnrecognizedEntryException { // TODO
         Parser p = new Parser();
         Position[] pos = p.parseRange(coords);
         Cell[] res = new Cell[pos.length];

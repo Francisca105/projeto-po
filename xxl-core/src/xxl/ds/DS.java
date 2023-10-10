@@ -9,21 +9,25 @@ import xxl.utils.Position;
  */
 public abstract class DS {
 
-    /** Number of rows of the spreadsheet. */
+    /** Number of rows of the current ds. */
     private int _nRows;
 
-    /** Number of columns of the spreadsheet. */
+    /** Number of columns of the current ds. */
     private int _nColumns;
 
     private Parser _parser = new Parser();
 
+    /**
+     * 
+     * @return the parser
+     */
     public Parser getParser() {
         return _parser;
     }
 
     /**
      * 
-     * @return the number of rows of the spreadsheet.
+     * @return the number of rows of the current ds
      */
     public int getNRows() {
         return _nRows;
@@ -31,12 +35,17 @@ public abstract class DS {
 
     /**
      * 
-     * @return the number of columns of the spreadsheet.
+     * @return the number of columns of the current ds
      */
     public int getNColumns() {
         return _nColumns;
     }
 
+    /**
+     * Sets the
+     * 
+     * @param nRows
+     */
     public void setRows(int nRows) {
         _nRows = nRows;
     }
@@ -62,5 +71,5 @@ public abstract class DS {
      * @param coords2 of the last cell
      * @return the cells in the given range
      */
-    public abstract Cell[] getCells(String coords, String coords2);
+    // public abstract Cell[] getCells(String coords, String coords2);
 }

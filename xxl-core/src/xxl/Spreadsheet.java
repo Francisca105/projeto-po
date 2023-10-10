@@ -19,11 +19,19 @@ public class Spreadsheet implements Serializable {
     @Serial
     private static final long serialVersionUID = 202308312359L;
 
+    private String _name;
+
+    /** Number of rows of the spreadsheet. */
+    private int _nRows;
+
+    /** Number of columns of the spreadsheet. */
+    private int _nColumns;
+
     /** Data structure for the spreadsheet. */
     private DS _ds = new DS1();
 
     /** Data structure for the cut buffer. */
-    private DS _cutBuffer;
+    private DS _cutBuffer; // TODO
 
     private Parser _parser = new Parser();
 
@@ -35,14 +43,6 @@ public class Spreadsheet implements Serializable {
 
     }
 
-    public void setRows(int nRows) {
-        _ds.setRows(nRows);
-    }
-
-    public void setColumns(int nColumns) {
-        _ds.setColumns(nColumns);
-    }
-
     /**
      * 
      * @return the number of rows of the spreadsheet.
@@ -52,11 +52,29 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * Sets the number of rows of the spreadsheet.
+     * 
+     * @param nRows
+     */
+    public void setRows(int nRows) {
+        _nRows = nRows;
+    }
+
+    /**
      * 
      * @return the number of columns of the spreadsheet.
      */
     public int getNColumns() {
         return _nColumns;
+    }
+
+    /**
+     * Sets the number of columns of the spreadsheet.
+     * 
+     * @param nColumns
+     */
+    public void setColumns(int nColumns) {
+        _nColumns = nColumns;
     }
 
     /**
@@ -69,16 +87,10 @@ public class Spreadsheet implements Serializable {
             throws UnrecognizedEntryException /* FIXME maybe add exceptions */ {
         Position[] pos = _parser.parseRange(rangeSpecification);
         for (Position p : pos) {
+            Cell cell = _ds.getCell(p);
             Content content = _parser.parseContent(contentSpecification);
-            Cell cell = new Cell(p);
-            if (content != null) {
+            if (content != null)
                 cell.setContent(content);
-            } // FIXME buscar celula e substituir valores
-            /*
-             * TODO
-             * Inserir na spreadsheet
-             */
         }
     }
-
 }
