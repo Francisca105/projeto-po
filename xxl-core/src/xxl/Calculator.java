@@ -21,7 +21,7 @@ public class Calculator {
     // FIXME add more fields if needed
 
     /** The current spreadsheet. */
-    private Spreadsheet _spreadsheet = new Spreadsheet();
+    private Spreadsheet _spreadsheet = null;
 
     private Parser _parser = new Parser();
 
@@ -33,10 +33,6 @@ public class Calculator {
      */
     public Spreadsheet getSpreadsheet() {
         return _spreadsheet;
-    }
-
-    public void setSpreadsheet(Spreadsheet s) {
-        _spreadsheet = s;
     }
 
     /**
@@ -91,15 +87,12 @@ public class Calculator {
      * @param filename name of the text input file
      * @throws ImportFileException
      */
-    public void importFile(String filename) throws ImportFileException {
+    public void importFile(String filename, Spreadsheet _spreadsheet) throws ImportFileException {
         // FIXME open import file and feed entries to new spreadsheet (in a cycle)
         // each entry is inserted with:
+        _spreadsheet = new Spreadsheet();
 
-        setSpreadsheet(new Spreadsheet());
-            
-        
-
-        try (BufferedReader reader = _parser.parseFile(filename, this)) {
+        try (BufferedReader reader = _parser.parseFile(filename, _spreadsheet)) {
             for (int i = 1; i <= _spreadsheet.getNRows(); i++) {
                 for (int j = 1; j <= _spreadsheet.getNColumns(); j++) {
                     String line = reader.readLine();
