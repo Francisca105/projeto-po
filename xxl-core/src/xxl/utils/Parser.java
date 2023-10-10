@@ -1,5 +1,6 @@
 package xxl.utils;
 
+import xxl.Calculator;
 import xxl.Spreadsheet;
 import xxl.content.Content;
 import xxl.content.literals.*;
@@ -137,11 +138,11 @@ public class Parser {
      * @throws UnrecognizedEntryException
      * @return a buffered reader
      */
-    public BufferedReader parseFile(String filename, Spreadsheet spreadsheet)
+    public BufferedReader parseFile(String filename, Calculator calc)
             throws IOException, UnrecognizedEntryException {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            parseDimensions(reader, spreadsheet);
+            parseDimensions(reader, calc);
             return reader;
         } catch (IOException e) {
             throw new IOException();
@@ -155,20 +156,21 @@ public class Parser {
      * @throws IOException
      * @throws UnrecognizedEntryException
      */
-    public void parseDimensions(BufferedReader reader, Spreadsheet spreadsheet)
+    public void parseDimensions(BufferedReader reader, Calculator calculator)
             throws IOException, UnrecognizedEntryException {
 
         for (int i = 0; i < 2; i++) {
             String line = reader.readLine();
             String[] fields = line.split("=");
             int number = Integer.parseInt(fields[1]);
+            Spreadsheet spreadsheet = calculator.getSpreadsheet();
 
             if (number < 0) {
                 throw new UnrecognizedEntryException("Rows or Columns non positive numbers."); // TODO: não sei se é para fazer isto
             }
 
             if (spreadsheet == null) {
-                spreadsheet = new Spreadsheet();
+                calculator.setSpreadsheet(new Spreadsheet());
             }
 
             switch (fields[0]) {
