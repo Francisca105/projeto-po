@@ -35,6 +35,10 @@ public class Calculator {
         return _spreadsheet;
     }
 
+    public void setSpreadsheet(Spreadsheet spreadsheet) {
+        _spreadsheet = spreadsheet;
+    }
+
     /**
      * Saves the serialized application's state into the file associated to the
      * current network.
@@ -94,7 +98,7 @@ public class Calculator {
         _spreadsheet = new Spreadsheet();
         
         _parser = new Parser(_spreadsheet);
-        
+
         try (BufferedReader reader = _parser.parseFile(filename, _spreadsheet)) {
             for (int i = 1; i <= _spreadsheet.getNRows(); i++) {
                 for (int j = 1; j <= _spreadsheet.getNColumns(); j++) {
