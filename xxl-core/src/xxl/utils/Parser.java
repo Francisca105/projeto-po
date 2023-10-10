@@ -155,22 +155,20 @@ public class Parser {
      * @throws IOException
      * @throws UnrecognizedEntryException
      */
-    public void parseDimensions(BufferedReader reader, Spreadsheet spreadsheet)
-            throws IOException, UnrecognizedEntryException {
+    public void parseDimensions(BufferedReader reader, Spreadsheet spreadsheet) throws IOException, UnrecognizedEntryException {
 
         for (int i = 0; i < 2; i++) {
             String line = reader.readLine();
             String[] fields = line.split("=");
             int number = Integer.parseInt(fields[1]);
 
-            if (number < 0) {
-                throw new UnrecognizedEntryException("Rows or Columns non positive numbers."); // TODO: não sei se é
-                                                                                               // para fazer isto
+            if (number <= 0) {
+                throw new UnrecognizedEntryException("Rows or Columns non positive numbers."); // TODO: não sei se é para fazer isto
             }
 
-            if (spreadsheet == null) {
+            /*if (spreadsheet == null) {
                 spreadsheet = new Spreadsheet();
-            }
+            }*/
 
             switch (fields[0]) {
                 case "linhas":
@@ -180,8 +178,7 @@ public class Parser {
                     spreadsheet.setColumns(number);
                     break;
                 default:
-                    throw new UnrecognizedEntryException("Invalid format for dimensions entries."); // TODO: não sei se
-                                                                                                    // é para fazer isto
+                    throw new UnrecognizedEntryException("Invalid format for dimensions entries."); // TODO: não sei se é para fazer isto
             }
         }
     }

@@ -19,7 +19,7 @@ public class Spreadsheet implements Serializable {
     @Serial
     private static final long serialVersionUID = 202308312359L;
 
-    private String _name;
+    // private String _name;
 
     /** Number of rows of the spreadsheet. */
     private int _nRows;
@@ -28,7 +28,7 @@ public class Spreadsheet implements Serializable {
     private int _nColumns;
 
     /** Data structure for the spreadsheet. */
-    private DS _ds = new DS1();
+    private DS _ds;
 
     /** Data structure for the cut buffer. */
     private DS _cutBuffer; // TODO
@@ -40,7 +40,12 @@ public class Spreadsheet implements Serializable {
 
     public Spreadsheet(int nRows, int nColumns) {
         _ds = new DS1(nRows, nColumns);
+        setRows(nRows);
+        setColumns(nColumns);
+    }
 
+    public void setDS(DS ds) {
+        _ds = ds;
     }
 
     /**

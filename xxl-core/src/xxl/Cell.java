@@ -15,8 +15,7 @@ public class Cell {
     private boolean _hasContent;
 
     public Cell(int row, int column) {
-        setColumn(column);
-        setRow(row);
+        setPosition(new Position(row, column));
     }
 
     public Cell(int row, int column, Content content) {
@@ -40,37 +39,44 @@ public class Cell {
     }
 
     /**
-     * Define the column.
+     * Defines the column of the cell.
      * 
      * @param column
-     * @return void
      */
     public void setColumn(int column) {
         _position.setColumn(column);
     }
 
     /**
-     * @return the requested row.
+     * @return the requested cell row.
      */
     public int getRow() {
         return _position.getRow();
     }
 
     /**
-     * Define the row.
+     * Defines the row of the cell.
      * 
      * @param row
-     * @return void
      */
     public void setRow(int row) {
         _position.setRow(row);
     }
 
     /**
-     * @return the requested position.
+     * @return the requested cell position.
      */
     public Position getPosition() {
         return _position;
+    }
+
+    /**
+     * Defines the position of the cell.
+     * 
+     * @param position
+     */
+    public void setPosition(Position position) {
+        _position = position;
     }
 
     /**
@@ -81,10 +87,9 @@ public class Cell {
     }
 
     /**
-     * Define the content.
+     * Defines the content of the cell.
      * 
      * @param content
-     * @return void
      */
     public void setContent(Content content) {
         if (content != null)

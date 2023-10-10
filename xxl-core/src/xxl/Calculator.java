@@ -6,6 +6,7 @@ import java.util.Map;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 
+import xxl.ds.DS1;
 import xxl.exceptions.ImportFileException;
 import xxl.exceptions.MissingFileAssociationException;
 import xxl.exceptions.UnavailableFileException;
@@ -33,6 +34,10 @@ public class Calculator {
      */
     public Spreadsheet getSpreadsheet() {
         return _spreadsheet;
+    }
+
+    public void setSpreadsheet(Spreadsheet spreadsheet) {
+        _spreadsheet = spreadsheet;
     }
 
     /**
@@ -90,9 +95,10 @@ public class Calculator {
     public void importFile(String filename) throws ImportFileException {
         // FIXME open import file and feed entries to new spreadsheet (in a cycle)
         // each entry is inserted with:
-        _spreadsheet = new Spreadsheet();
+        setSpreadsheet(new Spreadsheet());
 
         try (BufferedReader reader = _parser.parseFile(filename, _spreadsheet)) {
+            _spreadsheet.setDS(new DS1(_spreadsheet.getNRows(), _spreadsheet.getNColumns()));
             for (int i = 1; i <= _spreadsheet.getNRows(); i++) {
                 for (int j = 1; j <= _spreadsheet.getNColumns(); j++) {
                     String line = reader.readLine();
