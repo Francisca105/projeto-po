@@ -159,8 +159,8 @@ public class Parser {
     public void parseDimensions(BufferedReader reader, Calculator calculator)
             throws IOException, UnrecognizedEntryException {
 
-        int linhas;
-        int colunas;
+        int linhas = 0;
+        int colunas = 0;
 
         for (int i = 0; i < 2; i++) {
             String line = reader.readLine();
