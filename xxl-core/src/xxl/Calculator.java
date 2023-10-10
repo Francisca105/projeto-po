@@ -90,7 +90,8 @@ public class Calculator {
     public void importFile(String filename, Spreadsheet _spreadsheet) throws ImportFileException {
         // FIXME open import file and feed entries to new spreadsheet (in a cycle)
         // each entry is inserted with:
-        _spreadsheet = new Spreadsheet();
+        if(_spreadsheet == null)
+            _spreadsheet = new Spreadsheet();
 
         try (BufferedReader reader = _parser.parseFile(filename, _spreadsheet)) {
             for (int i = 1; i <= _spreadsheet.getNRows(); i++) {
