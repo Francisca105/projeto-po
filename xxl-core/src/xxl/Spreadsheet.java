@@ -40,8 +40,7 @@ public class Spreadsheet implements Serializable {
 
     public Spreadsheet(int nRows, int nColumns) {
         _ds = new DS1(nRows, nColumns);
-        setColumns(nColumns);
-        setRows(nRows);
+
     }
 
     /**

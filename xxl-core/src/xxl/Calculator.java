@@ -35,10 +35,6 @@ public class Calculator {
         return _spreadsheet;
     }
 
-    public void setSpreadsheet(Spreadsheet spreadsheet) {
-        _spreadsheet = spreadsheet;
-    }
-
     /**
      * Saves the serialized application's state into the file associated to the
      * current network.
@@ -91,13 +87,10 @@ public class Calculator {
      * @param filename name of the text input file
      * @throws ImportFileException
      */
-    public void importFile(String filename, Spreadsheet _spreadsheet) throws ImportFileException {
+    public void importFile(String filename) throws ImportFileException {
         // FIXME open import file and feed entries to new spreadsheet (in a cycle)
         // each entry is inserted with:
-        if(_spreadsheet == null)
         _spreadsheet = new Spreadsheet();
-        
-        _parser = new Parser(_spreadsheet);
 
         try (BufferedReader reader = _parser.parseFile(filename, _spreadsheet)) {
             for (int i = 1; i <= _spreadsheet.getNRows(); i++) {
