@@ -1,14 +1,29 @@
 package xxl.utils;
 
 public class Position {
+
+    /** Row of the cell. */
     private int _row;
+
+    /** Column of the cell. */
     private int _column;
 
+    /**
+     * Creates a new position.
+     * 
+     * @param row
+     * @param column
+     */
     public Position(int row, int column) {
         _row = row;
         _column = column;
     }
 
+    /**
+     * Creates a new position.
+     * 
+     * @param coord
+     */
     public Position(String coord) {
         toPosition(coord);
     }

@@ -93,9 +93,13 @@ public class Parser {
             }
         }
     }
-
-    public Position[] parseRange(String rangeSpecification) throws UnrecognizedEntryException {
-        String[] coords = rangeSpecification.split(":");
+    // bora mudar temporariaremente só para receber uma celula em vez de uma gama
+    public Position parseRange(String rangeSpecification) throws UnrecognizedEntryException {
+        Position pos = new Position(rangeSpecification);
+        return pos; //?_?
+        
+        
+        /*String[] coords = rangeSpecification.split(":");
         Position[] range;
 
         if (coords.length == 1) {
@@ -126,7 +130,7 @@ public class Parser {
             return range;
         } else {
             throw new UnrecognizedEntryException(rangeSpecification);
-        }
+        }*/
     }
 
     /**
@@ -140,7 +144,15 @@ public class Parser {
     public BufferedReader parseFile(String filename, Spreadsheet spreadsheet)
             throws IOException, UnrecognizedEntryException {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+        /*try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            parseDimensions(reader, spreadsheet);
+            return reader;
+        } catch (IOException e) {
+            throw new IOException();
+        }*/
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(filename));
             parseDimensions(reader, spreadsheet);
             return reader;
         } catch (IOException e) {

@@ -92,11 +92,11 @@ public class Cell {
      * @param content
      */
     public void setContent(Content content) {
+
         if (content != null)
             _hasContent = true;
         else 
             _hasContent = false;
-
         _content = content;
     }
 

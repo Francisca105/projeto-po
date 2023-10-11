@@ -1,7 +1,6 @@
 package xxl;
-
-import xxl.content.Content;
 // FIXME import classes
+import xxl.content.Content;
 import xxl.ds.DS;
 import xxl.ds.DS1;
 import xxl.exceptions.UnrecognizedEntryException;
@@ -27,10 +26,10 @@ public class Spreadsheet implements Serializable {
     /** Number of columns of the spreadsheet. */
     private int _nColumns;
 
-    /** Data structure for the spreadsheet. */
+    /** Data structure of the spreadsheet. */
     private DS _ds;
 
-    /** Data structure for the cut buffer. */
+    /** Data structure of the cut buffer. */
     private DS _cutBuffer; // TODO
 
     private Parser _parser = new Parser();
@@ -38,12 +37,22 @@ public class Spreadsheet implements Serializable {
     public Spreadsheet() {
     }
 
+    /**
+     * Creates a spreadsheet with the specified number of rows and columns.
+     * 
+     * @param nRows
+     * @param nColumns
+     */
     public Spreadsheet(int nRows, int nColumns) {
         _ds = new DS1(nRows, nColumns);
         setRows(nRows);
         setColumns(nColumns);
     }
 
+    /**
+     * 
+     * @return the data structure of the spreadsheet.
+     */
     public void setDS(DS ds) {
         _ds = ds;
     }
@@ -90,12 +99,17 @@ public class Spreadsheet implements Serializable {
      */
     public void insertContents(String rangeSpecification, String contentSpecification)
             throws UnrecognizedEntryException /* FIXME maybe add exceptions */ {
-        Position[] pos = _parser.parseRange(rangeSpecification);
-        for (Position p : pos) {
-            Cell cell = _ds.getCell(p);
+
+        Position pos = _parser.parseRange(rangeSpecification);
+        try {
+            Cell cell = _ds.getCell(pos);
             Content content = _parser.parseContent(contentSpecification);
+
             if (content != null)
                 cell.setContent(content);
+            
+        } catch (Exception e) {
+            System.out.println(pos);
         }
     }
 }

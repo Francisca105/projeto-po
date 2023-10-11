@@ -9,10 +9,10 @@ import xxl.utils.Position;
  */
 public abstract class DS {
 
-    /** Number of rows of the current ds. */
+    /** Number of rows of the ds. */
     private int _nRows;
 
-    /** Number of columns of the current ds. */
+    /** Number of columns of the ds. */
     private int _nColumns;
 
     private Parser _parser = new Parser();
@@ -34,6 +34,15 @@ public abstract class DS {
     }
 
     /**
+     * Sets the number of rows of the ds.
+     * 
+     * @param nRows
+     */
+    public void setRows(int nRows) {
+        _nRows = nRows;
+    }
+
+    /**
      * 
      * @return the number of columns of the current ds
      */
@@ -42,34 +51,33 @@ public abstract class DS {
     }
 
     /**
-     * Sets the
+     * Sets the number of columns of the ds.
      * 
-     * @param nRows
+     * @param nColumns
      */
-    public void setRows(int nRows) {
-        _nRows = nRows;
-    }
-
     public void setColumns(int nColumns) {
         _nColumns = nColumns;
     }
 
     /**
-     * Returns the cell at the given coordinates.
      * 
      * @param coords of the cell
      * @return the cell at the given coordinates
      */
     public abstract Cell getCell(String coords);
 
+    /**
+     * 
+     * @param coords of the cell
+     * @return the cell at the given coordinates
+     */
     public abstract Cell getCell(Position coords);
 
     /**
-     * Returns the cells in the given range.
      * 
      * @param coords  of the first cell
      * @param coords2 of the last cell
      * @return the cells in the given range
      */
-    // public abstract Cell[] getCells(String coords, String coords2);
+    //public abstract Cell[] getCells(String coords, String coords2);
 }
