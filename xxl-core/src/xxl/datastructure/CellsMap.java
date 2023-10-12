@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import xxl.Gamma;
 import xxl.Address;
 import xxl.Range;
 import xxl.Cell;
@@ -75,11 +76,15 @@ public class CellsMap extends DataStructure {
 
     
     public Collection<String> showRange(String range) throws InvalidGamaException {
-        Range r = new Range(range);
+        Gamma gamma = new Gamma(range);
         Collection<String> result = new ArrayList<String>();
-        for (Address address : r.getAddresses()) {
+        for (Address address : gamma.getAddresses()) {
             Cell cell = _dataStructure.get(address);
-            result.add(cell.toString());
+            Content content = cell.getContent();
+            if(content == null) 
+                result.add(address.toString() + "|");
+            else
+                result.add(cell.getContent().toString());
         }
         return result;
     }

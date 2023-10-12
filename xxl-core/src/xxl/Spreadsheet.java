@@ -169,6 +169,7 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * Parses a string content as a Literal.
      * 
      * @return the string content as a Literal object
      */
