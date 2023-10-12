@@ -9,13 +9,14 @@ public abstract class DataStructure {
     private int _columns;
 
     /**
-     * Constructor.
      * 
-     * @param rows
-     * @param columns
+     * @return the number of the data structure rows
      */
-    public DataStructure(int rows, int columns) {
+    public int getRows() {
+        return _rows;
+    }
+
+    public void setRows(int rows) {
         _rows = rows;
-        _columns = columns;
     }
 }
