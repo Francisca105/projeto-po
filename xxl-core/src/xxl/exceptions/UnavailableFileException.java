@@ -9,6 +9,7 @@ import java.io.Serial;
  *  - There is an error while processing this file using the Java 
  *    serialization mechanism.
  */
+
 public class UnavailableFileException extends Exception {
 
 	@Serial
