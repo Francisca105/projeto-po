@@ -70,11 +70,12 @@ public class Calculator {
      * @throws ImportFileException
      */
     public void importFile(String filename) throws ImportFileException {
+    
         try {
             try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
                 String line = reader.readLine();
-                int lines = -1, columns = -1;
-
+                int lines, columns;
+                
                 // Get the spreadsheet dimensions
                 if(!line.startsWith("linhas="))
                     throw new UnrecognizedEntryException(line);
@@ -90,11 +91,12 @@ public class Calculator {
 
                 _spreadsheet = new Spreadsheet(lines, columns);
 
+                line = reader.readLine();
                 // Insert contents
-                while(line != null ) {
-                    line = reader.readLine();
+                while(line != null) {
                     String[] toInsert = line.split("|");
                     _spreadsheet.insertContents(toInsert[0], toInsert[1]);
+                    line = reader.readLine();
                 }
                 
             } catch (IOException e) {

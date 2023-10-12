@@ -1,5 +1,10 @@
 package xxl.datastructure;
 
+import java.util.Collection;
+
+import xxl.Address;
+import xxl.Cell;
+
 public abstract class DataStructure {
 
     /** Number of the data structure rows. */
@@ -41,4 +46,8 @@ public abstract class DataStructure {
     public void setColumns(int columns) {
         _columns = columns;
     }
+
+    public abstract Collection<String> showRange(String range);
+
+    public abstract Cell getCell(Address address);
 }

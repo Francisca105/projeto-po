@@ -21,6 +21,16 @@ public class Int extends Literal {
     }
 
     @Override
+    public String toString() {
+        return Integer.toString(_value);
+    }
+
+    @Override
+    public String showValue() {
+        return Integer.toString(_value);
+    }
+
+    @Override
     public Literal value() {
         return this;
     }

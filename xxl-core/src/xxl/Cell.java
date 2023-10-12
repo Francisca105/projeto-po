@@ -14,4 +14,12 @@ public class Cell {
     public Content getContent() {
         return _content;
     }
+
+    /**
+     * Defines the cell content
+     * @param content
+     */
+    public void setContent(Content content) {
+        _content = content;
+    }
 }

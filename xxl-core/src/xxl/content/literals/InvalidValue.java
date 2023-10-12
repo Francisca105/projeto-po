@@ -7,6 +7,11 @@ public class InvalidValue extends Literal {
         return "#VALUE";
     }
 
+    @Override
+    public String showValue() {
+        return "#VALUE";
+    }
+
     public Literal value() {
         return this;
     }

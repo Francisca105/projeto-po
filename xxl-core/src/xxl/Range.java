@@ -1,12 +1,13 @@
 package xxl;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import xxl.Address;
 import xxl.exceptions.InvalidGamaException;
 
 public class Range {
-    private List<Address> _addresses;
+    private List<Address> _addresses = new ArrayList<Address>();
 
     /**
      * Constructor
