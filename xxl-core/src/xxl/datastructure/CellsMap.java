@@ -41,7 +41,9 @@ public class CellsMap extends DataStructure {
      * @param address
      * @return the cell at the given address
      */
-    public Cell getCell(Address address) {
+    public Cell getCell(Address address) throws InvalidGamaException {
+        if (!_dataStructure.containsKey(address))
+            throw new InvalidGamaException(address.toString());
         return _dataStructure.get(address);
     }
 
@@ -50,7 +52,7 @@ public class CellsMap extends DataStructure {
      * @param range
      * @return the cells in the given range
      */
-    public Cell[] getCells(Range range) {
+    public Cell[] getCells(Range range) throws InvalidGamaException {
         Address[] addresses = range.getAddresses();
         Cell[] cells = new Cell[addresses.length];
         int i = 0;
@@ -68,7 +70,7 @@ public class CellsMap extends DataStructure {
      * @param address
      * @param content
      */
-    public void setContentCell(Address address, Content content) {
+    public void setContentCell(Address address, Content content) throws InvalidGamaException{
         Cell cell = getCell(address); // TODO: nao sei se a referencia perde a celula
         cell.setContent(content);
         _dataStructure.put(address, cell);
@@ -78,13 +80,18 @@ public class CellsMap extends DataStructure {
     public Collection<String> showRange(String range) throws InvalidGamaException {
         Gamma gamma = new Gamma(range);
         Collection<String> result = new ArrayList<String>();
+
         for (Address address : gamma.getAddresses()) {
             Cell cell = _dataStructure.get(address);
+            if (cell == null)
+                throw new InvalidGamaException(range);
+
             Content content = cell.getContent();
-            if(content == null) 
-                result.add(address.toString() + "|");
+            
+            if(content != null) 
+                result.add(address.toString() + "|" + cell.getContent().showValue());
             else
-                result.add(cell.getContent().toString());
+                result.add(address.toString() + "|");
         }
         return result;
     }

@@ -50,5 +50,5 @@ public abstract class DataStructure {
 
     public abstract Collection<String> showRange(String range) throws InvalidGamaException;
 
-    public abstract Cell getCell(Address address);
+    public abstract Cell getCell(Address address) throws InvalidGamaException;
 }

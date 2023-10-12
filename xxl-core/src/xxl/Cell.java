@@ -22,4 +22,5 @@ public class Cell {
     public void setContent(Content content) {
         _content = content;
     }
+
 }

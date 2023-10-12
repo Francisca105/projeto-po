@@ -4,6 +4,7 @@ import xxl.Address;
 import xxl.Cell;
 import xxl.content.literals.Literal;
 import xxl.datastructure.DataStructure;
+import xxl.exceptions.InvalidGamaException;
 
 public class Reference extends Content {
     private Cell _cell;
@@ -14,7 +15,7 @@ public class Reference extends Content {
      * 
      * @param ref
      */
-    public Reference(Address ref, DataStructure ds) {
+    public Reference(Address ref, DataStructure ds) throws InvalidGamaException {
         _ref = ref;
         _cell = ds.getCell(ref);
     }

@@ -17,6 +17,8 @@ public class Range {
     public Range(Address start, Address end) throws InvalidGamaException {
         if(!isValid(start, end))
             throw new InvalidGamaException(start.toString() + ":" + end.toString());
+            
+        insertAddresses(start, end);
     }
 
     /**
@@ -65,6 +67,9 @@ public class Range {
      */
     public Address[] getAddresses() {
         Address[] addresses = new Address[_addresses.size()];
+        int i = 0;
+        for (Address address : _addresses)
+            addresses[i++] = address;
         return addresses;
     }
 

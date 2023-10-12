@@ -42,7 +42,7 @@ public class Spreadsheet implements Serializable {
     private int _columns;
 
     /** Data structure of the spreadsheet */
-    private DataStructure _cells;
+    private CellsMap _cells;
 
     /** Cut buffer of the spreadsheet */
     private DataStructure _cutBuffer;
@@ -68,6 +68,23 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * 
+     * @return the name of the spreadsheet
+     */
+    public String getName() {
+        return _name;
+    }
+
+    /**
+     * Sets the name of the spreadsheet.
+     * @param name
+     * @return 
+     */
+    public void setName(String name) {
+        _name = name;
+    }
+
+    /**
      * Insert specified content in specified range.
      *
      * @param rangeSpecification
@@ -77,8 +94,7 @@ public class Spreadsheet implements Serializable {
         try {
             Address address = new Address(rangeSpecification);
             Content content = parseContent(contentSpecification);
-
-
+            _cells.setContentCell(address, content);
         } catch (Exception e) {
             // TODO: handle exception
         }

@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.BufferedInputStream;
 
 import xxl.exceptions.ImportFileException;
 import xxl.exceptions.MissingFileAssociationException;
@@ -30,6 +36,15 @@ public class Calculator {
     }
 
     /**
+     * Sets the current spreadsheet.
+     * 
+     * @param spreadsheet
+     */
+    public void setSpreadsheet(Spreadsheet spreadsheet) {
+        _spreadsheet = spreadsheet;
+    }
+
+    /**
      * Saves the serialized application's state into the file associated to the current network.
      *
      * @throws FileNotFoundException if for some reason the file cannot be created or opened. 
@@ -37,7 +52,14 @@ public class Calculator {
      * @throws IOException if there is some error while serializing the state of the network to disk.
      */
     public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-        // FIXME implement serialization method
+        String _filename = _spreadsheet.getName(); // TODO
+
+        if (_filename == null || _filename.equals(""))
+            throw new MissingFileAssociationException(); // FIXME
+        try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(_filename)))) {
+            oos.writeObject(_spreadsheet);
+            //_spreadsheet.setChanged(false);
+        }
     }
 
     /**
@@ -50,7 +72,8 @@ public class Calculator {
      * @throws IOException if there is some error while serializing the state of the network to disk.
      */
     public void saveAs(String filename) throws FileNotFoundException, MissingFileAssociationException, IOException {
-        // FIXME implement serialization method
+        _spreadsheet.setName(filename);
+        save();
     }
 
     /**
@@ -61,6 +84,14 @@ public class Calculator {
      */
     public void load(String filename) throws UnavailableFileException {
         // FIXME implement serialization method
+        try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)))) {
+            if (filename == "")
+                throw new UnavailableFileException(filename);
+            _spreadsheet = (Spreadsheet) ois.readObject();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        //_network.setChanged(false);
     }
 
     /**
@@ -92,10 +123,13 @@ public class Calculator {
                 _spreadsheet = new Spreadsheet(lines, columns);
 
                 line = reader.readLine();
+                
                 // Insert contents
                 while(line != null) {
-                    String[] toInsert = line.split("|");
+                    String[] toInsert = line.split("\\|");
+
                     _spreadsheet.insertContents(toInsert[0], toInsert[1]);
+
                     line = reader.readLine();
                 }
                 

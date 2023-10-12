@@ -1,8 +1,11 @@
 package xxl.app.main;
 
+import java.io.IOException;
+
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import xxl.Calculator;
+import xxl.exceptions.*;
 // FIXME import classes
 
 /**
@@ -16,7 +19,23 @@ class DoSave extends Command<Calculator> {
 
     @Override
     protected final void execute() {
-        // FIXME implement command and create a local Form
+        try {
+            try {
+                _receiver.save();
+            } catch (MissingFileAssociationException e) {
+                saveAs();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveAs() throws IOException {
+        try {
+            _receiver.saveAs(Form.requestString(Prompt.newSaveAs()));
+        } catch (MissingFileAssociationException e) {
+            
+        }
     }
 
 }
