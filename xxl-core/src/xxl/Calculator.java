@@ -14,11 +14,17 @@ import xxl.exceptions.UnrecognizedEntryException;
  * Class representing a spreadsheet application.
  */
 public class Calculator {
-
+    // FIXME add more fields if needed
     /** The current spreadsheet. */
     private Spreadsheet _spreadsheet = null;
 
-    // FIXME add more fields if needed
+    /**
+     * 
+     * return the spreadsheet
+     */
+    public Spreadsheet getSpreadsheet() {
+        return _spreadsheet;
+    }
 
     /**
      * Saves the serialized application's state into the file associated to the current network.
