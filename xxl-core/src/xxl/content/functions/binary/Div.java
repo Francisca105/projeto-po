@@ -24,8 +24,10 @@ public class Div extends BinaryFunction {
      * @see xxl.content.functions.Function#value()
      */
     public Literal value() {
-        if (hasValidArguments())
-            return new Int(parseIntValue(getFirstArg()) / parseIntValue(getSecondArg()));
+        int arg2 = parseIntValue(getSecondArg());
+        if (hasValidArguments() && arg2 != 0) {
+            return new Int(parseIntValue(getFirstArg()) / arg2); 
+        }
         return new InvalidValue();
     }
 }

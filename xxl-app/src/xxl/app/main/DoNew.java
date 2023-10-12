@@ -17,7 +17,7 @@ class DoNew extends Command<Calculator> {
 
     @Override
     protected final void execute() throws CommandException {
-        if (_receiver != null && Form.confirm(Prompt.saveBeforeExit())) {   // TODO: dar catch a excepções???
+        if (_receiver.getSpreadsheet() != null && Form.confirm(Prompt.saveBeforeExit())) {   // TODO: dar catch a excepções???
             DoSave saveCommand = new DoSave(_receiver);
             saveCommand.execute();
         }

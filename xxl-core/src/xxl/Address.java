@@ -1,8 +1,10 @@
 package xxl;
 
+import java.io.Serializable;
+
 import xxl.exceptions.InvalidGamaException;
 
-public class Address {
+public class Address implements Serializable {
     
     /** Row */
     private int _row;

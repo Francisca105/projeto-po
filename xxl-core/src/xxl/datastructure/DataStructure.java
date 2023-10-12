@@ -1,12 +1,13 @@
 package xxl.datastructure;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import xxl.Address;
 import xxl.Cell;
 import xxl.exceptions.InvalidGamaException;
 
-public abstract class DataStructure {
+public abstract class DataStructure implements Serializable {
 
     /** Number of the data structure rows. */
     private int _rows;

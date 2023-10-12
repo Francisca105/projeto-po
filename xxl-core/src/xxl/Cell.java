@@ -1,8 +1,10 @@
 package xxl;
 
+import java.io.Serializable;
+
 import xxl.content.Content;
 
-public class Cell {
+public class Cell implements Serializable {
 
     /** Cell content. */
     private Content _content;
