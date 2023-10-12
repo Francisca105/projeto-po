@@ -68,7 +68,6 @@ public class Range {
         return addresses;
     }
 
-
     /**
      * 
      * @return the start address
