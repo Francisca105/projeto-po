@@ -1,5 +1,7 @@
 package xxl;
 
+import xxl.exceptions.InvalidGamaException;
+
 public class Address {
     
     /** Row */
@@ -20,6 +22,26 @@ public class Address {
     }
 
     /**
+     * Constructor.
+     * 
+     * @param address
+     */
+    public Address(String add) throws InvalidGamaException {
+        String[] parts = add.split(";");
+
+        if(parts.length != 2)
+            throw new InvalidGamaException(add);
+
+        try {
+            _row = Integer.parseInt(parts[0]);
+            _column = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            throw new InvalidGamaException(add);
+
+        }
+    }
+
+    /**
      * 
      * @return the row
      */
@@ -33,5 +55,10 @@ public class Address {
      */
     public int getColumn() {
         return _column;
+    }
+
+    @Override
+    public String toString() {
+        return getRow() + ";" + getColumn();
     }
 }

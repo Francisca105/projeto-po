@@ -1,12 +1,15 @@
 package xxl;
 
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import xxl.exceptions.ImportFileException;
 import xxl.exceptions.MissingFileAssociationException;
 import xxl.exceptions.UnavailableFileException;
 import xxl.exceptions.UnrecognizedEntryException;
+import xxl.exceptions.InvalidGamaException;
 
 // FIXME import classes
 
@@ -68,11 +71,36 @@ public class Calculator {
      */
     public void importFile(String filename) throws ImportFileException {
         try {
-            // FIXME open import file and feed entries to new spreadsheet (in a cycle)
-	    //       each entry is inserted with:
-	    _spreadsheet.insertContents(/* FIXME produce arguments */);
-	    // ....
-        } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+                String line = reader.readLine();
+                int lines = -1, columns = -1;
+
+                // Get the spreadsheet dimensions
+                if(!line.startsWith("linhas="))
+                    throw new UnrecognizedEntryException(line);
+
+                lines = Integer.parseInt(line.substring(7));
+
+                line = reader.readLine();
+
+                if(!line.startsWith("colunas="))
+                    throw new UnrecognizedEntryException(line);
+
+                columns = Integer.parseInt(line.substring(8));
+
+                _spreadsheet = new Spreadsheet(lines, columns);
+
+                // Insert contents
+                while(line != null ) {
+                    line = reader.readLine();
+                    String[] toInsert = line.split("|");
+                    _spreadsheet.insertContents(toInsert[0], toInsert[1]);
+                }
+                
+            } catch (IOException e) {
+                throw new IOException();
+            }
+        } catch (IOException | UnrecognizedEntryException /*| InvalidGamaException*/ /* FIXME maybe other exceptions */ e) {
             throw new ImportFileException(filename, e);
         }
     }
