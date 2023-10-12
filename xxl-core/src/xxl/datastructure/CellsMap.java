@@ -73,15 +73,14 @@ public class CellsMap extends DataStructure {
         _dataStructure.put(address, cell);
     }
 
-
-    // FIXME PLS
-    // public Collection<String> showRange(String range) throws InvalidGamaException {
-    //     Range r = new Range(range);
-    //     Collection<String> result = new ArrayList<String>();
-    //     for (Address address : r.getAddresses()) {
-    //         Cell cell = _dataStructure.get(address);
-    //         result.add(cell.toString());
-    //     }
-    //     return result;
-    // }
+    
+    public Collection<String> showRange(String range) throws InvalidGamaException {
+        Range r = new Range(range);
+        Collection<String> result = new ArrayList<String>();
+        for (Address address : r.getAddresses()) {
+            Cell cell = _dataStructure.get(address);
+            result.add(cell.toString());
+        }
+        return result;
+    }
 }

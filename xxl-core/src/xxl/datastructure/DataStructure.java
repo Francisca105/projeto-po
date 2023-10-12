@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import xxl.Address;
 import xxl.Cell;
+import xxl.exceptions.InvalidGamaException;
 
 public abstract class DataStructure {
 
@@ -47,7 +48,7 @@ public abstract class DataStructure {
         _columns = columns;
     }
 
-    public abstract Collection<String> showRange(String range);
+    public abstract Collection<String> showRange(String range) throws InvalidGamaException;
 
     public abstract Cell getCell(Address address);
 }
