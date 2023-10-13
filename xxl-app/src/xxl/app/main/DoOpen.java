@@ -1,5 +1,7 @@
 package xxl.app.main;
 
+import java.io.IOException;
+
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -18,14 +20,14 @@ class DoOpen extends Command<Calculator> {
 
     @Override
     protected final void execute() throws CommandException {
-        try {
+        // try {
             //FIXME implement command
             if (Form.confirm(Prompt.saveBeforeExit())) {
-
+                DoSave saveCommand = new DoSave(_receiver);
+                saveCommand.execute();
             }
-        } catch (UnavailableFileException e) {
-            throw new FileOpenFailedException(e);
-        }
+        // } catch (UnavailableFileException e) {
+        //     throw new FileOpenFailedException(e);
+        // }
     }
-
 }

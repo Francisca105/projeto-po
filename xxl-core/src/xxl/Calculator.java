@@ -88,8 +88,12 @@ public class Calculator {
             if (filename == "")
                 throw new UnavailableFileException(filename);
             _spreadsheet = (Spreadsheet) ois.readObject();
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (UnavailableFileException e) {
+            throw new UnavailableFileException(filename);
+        } catch (IOException e) {
+            throw new UnavailableFileException(filename);
+        } catch (ClassNotFoundException e) {
+            throw new UnavailableFileException(filename);
         }
         //_network.setChanged(false);
     }

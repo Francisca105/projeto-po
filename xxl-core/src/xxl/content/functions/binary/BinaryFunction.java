@@ -1,6 +1,7 @@
 package xxl.content.functions.binary;
 
 import xxl.content.Content;
+import xxl.content.Reference;
 import xxl.content.functions.Function;
 import xxl.content.literals.Int;
 import xxl.content.literals.Literal;
@@ -46,7 +47,11 @@ public abstract class BinaryFunction extends Function {
      * @return the value of the argument as an integer
      */
     public int parseIntValue(Content arg) {
-        return ((Int)arg).getValue();
+        if (arg instanceof Reference)
+            arg = ((Reference)arg).value();
+            
+        int i = ((Int)arg).getValue();
+        return i;
     }
 
     public abstract Literal value();

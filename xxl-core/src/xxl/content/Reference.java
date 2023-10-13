@@ -21,6 +21,13 @@ public class Reference extends Content {
     }
 
     /**
+     * @return the adrress of the referenced cell
+     */
+    public Address getAddress() {
+        return _ref;
+    }
+
+    /**
      * @see xxl.content.Content#value()
      */
     public Literal value() {
@@ -29,6 +36,9 @@ public class Reference extends Content {
 
     @Override
     public String showValue() {
+        if(_cell.getContent() == null)
+            return "#VALUE=" + _ref.toString();
+            
         return value().showValue() + "=" + _ref.toString();
     }
 

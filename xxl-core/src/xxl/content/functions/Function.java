@@ -1,6 +1,9 @@
 package xxl.content.functions;
 
+import java.sql.Ref;
+
 import xxl.content.Content;
+import xxl.content.Reference;
 import xxl.content.literals.Literal;
 
 public abstract class Function extends Content {
@@ -57,7 +60,17 @@ public abstract class Function extends Content {
 
     @Override
     public String toString() {
-        return "="+_name + "(" + _arg1 + ", " + _arg2 + ")";
+        // if(_arg1.toString().contains("=")) // TODO temporary fix
+        //     String _arg1.toString().replace("=", "");
+        String arg1 = _arg1.toString();
+        String arg2 = _arg2.toString();
+
+        if(_arg1 instanceof Reference)
+            arg1 = ((Reference) _arg1).getAddress().toString();
+        if(_arg2 instanceof Reference)
+            arg2 = ((Reference) _arg2).getAddress().toString();
+
+        return "="+_name + "(" + arg1 + "," + arg2 + ")";
     }
 
     @Override
