@@ -13,8 +13,12 @@ import xxl.content.Content;
 import xxl.exceptions.InvalidGamaException;
 import xxl.utils.AddressComparator;
 
+/**
+ * Class representing a concrete implementation of the data structure.
+ */
 public class CellsMap extends DataStructure {
 
+    /** Data structure (TreeMap). */
     private Map<Address, Cell> _dataStructure = new TreeMap<Address, Cell>(new AddressComparator());
 
     /**
@@ -26,7 +30,6 @@ public class CellsMap extends DataStructure {
     public CellsMap(int rows, int columns) {
         setRows(rows);
         setColumns(columns);
-
         for (int i = 1; i <= rows; i++) {
             for (int j = 1; j <= columns; j++) {
                 Address address = new Address(i, j);
@@ -50,7 +53,7 @@ public class CellsMap extends DataStructure {
     /**
      * 
      * @param range
-     * @return the cells in the given range
+     * @return an array of the cells in the given range
      */
     public Cell[] getCells(Range range) throws InvalidGamaException {
         Address[] addresses = range.getAddresses();
@@ -60,7 +63,6 @@ public class CellsMap extends DataStructure {
         for (Address a : addresses) {
             cells[i++] = getCell(a);
         }
-
         return cells;
     }
 
@@ -71,12 +73,14 @@ public class CellsMap extends DataStructure {
      * @param content
      */
     public void setContentCell(Address address, Content content) throws InvalidGamaException{
-        Cell cell = getCell(address); // TODO: nao sei se a referencia perde a celula
+        Cell cell = getCell(address);
         cell.setContent(content);
         _dataStructure.put(address, cell);
     }
 
-    
+    /*
+     * @see xxl.datastructure.DataStructure#showRange(String)
+     */
     public Collection<String> showRange(String range) throws InvalidGamaException {
         Gamma gamma = new Gamma(range);
         Collection<String> result = new ArrayList<String>();

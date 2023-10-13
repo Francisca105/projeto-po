@@ -2,11 +2,13 @@ package xxl.content.functions.interval.nospaces;
 
 import xxl.content.Content;
 import xxl.content.functions.FunctionNames;
-import xxl.content.literals.Int;
-import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
 
+/**
+ * Class representing the product function.
+ */
 public class Prod extends NoSpacesFunction {
+    
     /**
      * Constructor
      * 

@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import xxl.exceptions.InvalidGamaException;
 
+/**
+ * Class representing an address.
+ */
 public class Address implements Serializable {
     
-    /** Row */
+    /** Address row. */
     private int _row;
 
-    /** Column */
+    /** Address column. */
     private int _column;
 
     /**
@@ -26,7 +29,7 @@ public class Address implements Serializable {
     /**
      * Constructor.
      * 
-     * @param address
+     * @param add
      */
     public Address(String add) throws InvalidGamaException {
         String[] parts = add.split(";");
@@ -38,8 +41,7 @@ public class Address implements Serializable {
             _row = Integer.parseInt(parts[0]);
             _column = Integer.parseInt(parts[1]);
         } catch (NumberFormatException e) {
-            throw new InvalidGamaException(add);
-
+            throw new NumberFormatException();
         }
     }
 

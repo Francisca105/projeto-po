@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import xxl.content.Content;
 
+/**
+ * Class representing a cell of a spreadsheet.
+ */
 public class Cell implements Serializable {
 
     /** Cell content. */
@@ -18,11 +21,11 @@ public class Cell implements Serializable {
     }
 
     /**
-     * Defines the cell content
+     * Sets the cell content.
+     * 
      * @param content
      */
     public void setContent(Content content) {
         _content = content;
     }
-
 }

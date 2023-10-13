@@ -4,7 +4,11 @@ import xxl.content.Content;
 import xxl.content.literals.Literal;
 import xxl.content.functions.FunctionNames;
 
+/**
+ * Class representing the average function.
+ */
 public class Avg extends NoSpacesFunction {
+    
     /**
      * Constructor
      * 

@@ -7,6 +7,9 @@ import xxl.Address;
 import xxl.Cell;
 import xxl.exceptions.InvalidGamaException;
 
+/**
+ * Class representing a data structure.
+ */
 public abstract class DataStructure implements Serializable {
 
     /** Number of the data structure rows. */
@@ -49,7 +52,20 @@ public abstract class DataStructure implements Serializable {
         _columns = columns;
     }
 
+    /**
+     * Receives a range and returns the Strings to show to the user.
+     * 
+     * @param range
+     * @return a collection of Strings
+     * @throws InvalidGamaException
+     */
     public abstract Collection<String> showRange(String range) throws InvalidGamaException;
 
+    /**
+     * 
+     * @param address
+     * @return the cell at the given address
+     * @throws InvalidGamaException
+     */
     public abstract Cell getCell(Address address) throws InvalidGamaException;
 }

@@ -4,6 +4,9 @@ import xxl.content.Content;
 import xxl.content.functions.FunctionNames;
 import xxl.content.literals.Literal;
 
+/**
+ * Class representing the coalesce function.
+ */
 public class Coal extends SpacesFunction {
 
     /**
@@ -17,6 +20,9 @@ public class Coal extends SpacesFunction {
         setName(FunctionNames.COAL);
     }
 
+    /**
+     * @see xxl.content.Content#value()
+     */
     public Literal value() {
         return null; // TODO: implemet
     };

@@ -1,27 +1,40 @@
 package xxl;
 
-import xxl.Address;
-import xxl.Range;
 import xxl.exceptions.InvalidGamaException;
 
+/**
+ * Class representing a gamma.
+ */
 public class Gamma {
+
+    /** This gamma is a range. */
     private Range _range;
+
+    /** This gamma is an address. */
     private Address _address;
-// ei, o que achas de antes de te meteres em loucuras, dar-mos commit disto no gitlab? ok, vou apagar entao coisas random
+
+    /**
+     * Constructor.
+     * 
+     * @param range
+     * @throws InvalidGamaException
+     */
     public Gamma (String range) throws InvalidGamaException {
         if(range.contains(":")) {
             _range = new Range(range);
-            System.out.println(range);
         } else {
             _address = new Address(range);
         }
     }
 
+    /**
+     * 
+     * @return an array of addresses that compose this gamma
+     */
     public Address[] getAddresses() {
-        if(_range != null) {
+        if(_range != null)
             return _range.getAddresses();
-        } else {
+        else
             return new Address[] {_address};
-        }
     }
 }

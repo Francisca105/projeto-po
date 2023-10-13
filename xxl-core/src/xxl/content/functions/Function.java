@@ -1,12 +1,14 @@
 package xxl.content.functions;
 
-import java.sql.Ref;
-
 import xxl.content.Content;
 import xxl.content.Reference;
 import xxl.content.literals.Literal;
 
+/**
+ * Abstract class representing a function.
+ */
 public abstract class Function extends Content {
+
     /** First argument */
     private Content _arg1;
 
@@ -57,11 +59,16 @@ public abstract class Function extends Content {
      */
     public abstract Literal value();
 
+    /**
+     * @see xxl.content.Content#showValue()
+     */
+    @Override
+    public String showValue() {
+        return value().toString() + this.toString();
+    }
 
     @Override
     public String toString() {
-        // if(_arg1.toString().contains("=")) // TODO temporary fix
-        //     String _arg1.toString().replace("=", "");
         String arg1 = _arg1.toString();
         String arg2 = _arg2.toString();
 
@@ -71,10 +78,5 @@ public abstract class Function extends Content {
             arg2 = ((Reference) _arg2).getAddress().toString();
 
         return "="+_name + "(" + arg1 + "," + arg2 + ")";
-    }
-
-    @Override
-    public String showValue() {
-        return value().toString() + this.toString();
     }
 }

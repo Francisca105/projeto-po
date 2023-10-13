@@ -1,6 +1,10 @@
 package xxl.content.functions;
 
+/**
+ * Interface containing the names of the functions.
+ */
 public interface FunctionNames {
+    
     // Binary functions
     static final String ADD = "ADD";
     static final String DIV = "DIV";

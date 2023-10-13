@@ -3,6 +3,8 @@ package xxl;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import xxl.content.functions.binary.Add;
 import xxl.content.functions.binary.Div;
@@ -28,18 +30,9 @@ public class Spreadsheet implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 202308312359L;
-    // FIXME define attributes
-    // FIXME define contructor(s)
-    // FIXME define methods
 
     /** Name of the spreadsheet. */
     private String _name = "";
-
-    /** Number of the spreadsheet rows. */
-    private int _rows;
-
-    /** Number of the spreadsheet columns. */
-    private int _columns;
 
     /** Data structure of the spreadsheet */
     private CellsMap _cells;
@@ -47,7 +40,11 @@ public class Spreadsheet implements Serializable {
     /** Cut buffer of the spreadsheet */
     private DataStructure _cutBuffer;
 
+    /** Spreadsheet object has been changed. */
     private boolean _toSave;
+
+    /** Collection of users of the spreadsheet. */
+    private Map<String, User> _user = new HashMap<String, User>();
 
     /**
      * Constructor.
@@ -56,8 +53,6 @@ public class Spreadsheet implements Serializable {
      * @param columns
      */
     public Spreadsheet(int rows, int columns) {
-        _rows = rows;
-        _columns = columns;
         _cells = new CellsMap(rows, columns);
     }
 
@@ -111,7 +106,7 @@ public class Spreadsheet implements Serializable {
      * @param rangeSpecification
      * @param contentSpecification
      */
-    public void insertContents(String rangeSpecification, String contentSpecification) throws UnrecognizedEntryException /* FIXME maybe add exceptions */ {
+    public void insertContents(String rangeSpecification, String contentSpecification) throws UnrecognizedEntryException {
         try {
             Address address = new Address(rangeSpecification);
             Content content = parseContent(contentSpecification);
@@ -191,7 +186,7 @@ public class Spreadsheet implements Serializable {
      */
     public Content parseArgumentContent(String content) throws InvalidGamaException {
         if (content.length() == 0) {
-            return null; // TODO: argumento vazio - exception??
+            return null;
         } else if (content.contains(";") && !content.startsWith("'")) {
             return parseContentReference(content);
         } else {
@@ -221,5 +216,4 @@ public class Spreadsheet implements Serializable {
             return new Int(Integer.parseInt(content));
         }
     }
-
 }

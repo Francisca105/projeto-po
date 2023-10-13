@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.Map;
+import java.util.HashMap;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -15,18 +17,20 @@ import xxl.exceptions.ImportFileException;
 import xxl.exceptions.MissingFileAssociationException;
 import xxl.exceptions.UnavailableFileException;
 import xxl.exceptions.UnrecognizedEntryException;
-import xxl.exceptions.InvalidGamaException;
-
-// FIXME import classes
 
 /**
  * Class representing a spreadsheet application.
  */
 public class Calculator {
-    // FIXME add more fields if needed
 
     /** The current spreadsheet. */
     private Spreadsheet _spreadsheet = null;
+
+    /** Collection of all users of the calculator. */
+    private Map<String, User> _users = new HashMap<String, User>();
+
+    /** Current user of the calculator. */
+    private User _user = new User("root");
 
     /**
      * 
@@ -53,10 +57,10 @@ public class Calculator {
      * @throws IOException if there is some error while serializing the state of the network to disk.
      */
     public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-        String _filename = _spreadsheet.getName(); // TODO
+        String _filename = _spreadsheet.getName();
 
         if (_filename == null || _filename.equals(""))
-            throw new MissingFileAssociationException(); // FIXME
+            throw new MissingFileAssociationException();
         try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(_filename)))) {
             oos.writeObject(_spreadsheet);
             _spreadsheet.setToSave(false);
@@ -84,12 +88,13 @@ public class Calculator {
      *         an error while processing this file.
      */
     public void load(String filename) throws UnavailableFileException {
-        // FIXME implement serialization method
         try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)))) {
             if (filename == "")
                 throw new UnavailableFileException(filename);
+
             _spreadsheet = (Spreadsheet) ois.readObject();
             _spreadsheet.setToSave(false);
+
         } catch (UnavailableFileException e) {
             throw new UnavailableFileException(filename);
         } catch (IOException e) {
@@ -97,7 +102,6 @@ public class Calculator {
         } catch (ClassNotFoundException e) {
             throw new UnavailableFileException(filename);
         }
-        //_network.setChanged(false);
     }
 
     /**
@@ -114,15 +118,14 @@ public class Calculator {
                 // Get the spreadsheet dimensions
                 if(!line.startsWith("linhas="))
                     throw new UnrecognizedEntryException(line);
-
                 lines = Integer.parseInt(line.substring(7));
 
                 line = reader.readLine();
 
                 if(!line.startsWith("colunas="))
                     throw new UnrecognizedEntryException(line);
-
                 columns = Integer.parseInt(line.substring(8));
+
                 _spreadsheet = new Spreadsheet(lines, columns);
                 _spreadsheet.setToSave(true);
 
@@ -131,16 +134,14 @@ public class Calculator {
                 // Insert contents
                 while(line != null) {
                     String[] toInsert = line.split("\\|");
-
                     _spreadsheet.insertContents(toInsert[0], toInsert.length > 1 ? toInsert[1] : null);
                     line = reader.readLine();
                 }                
             } catch (IOException e) {
                 throw new IOException();
             }
-        } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
+        } catch (IOException | UnrecognizedEntryException e) {
             throw new ImportFileException(filename, e);
         }
     }
-
 }

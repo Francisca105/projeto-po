@@ -3,10 +3,7 @@ package xxl.app.edit;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 import xxl.Spreadsheet;
-import pt.tecnico.uilib.Display;
-import xxl.app.edit.InvalidCellRangeException;
 import xxl.exceptions.InvalidGamaException;
-import xxl.exceptions.UnrecognizedEntryException;
 
 /**
  * Class for searching functions.

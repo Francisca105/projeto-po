@@ -1,12 +1,10 @@
 package xxl.app.main;
 
-import java.io.IOException;
-
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+
 import xxl.Calculator;
-// FIXME import classes
 import xxl.exceptions.UnavailableFileException;
 
 /**

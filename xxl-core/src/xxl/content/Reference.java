@@ -6,6 +6,9 @@ import xxl.content.literals.Literal;
 import xxl.datastructure.DataStructure;
 import xxl.exceptions.InvalidGamaException;
 
+/**
+ * Class representing a reference.
+ */
 public class Reference extends Content {
     private Cell _cell;
     private Address _ref;
@@ -14,6 +17,7 @@ public class Reference extends Content {
      * Constructor.
      * 
      * @param ref
+     * @param ds
      */
     public Reference(Address ref, DataStructure ds) throws InvalidGamaException {
         _ref = ref;
@@ -30,12 +34,16 @@ public class Reference extends Content {
     /**
      * @see xxl.content.Content#value()
      */
+    @Override
     public Literal value() {
         if(_cell.getContent() == null)
             return null;
-        return _cell.getContent().value(); // TODO: implement
+        return _cell.getContent().value();
     }
 
+    /**
+     * @see xxl.content.Content#showValue()
+     */
     @Override
     public String showValue() {
         if(_cell.getContent() == null)

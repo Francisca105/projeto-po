@@ -1,7 +1,11 @@
 package xxl.content.literals;
 
+/**
+ * Class representing a string content.
+ */
 public class Str extends Literal {
 
+    /** Value of the content. */
     private String _value = "";
 
     /**
@@ -20,11 +24,17 @@ public class Str extends Literal {
         return _value;
     }
 
+    /**
+     * @see xxl.content.Content#value()
+     */
     @Override
     public Literal value() {
         return this;
     }
 
+    /**
+     * @see xxl.content.Content#showValue()
+     */
     @Override
     public String showValue() {
         return "'" + _value;

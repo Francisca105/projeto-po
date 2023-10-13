@@ -4,6 +4,9 @@ import xxl.content.Content;
 import xxl.content.functions.interval.IntervalFunction;
 import xxl.content.literals.Literal;
 
+/**
+ * Abstract class representing a non binary function that can't have spaces.
+ */
 public abstract class NoSpacesFunction extends IntervalFunction {
     /**
      * Constructor
@@ -15,5 +18,8 @@ public abstract class NoSpacesFunction extends IntervalFunction {
         super(arg1, arg2);
     }
 
+    /**
+     * @see xxl.content.Content#value()
+     */
     public abstract Literal value();
 }
