@@ -23,8 +23,10 @@ public class Mul extends BinaryFunction {
      * @see xxl.content.functions.Function#value()
      */
     public Literal value() {
-        if (hasValidArguments())
+        if (hasValidArguments()) {
+            System.out.println("Valid");
             return new Int(parseIntValue(getFirstArg()) * parseIntValue(getSecondArg()));
+        }
         return new InvalidValue();
     }
 }

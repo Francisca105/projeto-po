@@ -31,6 +31,8 @@ public class Reference extends Content {
      * @see xxl.content.Content#value()
      */
     public Literal value() {
+        if(_cell.getContent() == null)
+            return null;
         return _cell.getContent().value(); // TODO: implement
     }
 

@@ -20,14 +20,16 @@ class DoOpen extends Command<Calculator> {
 
     @Override
     protected final void execute() throws CommandException {
-        // try {
+        try {
             //FIXME implement command
-            if (Form.confirm(Prompt.saveBeforeExit())) {
+            if (_receiver.getSpreadsheet() != null && Form.confirm(Prompt.saveBeforeExit())) {
                 DoSave saveCommand = new DoSave(_receiver);
                 saveCommand.execute();
             }
-        // } catch (UnavailableFileException e) {
+            String filename = Form.requestString(Prompt.openFile());
+            _receiver.load(filename);
+         } catch (UnavailableFileException e) {
         //     throw new FileOpenFailedException(e);
         // }
-    }
+    }}
 }

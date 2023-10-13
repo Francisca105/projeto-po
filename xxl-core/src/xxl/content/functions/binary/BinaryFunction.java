@@ -25,9 +25,10 @@ public abstract class BinaryFunction extends Function {
      * @return true if the argument is valid
      */
     public boolean checkArgument(Content arg) {
-        if (arg.value() instanceof Int)
-            return true;
-        return false;
+        if (arg == null || arg.value() == null || !(arg.value() instanceof Int)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -36,7 +37,7 @@ public abstract class BinaryFunction extends Function {
      * @return true if the arguments are valid
      */
     public boolean hasValidArguments() {
-        return (checkArgument(getFirstArg())) && checkArgument(getSecondArg());
+        return (checkArgument(getSecondArg())) && checkArgument(getFirstArg());
     }
 
     /**
