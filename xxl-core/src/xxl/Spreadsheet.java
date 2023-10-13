@@ -47,6 +47,8 @@ public class Spreadsheet implements Serializable {
     /** Cut buffer of the spreadsheet */
     private DataStructure _cutBuffer;
 
+    private boolean _toSave;
+
     /**
      * Constructor.
      *
@@ -76,7 +78,26 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * 
+     * @return the saved status
+     */
+    public boolean getToSave() {
+        return _toSave;
+    }
+
+    /**
+     * Sets the saved status.
+     * 
+     * @param toSave
+     * @return 
+     */
+    public void setToSave(boolean toSave) {
+        _toSave = toSave;
+    }
+
+    /**
      * Sets the name of the spreadsheet.
+     * 
      * @param name
      * @return 
      */
@@ -101,6 +122,7 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * Parses a string content as a Content.
      * 
      * @return the string content as a Content object
      */
@@ -115,6 +137,7 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * Parses a string content as a Function or Reference.
      * 
      * @return the string content as a Function or Reference object
      */
@@ -127,6 +150,7 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * Parses a string content as a Function.
      * 
      * @return the string content as a Function object
      */
@@ -176,6 +200,7 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * Parses a string content as a Reference.
      * 
      * @return the string content as a Reference object
      */

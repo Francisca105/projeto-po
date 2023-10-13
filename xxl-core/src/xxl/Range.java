@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import xxl.exceptions.InvalidGamaException;
+import xxl.utils.AddressComparator;
 
 public class Range {
     private List<Address> _addresses = new ArrayList<Address>();
@@ -17,8 +18,11 @@ public class Range {
     public Range(Address start, Address end) throws InvalidGamaException {
         if(!isValid(start, end))
             throw new InvalidGamaException(start.toString() + ":" + end.toString());
-            
-        insertAddresses(start, end);
+        if(isInversed(start, end)) 
+            insertAddresses(end, start);
+        else{    
+            insertAddresses(start, end);
+        }
     }
 
     /**
@@ -94,9 +98,17 @@ public class Range {
      * @return true if the range is valid, false otherwise
      */
     public boolean isValid(Address start, Address end) {
-        return start.getRow() == end.getRow() || start.getColumn() == end.getColumn();
+        AddressComparator comparator = new AddressComparator();
+
+        return start.getRow() == end.getRow() || start.getColumn() == end.getColumn(); 
     }
 
+    public boolean isInversed(Address start, Address end) {
+        AddressComparator comparator = new AddressComparator();
+        return comparator.compare(start, end) < 0;
+    }
+    // n ia ser um bocado cursed dps com o cutbuffer? mudaria a ordem das coisas mas provavelmente ia ser chato tbh 
+// Queres q output? eu queria pela ordem inversa, nao como no teste mas como se aceitasse ranges ao contrario
     @Override
     public String toString() {
         return getStart().toString() + ":" + getEnd().toString();

@@ -24,6 +24,7 @@ import xxl.exceptions.InvalidGamaException;
  */
 public class Calculator {
     // FIXME add more fields if needed
+
     /** The current spreadsheet. */
     private Spreadsheet _spreadsheet = null;
 
@@ -58,7 +59,7 @@ public class Calculator {
             throw new MissingFileAssociationException(); // FIXME
         try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(_filename)))) {
             oos.writeObject(_spreadsheet);
-            //_spreadsheet.setChanged(false);
+            _spreadsheet.setToSave(false);
         }
     }
 
@@ -88,6 +89,7 @@ public class Calculator {
             if (filename == "")
                 throw new UnavailableFileException(filename);
             _spreadsheet = (Spreadsheet) ois.readObject();
+            _spreadsheet.setToSave(false);
         } catch (UnavailableFileException e) {
             throw new UnavailableFileException(filename);
         } catch (IOException e) {
@@ -104,13 +106,11 @@ public class Calculator {
      * @param filename name of the text input file
      * @throws ImportFileException
      */
-    public void importFile(String filename) throws ImportFileException {
-    
+    public void importFile(String filename) throws ImportFileException {    
         try {
             try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
                 String line = reader.readLine();
-                int lines, columns;
-                
+                int lines, columns;                
                 // Get the spreadsheet dimensions
                 if(!line.startsWith("linhas="))
                     throw new UnrecognizedEntryException(line);
@@ -123,24 +123,22 @@ public class Calculator {
                     throw new UnrecognizedEntryException(line);
 
                 columns = Integer.parseInt(line.substring(8));
-
                 _spreadsheet = new Spreadsheet(lines, columns);
+                _spreadsheet.setToSave(true);
 
                 line = reader.readLine();
-                
+
                 // Insert contents
                 while(line != null) {
                     String[] toInsert = line.split("\\|");
 
-                    _spreadsheet.insertContents(toInsert[0], toInsert[1]);
-
+                    _spreadsheet.insertContents(toInsert[0], toInsert.length > 1 ? toInsert[1] : null);
                     line = reader.readLine();
-                }
-                
+                }                
             } catch (IOException e) {
                 throw new IOException();
             }
-        } catch (IOException | UnrecognizedEntryException /*| InvalidGamaException*/ /* FIXME maybe other exceptions */ e) {
+        } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
             throw new ImportFileException(filename, e);
         }
     }

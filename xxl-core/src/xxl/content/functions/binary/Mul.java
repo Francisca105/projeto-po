@@ -24,7 +24,6 @@ public class Mul extends BinaryFunction {
      */
     public Literal value() {
         if (hasValidArguments()) {
-            System.out.println("Valid");
             return new Int(parseIntValue(getFirstArg()) * parseIntValue(getSecondArg()));
         }
         return new InvalidValue();
