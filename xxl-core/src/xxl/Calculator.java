@@ -34,10 +34,24 @@ public class Calculator {
 
     /**
      * 
-     * return the spreadsheet
+     * @return the spreadsheet
      */
     public Spreadsheet getSpreadsheet() {
         return _spreadsheet;
+    }
+
+    /**
+     * 
+     * @param spreadsheet
+     * @return true if the spreadsheet was updated or not
+     */
+
+    public boolean getToSave() {
+        Spreadsheet s = getSpreadsheet();
+        if(s == null)
+            return false;
+            
+        return s.getToSave();
     }
 
     /**

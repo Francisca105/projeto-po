@@ -2,13 +2,12 @@ package xxl.content.functions.interval.nospaces;
 
 import xxl.content.Content;
 import xxl.content.literals.Literal;
-import xxl.content.functions.FunctionNames;
 
 /**
  * Class representing the average function.
  */
 public class Avg extends NoSpacesFunction {
-    
+
     /**
      * Constructor
      * 
@@ -17,7 +16,7 @@ public class Avg extends NoSpacesFunction {
      */
     public Avg(Content arg1, Content arg2) {
         super(arg1, arg2);
-        setName(FunctionNames.AVG);
+        setName("AVG");
     }
 
     /**

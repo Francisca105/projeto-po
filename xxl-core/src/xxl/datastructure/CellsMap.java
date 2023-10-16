@@ -91,9 +91,9 @@ public class CellsMap extends DataStructure {
                 throw new InvalidGamaException(range);
 
             Content content = cell.getContent();
-            
+
             if(content != null) 
-                result.add(address.toString() + "|" + cell.getContent().showValue());
+                result.add(address.toString() + "|" + content.showValue());
             else
                 result.add(address.toString() + "|");
         }

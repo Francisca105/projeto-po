@@ -1,7 +1,6 @@
 package xxl.content.functions.binary;
 
 import xxl.content.Content;
-import xxl.content.functions.FunctionNames;
 import xxl.content.literals.Int;
 import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
@@ -17,7 +16,7 @@ public class Div extends BinaryFunction {
 
     public Div(Content arg1, Content arg2) {
         super(arg1, arg2);
-        setName(FunctionNames.DIV);
+        setName("DIV");
     }
 
     /**
@@ -26,7 +25,7 @@ public class Div extends BinaryFunction {
     public Literal value() {
         int arg2 = parseIntValue(getSecondArg());
         if (hasValidArguments() && arg2 != 0) {
-            return new Int(parseIntValue(getFirstArg()) / arg2); 
+            return new Int(parseIntValue(getFirstArg()) / arg2);
         }
         return new InvalidValue();
     }

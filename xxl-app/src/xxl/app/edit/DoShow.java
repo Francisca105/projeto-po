@@ -18,7 +18,7 @@ class DoShow extends Command<Spreadsheet> {
     @Override
     protected final void execute() throws CommandException {
         try {
-            _display.popup(_receiver.getCells().showRange(stringField("cell")));
+            _display.popup(_receiver.showCellsRange(stringField("cell")));
          } catch (InvalidGamaException e) {
             throw new InvalidCellRangeException(stringField("cell"));
         }

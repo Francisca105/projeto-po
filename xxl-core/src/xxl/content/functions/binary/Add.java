@@ -4,7 +4,6 @@ import xxl.content.Content;
 import xxl.content.literals.Int;
 import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
-import xxl.content.functions.FunctionNames;
 
 public class Add extends BinaryFunction {
 
@@ -14,9 +13,9 @@ public class Add extends BinaryFunction {
      * @param arg1
      * @param arg2
      */
-    public Add (Content arg1, Content arg2) {
+    public Add(Content arg1, Content arg2) {
         super(arg1, arg2);
-        setName(FunctionNames.ADD);
+        setName("ADD");
     }
 
     /**

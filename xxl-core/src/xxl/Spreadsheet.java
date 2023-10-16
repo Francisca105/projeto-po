@@ -3,6 +3,7 @@ package xxl;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +67,15 @@ public class Spreadsheet implements Serializable {
 
     /**
      * 
+     * @return the data structure representing the spreadsheet
+     */
+    public Collection<String> showCellsRange(String range) throws InvalidGamaException {
+        return getCells().showRange(range);
+    }
+
+
+    /**
+     * 
      * @return the name of the spreadsheet
      */
     public String getName() {
@@ -111,7 +121,7 @@ public class Spreadsheet implements Serializable {
             Address address = new Address(rangeSpecification);
             Content content = parseContent(contentSpecification);
             _cells.setContentCell(address, content);
-        } catch (Exception e) {
+        } catch (InvalidGamaException | NumberFormatException | NullPointerException e) {
             // TODO: handle exception
         }
     }

@@ -36,9 +36,15 @@ public class Reference extends Content {
      */
     @Override
     public Literal value() {
-        if(_cell.getContent() == null)
+        Cell cell = _cell;
+
+        while(cell.getContent() != null && cell.getContent() instanceof Reference)
+            cell = ((Reference) cell.getContent())._cell;
+
+        if(cell.getContent() == null)
             return null;
-        return _cell.getContent().value();
+
+        return cell.getContent().value();
     }
 
     /**
@@ -46,10 +52,10 @@ public class Reference extends Content {
      */
     @Override
     public String showValue() {
-        if(_cell.getContent() == null)
+        if(_cell.getContent() == null || value() == null)
             return "#VALUE=" + _ref.toString();
-            
-        return value().showValue() + "=" + _ref.toString();
+
+        return value() + "=" + _ref.toString();
     }
 
     @Override
