@@ -2,7 +2,7 @@ package xxl;
 
 import java.io.Serializable;
 
-import xxl.exceptions.InvalidGamaException;
+import xxl.exceptions.InvalidGammaException;
 
 /**
  * Class representing an address.
@@ -31,11 +31,11 @@ public class Address implements Serializable {
      * 
      * @param add
      */
-    public Address(String add) throws InvalidGamaException {
+    public Address(String add) throws InvalidGammaException {
         String[] parts = add.split(";");
 
         if(parts.length != 2)
-            throw new InvalidGamaException(add);
+            throw new InvalidGammaException(add);
 
         try {
             _row = Integer.parseInt(parts[0]);

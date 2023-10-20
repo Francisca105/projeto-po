@@ -1,6 +1,6 @@
 package xxl;
 
-import xxl.exceptions.InvalidGamaException;
+import xxl.exceptions.InvalidGammaException;
 
 /**
  * Class representing a gamma.
@@ -19,7 +19,7 @@ public class Gamma {
      * @param range
      * @throws InvalidGamaException
      */
-    public Gamma (String range) throws InvalidGamaException {
+    public Gamma (String range) throws InvalidGammaException {
         if(range.contains(":")) {
             _range = new Range(range);
         } else {

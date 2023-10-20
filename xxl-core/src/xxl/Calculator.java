@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.BufferedInputStream;
 
 import xxl.exceptions.ImportFileException;
+import xxl.exceptions.InvalidDimensionException;
 import xxl.exceptions.MissingFileAssociationException;
 import xxl.exceptions.UnavailableFileException;
 import xxl.exceptions.UnrecognizedEntryException;
@@ -45,7 +46,6 @@ public class Calculator {
      * @param spreadsheet
      * @return true if the spreadsheet was updated or not
      */
-
     public boolean getToSave() {
         Spreadsheet s = getSpreadsheet();
         if(s == null)
@@ -78,6 +78,7 @@ public class Calculator {
         try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(_filename)))) {
             oos.writeObject(_spreadsheet);
             _spreadsheet.setToSave(false);
+            _user.addSpreadsheet(_spreadsheet);
         }
     }
 
@@ -109,11 +110,7 @@ public class Calculator {
             _spreadsheet = (Spreadsheet) ois.readObject();
             _spreadsheet.setToSave(false);
 
-        } catch (UnavailableFileException e) {
-            throw new UnavailableFileException(filename);
-        } catch (IOException e) {
-            throw new UnavailableFileException(filename);
-        } catch (ClassNotFoundException e) {
+        } catch (UnavailableFileException | IOException | ClassNotFoundException e) {
             throw new UnavailableFileException(filename);
         }
     }
@@ -154,7 +151,7 @@ public class Calculator {
             } catch (IOException e) {
                 throw new IOException();
             }
-        } catch (IOException | UnrecognizedEntryException e) {
+        } catch (IOException | UnrecognizedEntryException | InvalidDimensionException e) {
             throw new ImportFileException(filename, e);
         }
     }

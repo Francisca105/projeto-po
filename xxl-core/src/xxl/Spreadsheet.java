@@ -21,7 +21,8 @@ import xxl.content.Content;
 import xxl.content.Reference;
 import xxl.datastructure.CellsMap;
 import xxl.datastructure.DataStructure;
-import xxl.exceptions.InvalidGamaException;
+import xxl.exceptions.InvalidDimensionException;
+import xxl.exceptions.InvalidGammaException;
 import xxl.exceptions.UnrecognizedEntryException;
 
 /**
@@ -53,7 +54,10 @@ public class Spreadsheet implements Serializable {
      * @param rows
      * @param columns
      */
-    public Spreadsheet(int rows, int columns) {
+    public Spreadsheet(int rows, int columns) throws InvalidDimensionException {
+        if (rows <= 0 || columns <= 0) {
+            throw new InvalidDimensionException();
+        }
         _cells = new CellsMap(rows, columns);
     }
 
@@ -69,7 +73,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the data structure representing the spreadsheet
      */
-    public Collection<String> showCellsRange(String range) throws InvalidGamaException {
+    public Collection<String> showCellsRange(String range) throws InvalidGammaException {
         return getCells().showRange(range);
     }
 
@@ -121,7 +125,7 @@ public class Spreadsheet implements Serializable {
             Address address = new Address(rangeSpecification);
             Content content = parseContent(contentSpecification);
             _cells.setContentCell(address, content);
-        } catch (InvalidGamaException | NumberFormatException | NullPointerException e) {
+        } catch (InvalidGammaException | NumberFormatException | NullPointerException e) {
             // TODO: handle exception
         }
     }
@@ -131,7 +135,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Content object
      */
-    public Content parseContent(String content) throws InvalidGamaException {
+    public Content parseContent(String content) throws InvalidGammaException {
         if (content.length() == 0) {
             return null;
         } else if (content.startsWith("=")) {
@@ -146,7 +150,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Function or Reference object
      */
-    public Content parseContentExpression(String content) throws InvalidGamaException {
+    public Content parseContentExpression(String content) throws InvalidGammaException {
         if (content.contains("(")) {
             return parseContentFunction(content);
         } else {
@@ -159,7 +163,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Function object
      */
-    public Content parseContentFunction(String content) throws InvalidGamaException {
+    public Content parseContentFunction(String content) throws InvalidGammaException {
         String functionName = content.substring(1, content.indexOf("("));
         String[] args = content.substring(content.indexOf("(")+1, content.length()-1).split(",");
 
@@ -194,7 +198,7 @@ public class Spreadsheet implements Serializable {
      * @return the content parsed as a Content object
      * @throws InvalidGamaException
      */
-    public Content parseArgumentContent(String content) throws InvalidGamaException {
+    public Content parseArgumentContent(String content) throws InvalidGammaException {
         if (content.length() == 0) {
             return null;
         } else if (content.contains(";") && !content.startsWith("'")) {
@@ -209,7 +213,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Reference object
      */
-    public Content parseContentReference(String content) throws InvalidGamaException {
+    public Content parseContentReference(String content) throws InvalidGammaException {
         Address address = new Address(content);
         return new Reference(address, _cells);
     }

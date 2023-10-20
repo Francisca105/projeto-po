@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import xxl.Address;
 import xxl.Cell;
-import xxl.exceptions.InvalidGamaException;
+import xxl.exceptions.InvalidGammaException;
 
 /**
  * Class representing a data structure.
@@ -59,7 +59,7 @@ public abstract class DataStructure implements Serializable {
      * @return a collection of Strings
      * @throws InvalidGamaException
      */
-    public abstract Collection<String> showRange(String range) throws InvalidGamaException;
+    public abstract Collection<String> showRange(String range) throws InvalidGammaException;
 
     /**
      * 
@@ -67,5 +67,5 @@ public abstract class DataStructure implements Serializable {
      * @return the cell at the given address
      * @throws InvalidGamaException
      */
-    public abstract Cell getCell(Address address) throws InvalidGamaException;
+    public abstract Cell getCell(Address address) throws InvalidGammaException;
 }

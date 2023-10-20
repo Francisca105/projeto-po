@@ -3,7 +3,7 @@ package xxl;
 import java.util.List;
 import java.util.ArrayList;
 
-import xxl.exceptions.InvalidGamaException;
+import xxl.exceptions.InvalidGammaException;
 
 /**
  * Class representing a range of addresses.
@@ -17,9 +17,9 @@ public class Range {
      * @param start
      * @param end
      */
-    public Range(Address start, Address end) throws InvalidGamaException {
+    public Range(Address start, Address end) throws InvalidGammaException {
         if(!isValid(start, end))
-            throw new InvalidGamaException(start.toString() + ":" + end.toString());  
+            throw new InvalidGammaException(start.toString() + ":" + end.toString());  
 
         if(isInverse(start, end)) {
             insertAddresses(end, start);
@@ -34,25 +34,25 @@ public class Range {
      * 
      * @param range
      */
-    public Range(String range) throws InvalidGamaException {
+    public Range(String range) throws InvalidGammaException {
         String[] parts = range.split(":");
 
         if(parts.length != 2)
-            throw new InvalidGamaException(range);
+            throw new InvalidGammaException(range);
 
         try {
             Address start = new Address(parts[0]);
             Address end = new Address(parts[1]);
             if(!isValid(start, end))
-                throw new InvalidGamaException(range);
+                throw new InvalidGammaException(range);
 
             if(isInverse(start, end)) {
                 insertAddresses(end, start);
             }
 
             insertAddresses(start, end);
-        } catch (InvalidGamaException e) {
-            throw new InvalidGamaException(range);
+        } catch (InvalidGammaException e) {
+            throw new InvalidGammaException(range);
         }
     }
 

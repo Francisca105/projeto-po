@@ -10,7 +10,7 @@ import xxl.Address;
 import xxl.Range;
 import xxl.Cell;
 import xxl.content.Content;
-import xxl.exceptions.InvalidGamaException;
+import xxl.exceptions.InvalidGammaException;
 import xxl.utils.AddressComparator;
 
 /**
@@ -44,9 +44,9 @@ public class CellsMap extends DataStructure {
      * @param address
      * @return the cell at the given address
      */
-    public Cell getCell(Address address) throws InvalidGamaException {
+    public Cell getCell(Address address) throws InvalidGammaException {
         if (!_dataStructure.containsKey(address))
-            throw new InvalidGamaException(address.toString());
+            throw new InvalidGammaException(address.toString());
         return _dataStructure.get(address);
     }
 
@@ -55,7 +55,7 @@ public class CellsMap extends DataStructure {
      * @param range
      * @return an array of the cells in the given range
      */
-    public Cell[] getCells(Range range) throws InvalidGamaException {
+    public Cell[] getCells(Range range) throws InvalidGammaException {
         Address[] addresses = range.getAddresses();
         Cell[] cells = new Cell[addresses.length];
         int i = 0;
@@ -72,23 +72,22 @@ public class CellsMap extends DataStructure {
      * @param address
      * @param content
      */
-    public void setContentCell(Address address, Content content) throws InvalidGamaException{
+    public void setContentCell(Address address, Content content) throws InvalidGammaException{
         Cell cell = getCell(address);
         cell.setContent(content);
-        _dataStructure.put(address, cell);
     }
 
     /*
      * @see xxl.datastructure.DataStructure#showRange(String)
      */
-    public Collection<String> showRange(String range) throws InvalidGamaException {
+    public Collection<String> showRange(String range) throws InvalidGammaException {
         Gamma gamma = new Gamma(range);
         Collection<String> result = new ArrayList<String>();
 
         for (Address address : gamma.getAddresses()) {
             Cell cell = _dataStructure.get(address);
             if (cell == null)
-                throw new InvalidGamaException(range);
+                throw new InvalidGammaException(range);
 
             Content content = cell.getContent();
 

@@ -3,7 +3,7 @@ package xxl.exceptions;
 /**
  * Exception thrown when an invalid address is used or tried to be created.
  */
-public class InvalidGamaException extends Exception{
+public class InvalidGammaException extends Exception{
 
     /** Invalid gamma. */
     private String _gamma;
@@ -13,7 +13,7 @@ public class InvalidGamaException extends Exception{
      * 
      * @param gamma
      */
-    public InvalidGamaException(String gamma) {
+    public InvalidGammaException(String gamma) {
         _gamma = gamma;
     }
 
