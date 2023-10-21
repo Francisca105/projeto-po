@@ -176,10 +176,11 @@ public class Spreadsheet implements Serializable {
      */
     public void insertContents(String rangeSpecification, String contentSpecification)
             throws UnrecognizedEntryException {
+        Gamma gamma;
         try {
-            Address address = new Address(rangeSpecification);
+            gamma = new Gamma(rangeSpecification);
             Content content = parseContent(contentSpecification);
-            _cells.setContentCell(address, content);
+            _cells.setContentCell(gamma, content);
         } catch (InvalidGammaException | NumberFormatException | NullPointerException e) {
             e.printStackTrace();
         }

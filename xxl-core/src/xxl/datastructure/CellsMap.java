@@ -74,6 +74,20 @@ public class CellsMap extends DataStructure {
     }
 
     /**
+     * Sets the content of the cells in the given gamma.
+     * 
+     * @param range
+     * @param content
+     */
+    public void setContentCell(Gamma gamma, Content content) throws InvalidGammaException{
+        if (gamma.getAddress() != null) {
+            setContentCell(gamma.getAddress(), content);
+        } else {
+            setContentCell(gamma.getRange(), content);
+        }
+    }
+
+    /**
      * Sets the content of the cell at the given address.
      * 
      * @param address
@@ -82,6 +96,18 @@ public class CellsMap extends DataStructure {
     public void setContentCell(Address address, Content content) throws InvalidGammaException{
         Cell cell = getCell(address);
         cell.setContent(content);
+    }
+
+    /**
+     * Sets the content of the cells in the given range.
+     * 
+     * @param range
+     * @param content
+     */
+    public void setContentCell(Range range, Content content) throws InvalidGammaException{
+        Cell[] cell = getCells(range);
+        for (Cell c : cell)
+            c.setContent(content);
     }
 
     /*

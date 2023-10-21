@@ -28,6 +28,22 @@ public class Gamma {
     }
 
     /**
+     * get the address
+     * @return address
+     */
+    public Address getAddress() {
+        return _address;
+    }
+
+    /**
+     * get the range
+     * @return range
+     */
+    public Range getRange() {
+        return _range;
+    }
+
+    /**
      * 
      * @return an array of addresses that compose this gamma
      */
