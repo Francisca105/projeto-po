@@ -80,10 +80,12 @@ public abstract class Function extends Content {
         String arg1 = _arg1.toString();
         String arg2 = _arg2.toString();
 
-        if(_arg1 instanceof Reference)
+        try {
             arg1 = ((Reference) _arg1).getAddress().toString();
-        if(_arg2 instanceof Reference)
+        } catch (ClassCastException e) { /* */ }
+        try {
             arg2 = ((Reference) _arg2).getAddress().toString();
+        } catch (ClassCastException e) { /* */ }
 
         return "="+_name + "(" + arg1 + "," + arg2 + ")";
     }
