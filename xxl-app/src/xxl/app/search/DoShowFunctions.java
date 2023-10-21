@@ -11,12 +11,13 @@ class DoShowFunctions extends Command<Spreadsheet> {
 
     DoShowFunctions(Spreadsheet receiver) {
         super(Label.SEARCH_FUNCTIONS, receiver);
-        // FIXME add fields
+        addStringField("value", Prompt.searchFunction());
     }
 
     @Override
     protected final void execute() {
-        // FIXME implement command
+        String value = stringField("value");
+        _display.popup(_receiver.searchF(value));
     }
 
 }

@@ -21,10 +21,7 @@ class DoShowValues extends Command<Spreadsheet> {
     @Override
     protected final void execute() {
         String value = stringField("value");
-
-        
-
-        _display.popup(_receiver.search(value));
+        _display.popup(_receiver.searchV(value));
     }
 
 }

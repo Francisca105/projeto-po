@@ -31,11 +31,19 @@ public abstract class Function extends Content {
 
     /**
      * Defines the name of the function
-     * 
+     * @param name
      * @return
      */
     public void setName(String name) {
         _name = name;
+    }
+
+    /**
+     * Gets the name of the function
+     * @return string
+     */
+    public String getName() {
+        return _name;
     }
 
     /**

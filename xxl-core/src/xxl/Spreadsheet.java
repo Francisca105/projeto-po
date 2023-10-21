@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.function.Predicate;
-import java.util.TreeMap;
-
 
 import xxl.content.functions.binary.Add;
 import xxl.content.functions.binary.Div;
@@ -18,9 +16,9 @@ import xxl.content.functions.interval.nospaces.Avg;
 import xxl.content.functions.interval.nospaces.Prod;
 import xxl.content.functions.interval.spaces.Coal;
 import xxl.content.functions.interval.spaces.Conc;
+import xxl.content.functions.Function;
 import xxl.content.literals.Int;
 import xxl.content.literals.Str;
-import xxl.content.literals.Literal;
 import xxl.content.Content;
 import xxl.content.Reference;
 import xxl.datastructure.CellsMap;
@@ -81,7 +79,6 @@ public class Spreadsheet implements Serializable {
         return getCells().showRange(range);
     }
 
-
     /**
      * 
      * @return the name of the spreadsheet
@@ -102,7 +99,7 @@ public class Spreadsheet implements Serializable {
      * Sets the saved status.
      * 
      * @param toSave
-     * @return 
+     * @return
      */
     public void setToSave(boolean toSave) {
         _toSave = toSave;
@@ -112,7 +109,7 @@ public class Spreadsheet implements Serializable {
      * Sets the name of the spreadsheet.
      * 
      * @param name
-     * @return 
+     * @return
      */
     public void setName(String name) {
         _name = name;
@@ -131,7 +128,7 @@ public class Spreadsheet implements Serializable {
             if (predicate.test(cell)) {
                 Content content = cell.getContent();
 
-                if(content != null) 
+                if (content != null)
                     result.add(address.toString() + "|" + content.showValue());
                 else
                     result.add(address.toString() + "|");
@@ -141,7 +138,33 @@ public class Spreadsheet implements Serializable {
         return result;
     }
 
-    public Collection<String> search(String value) {
+
+    /**
+     * searchs in the spreadsheet for a function name
+     * @param value
+     * @return the list of the searched items
+     */
+
+    public Collection<String> searchF(String value) {
+        return search(cell -> {
+            boolean condition = false;
+
+            try {
+                condition = ((Function) (cell.getContent())).getName().equals(value);
+            } catch (ClassCastException | NullPointerException e) { /* */ }
+
+            return condition;
+        });
+    }
+
+
+    /**
+     * searchs in the spreadsheet for a literal value
+     * @param value
+     * @return the list of the searched items
+     */
+
+    public Collection<String> searchV(String value) {
         return search(cell -> cell.getValue().showValue().equals(value));
     }
 
@@ -151,7 +174,8 @@ public class Spreadsheet implements Serializable {
      * @param rangeSpecification
      * @param contentSpecification
      */
-    public void insertContents(String rangeSpecification, String contentSpecification) throws UnrecognizedEntryException {
+    public void insertContents(String rangeSpecification, String contentSpecification)
+            throws UnrecognizedEntryException {
         try {
             Address address = new Address(rangeSpecification);
             Content content = parseContent(contentSpecification);
@@ -196,7 +220,7 @@ public class Spreadsheet implements Serializable {
      */
     public Content parseContentFunction(String content) throws InvalidGammaException {
         String functionName = content.substring(1, content.indexOf("("));
-        String[] args = content.substring(content.indexOf("(")+1, content.length()-1).split(",");
+        String[] args = content.substring(content.indexOf("(") + 1, content.length() - 1).split(",");
 
         Content arg1 = parseArgumentContent(args[0]);
         Content arg2 = parseArgumentContent(args[1]);
