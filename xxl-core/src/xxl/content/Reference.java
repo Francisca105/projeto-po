@@ -25,7 +25,7 @@ public class Reference extends Content {
     }
 
     /**
-     * @return the adrress of the referenced cell
+     * @return the address of the referenced cell
      */
     public Address getAddress() {
         return _ref;

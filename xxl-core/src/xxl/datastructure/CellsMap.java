@@ -40,6 +40,13 @@ public class CellsMap extends DataStructure {
     }
 
     /**
+     * @return the list of all cells
+     */
+    public Map<Address,Cell>  getAllCells() {
+        return _dataStructure;
+    }
+
+    /**
      * 
      * @param address
      * @return the cell at the given address

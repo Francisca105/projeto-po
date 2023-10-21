@@ -5,6 +5,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.function.Predicate;
+import java.util.TreeMap;
+
 
 import xxl.content.functions.binary.Add;
 import xxl.content.functions.binary.Div;
@@ -16,6 +20,7 @@ import xxl.content.functions.interval.spaces.Coal;
 import xxl.content.functions.interval.spaces.Conc;
 import xxl.content.literals.Int;
 import xxl.content.literals.Str;
+import xxl.content.literals.Literal;
 import xxl.content.Content;
 import xxl.content.Reference;
 import xxl.datastructure.CellsMap;
@@ -114,6 +119,33 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
+     * 
+     * @return the list of an searched item
+     */
+    public Collection<String> search(Predicate<Cell> predicate) {
+        Collection<String> result = new ArrayList<String>();
+
+        for (Map.Entry<Address, Cell> entry : _cells.getAllCells().entrySet()) {
+            Address address = entry.getKey();
+            Cell cell = entry.getValue();
+            if (predicate.test(cell)) {
+                Content content = cell.getContent();
+
+                if(content != null) 
+                    result.add(address.toString() + "|" + content.showValue());
+                else
+                    result.add(address.toString() + "|");
+            }
+        }
+
+        return result;
+    }
+
+    public Collection<String> search(String value) {
+        return search(cell -> cell.getValue().showValue().equals(value));
+    }
+
+    /**
      * Insert specified content in specified range.
      *
      * @param rangeSpecification
@@ -135,7 +167,7 @@ public class Spreadsheet implements Serializable {
      * @return the string content as a Content object
      */
     public Content parseContent(String content) throws InvalidGammaException {
-        if (content.length() == 0) {
+        if (content == null || content.length() == 0) {
             return null;
         } else if (content.startsWith("=")) {
             return parseContentExpression(content);
