@@ -19,13 +19,16 @@ public class Div extends BinaryFunction {
         setName("DIV");
     }
 
-    /**
+ /**
      * @see xxl.content.functions.Function#value()
      */
     public Literal value() {
-        int arg2 = parseIntValue(getSecondArg());
-        if (hasValidArguments() && arg2 != 0) {
-            return new Int(parseIntValue(getFirstArg()) / arg2);
+        try {
+            if (hasValidArguments())
+                return new Int(parseIntValue(getFirstArg()) / parseIntValue(getSecondArg()));
+        }
+        catch (ClassCastException | ArithmeticException e) {
+            return new InvalidValue();
         }
         return new InvalidValue();
     }

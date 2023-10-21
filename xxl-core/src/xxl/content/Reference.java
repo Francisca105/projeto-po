@@ -37,13 +37,8 @@ public class Reference extends Content {
     @Override
     public Literal value() {
         Cell cell = _cell;
-
-        while(cell.getContent() != null && cell.getContent() instanceof Reference)
-            cell = ((Reference) cell.getContent())._cell;
-
         if(cell.getContent() == null)
             return null;
-
         return cell.getContent().value();
     }
 

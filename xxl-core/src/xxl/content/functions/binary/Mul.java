@@ -18,12 +18,16 @@ public class Mul extends BinaryFunction {
         setName("MUL");
     }
 
-    /**
+ /**
      * @see xxl.content.functions.Function#value()
      */
     public Literal value() {
-        if (hasValidArguments()) {
-            return new Int(parseIntValue(getFirstArg()) * parseIntValue(getSecondArg()));
+        try {
+            if (hasValidArguments())
+                return new Int(parseIntValue(getFirstArg()) * parseIntValue(getSecondArg()));
+        }
+        catch (ClassCastException e) {
+            return new InvalidValue();
         }
         return new InvalidValue();
     }

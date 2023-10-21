@@ -1,5 +1,4 @@
 package xxl;
-// FIXME import classes
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -126,7 +125,7 @@ public class Spreadsheet implements Serializable {
             Content content = parseContent(contentSpecification);
             _cells.setContentCell(address, content);
         } catch (InvalidGammaException | NumberFormatException | NullPointerException e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 

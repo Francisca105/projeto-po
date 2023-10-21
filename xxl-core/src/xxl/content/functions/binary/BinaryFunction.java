@@ -25,9 +25,8 @@ public abstract class BinaryFunction extends Function {
      * @return true if the argument is valid
      */
     public boolean checkArgument(Content arg) {
-        if (arg == null || arg.value() == null || !(arg.value() instanceof Int)) {
+        if (arg.value() == null)
             return false;
-        }
         return true;
     }
 
@@ -47,12 +46,8 @@ public abstract class BinaryFunction extends Function {
      * @param arg
      * @return the value of the argument as an integer
      */
-    public int parseIntValue(Content arg) {
-        if (arg instanceof Reference)
-            arg = ((Reference)arg).value();
-            
-        int i = ((Int)arg).getValue();
-        return i;
+    public int parseIntValue(Content arg) throws ClassCastException {
+        return ((Int)arg.value()).getValue();    
     }
 
     public abstract Literal value();

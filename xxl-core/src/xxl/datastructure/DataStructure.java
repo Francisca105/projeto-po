@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import xxl.Address;
 import xxl.Cell;
+import xxl.content.Content;
 import xxl.exceptions.InvalidGammaException;
 
 /**
@@ -68,4 +69,6 @@ public abstract class DataStructure implements Serializable {
      * @throws InvalidGamaException
      */
     public abstract Cell getCell(Address address) throws InvalidGammaException;
+
+    public abstract void setContentCell(Address address, Content content) throws InvalidGammaException;
 }

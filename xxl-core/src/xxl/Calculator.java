@@ -34,6 +34,32 @@ public class Calculator {
     private User _user = new User("root");
 
     /**
+     * Adds a user to the collection of users of the calculator.
+     * 
+     * @param user
+     */
+    public void addUser(User user) {
+        _users.put(user.getName(), user);
+    }
+
+    /**
+     * Sets the current user of the calculator.
+     * 
+     * @param user
+     */
+    public void setUser(User user) {
+        _user = user;
+    }
+
+    /**
+     * 
+     * @return the current user of the calculator
+     */
+    public User getUser() {
+        return _user;
+    }
+
+    /**
      * 
      * @return the spreadsheet
      */
