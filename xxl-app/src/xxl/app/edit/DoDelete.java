@@ -4,6 +4,7 @@ import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 import xxl.Spreadsheet;
 // FIXME import classes
+import xxl.exceptions.InvalidGammaException;
 
 /**
  * Delete command.
@@ -12,12 +13,16 @@ class DoDelete extends Command<Spreadsheet> {
 
     DoDelete(Spreadsheet receiver) {
         super(Label.DELETE, receiver);
-        // FIXME add fields
+        addStringField("range", Prompt.address());
     }
 
     @Override
     protected final void execute() throws CommandException {
-        // FIXME implement command
+        try {
+            _receiver.deleteRange(stringField("range"));
+        } catch (InvalidGammaException e) {
+            throw new InvalidCellRangeException(stringField("range"));
+        }
     }
 
 }

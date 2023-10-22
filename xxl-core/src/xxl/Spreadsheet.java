@@ -286,4 +286,9 @@ public class Spreadsheet implements Serializable {
             return new Int(Integer.parseInt(content));
         }
     }
+
+    public void deleteRange(String range) throws InvalidGammaException {
+        Gamma gamma = new Gamma(range);
+        _cells.deleteRange(gamma);
+    }
 }

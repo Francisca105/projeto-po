@@ -131,4 +131,11 @@ public class CellsMap extends DataStructure {
         }
         return result;
     }
+
+    public void deleteRange(Gamma range) {
+        for (Address address : range.getAddresses()) {
+            Cell cell = _dataStructure.get(address);
+            cell.setContent(null);
+        }
+    }
 }
