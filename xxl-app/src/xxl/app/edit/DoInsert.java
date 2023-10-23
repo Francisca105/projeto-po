@@ -3,7 +3,7 @@ package xxl.app.edit;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 import xxl.Spreadsheet;
-// FIXME import classes
+import xxl.exceptions.ParseFunctionException;
 import xxl.exceptions.UnrecognizedEntryException;
 
 /**
@@ -24,6 +24,9 @@ class DoInsert extends Command<Spreadsheet> {
         }
         catch (UnrecognizedEntryException e) {
             throw new InvalidCellRangeException(stringField("cell"));
+        }
+        catch (ParseFunctionException e) {
+            throw new UnknownFunctionException(e.getName());
         }
     }
 }

@@ -25,6 +25,7 @@ import xxl.datastructure.CellsMap;
 import xxl.datastructure.DataStructure;
 import xxl.exceptions.InvalidDimensionException;
 import xxl.exceptions.InvalidGammaException;
+import xxl.exceptions.ParseFunctionException;
 import xxl.exceptions.UnrecognizedEntryException;
 
 /**
@@ -175,7 +176,7 @@ public class Spreadsheet implements Serializable {
      * @param contentSpecification
      */
     public void insertContents(String rangeSpecification, String contentSpecification)
-            throws UnrecognizedEntryException {
+            throws UnrecognizedEntryException, ParseFunctionException {
         Gamma gamma;
         try {
             gamma = new Gamma(rangeSpecification);
@@ -191,7 +192,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Content object
      */
-    public Content parseContent(String content) throws InvalidGammaException {
+    public Content parseContent(String content) throws InvalidGammaException, ParseFunctionException {
         if (content == null || content.length() == 0) {
             return null;
         } else if (content.startsWith("=")) {
@@ -206,7 +207,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Function or Reference object
      */
-    public Content parseContentExpression(String content) throws InvalidGammaException {
+    public Content parseContentExpression(String content) throws InvalidGammaException, ParseFunctionException {
         if (content.contains("(")) {
             return parseContentFunction(content);
         } else {
@@ -219,7 +220,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Function object
      */
-    public Content parseContentFunction(String content) throws InvalidGammaException {
+    public Content parseContentFunction(String content) throws InvalidGammaException, ParseFunctionException {
         String functionName = content.substring(1, content.indexOf("("));
         String[] args = content.substring(content.indexOf("(") + 1, content.length() - 1).split(",");
 
@@ -243,8 +244,10 @@ public class Spreadsheet implements Serializable {
                 return new Conc(arg1, arg2);
             case "COALESCE":
                 return new Coal(arg1, arg2);
+
+            default:
+                throw new ParseFunctionException(functionName);
         }
-        return new Str(content);
     }
 
     /**
