@@ -369,6 +369,14 @@ public class Spreadsheet implements Serializable {
         int i = 1;
         int j = 1;
 
+        if(gamma.isColumn()) {
+            _cutBuffer.setColumns(1);
+            _cutBuffer.setRows(gamma.getAddresses().length);
+        } else {
+            _cutBuffer.setColumns(gamma.getAddresses().length);
+            _cutBuffer.setRows(1);
+        }
+
         for (Address address : gamma.getAddresses()) {
 //            Cell cell = _cells.getCell(address);
 //            String s = i + ";" + j;
@@ -381,10 +389,11 @@ public class Spreadsheet implements Serializable {
             else
                 i++;
         }
+
     }
 
 //    public void cop(String range) throws InvalidGammaException{
-//        Gamma gamma = new Gamma(range);
+//        Gamma gamma = new Gamma(range);catch (In
 //        Address[] addresses = gamma.getAddresses();
 //        int n = addresses.length;
 //        if (gamma.isColumn()) {
@@ -408,40 +417,51 @@ public class Spreadsheet implements Serializable {
     public void paste(String range) throws InvalidGammaException {
         if(_cutBuffer == null || _cutBuffer.getAllCells().size() == 0)
             return;
-
+        Map<Address, Cell> allCells = _cutBuffer.getAllCells();
+        
         Gamma gamma = new Gamma(range);
         Address[] addresses = gamma.getAddresses();
         
-        if(_cutBuffer.getAllCells().size() == 1) {
+        if(allCells.size() == 1) {
             for (Address address : addresses) {
                 Cell cell = _cutBuffer.getCell(new Address(1, 1));
                 cell.unsubscribe();
                 _cells.getCell(address).setContent(cell.getContent());
             }
         } else {
-            if (_cutBuffer.getAllCells().size() > 1 && addresses.length == 1) {
+            if (addresses.length == 1) {
                 Address first = addresses[0];
-                gamma = new Gamma(first.toString() + ":" + new Address(first.getColumn()+":"+first.getRow()).toString());
+                Address last;
+                if(_cutBuffer.getColumns() != 1) {
+                    last = new Address(first.getRow() + allCells.size()-1, first.getColumn());
+                } else {
+                    last = new Address(first.getRow(), first.getColumn() + allCells.size()-1);
+                }
+
+                try {
+                    gamma = new Gamma(first.toString() + ":" + last.toString());
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                addresses = gamma.getAddresses();
             }
-        } 
-        
-        if (_cutBuffer.getAllCells().size() == addresses.length) {
+
             int i = 1;
             int j = 1;
 
             for (Address address : addresses) {
-                Cell cell = _cutBuffer.getCell(new Address(j, i));
+                Cell cell = _cutBuffer.getCell(new Address(i, j));
                 cell.unsubscribe();
                 _cells.getCell(address).setContent(cell.getContent());
 
-                if(gamma.isColumn())
+                if(_cutBuffer.getColumns() != 1)
                     j++;
                 else
                     i++;
             }
-        } else  {
-
-        }
+        } 
         
     }
 
