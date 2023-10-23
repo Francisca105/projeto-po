@@ -1,5 +1,7 @@
 package xxl;
 
+import xxl.content.functions.binary.Add;
+import xxl.datastructure.DataStructure;
 import xxl.exceptions.InvalidGammaException;
 
 /**
@@ -50,7 +52,7 @@ public class Gamma {
      * @return an array of addresses that compose this gamma
      */
     public Address[] getAddresses() {
-        if(_range != null)
+        if (_range != null)
             return _range.getAddresses();
         else
             return new Address[] {_address};
@@ -58,9 +60,19 @@ public class Gamma {
 
     public boolean isColumn() {
         Address[] addresses = getAddresses();
-        if(addresses.length > 1)
+        if (addresses.length > 1)
             return addresses[0].getColumn() == addresses[1].getColumn();
         else
             return false;
+    }
+
+    public boolean isValid(DataStructure dataStructure) {
+        Address[] addresses = getAddresses();
+        int rows = dataStructure.getRows();
+        int columns = dataStructure.getColumns();
+        int length = addresses.length;
+        if (addresses[0].getRow() > rows || addresses[0].getColumn() > columns || addresses[length-1].getRow() > rows || addresses[length-1].getColumn() > columns)
+            return false;
+        return true;
     }
 }

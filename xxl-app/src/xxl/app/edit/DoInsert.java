@@ -23,7 +23,7 @@ class DoInsert extends Command<Spreadsheet> {
         try {
             _receiver.insertContents(stringField("cell"), stringField("content"), true);
         }
-        catch (UnrecognizedEntryException e) {
+        catch (UnrecognizedEntryException | InvalidGammaException e) {
             throw new InvalidCellRangeException(stringField("cell"));
         }
         catch (ParseFunctionException e) {

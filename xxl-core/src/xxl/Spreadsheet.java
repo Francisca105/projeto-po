@@ -172,18 +172,13 @@ public class Spreadsheet implements Serializable {
      * @param rangeSpecification
      * @param contentSpecification
      */
-    public void insertContents(String rangeSpecification, String contentSpecification, boolean bool) throws UnrecognizedEntryException, ParseFunctionException {
+    public void insertContents(String rangeSpecification, String contentSpecification, boolean bool) throws UnrecognizedEntryException, ParseFunctionException, InvalidGammaException {
         try {
             Gamma gamma = new Gamma(rangeSpecification);
-            //Address address = new Address(rangeSpecification);
-            Content content = parseContent(contentSpecification, gamma);
-            //_cells.setContentCell(address, content);
-            if (bool)
-                setContentCell(gamma, content, _cells);
-            else
-                setContentCell(gamma, content, _cutBuffer);
+            Content content = parseContent(contentSpecification, gamma, bool);
+            setContentCell(gamma, content, bool);
             setToSave(true);
-        } catch (InvalidGammaException | NumberFormatException | NullPointerException e) {
+        } catch (NumberFormatException | NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -193,11 +188,11 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Content object
      */
-    public Content parseContent(String content, Gamma gamma) throws InvalidGammaException, ParseFunctionException {
+    public Content parseContent(String content, Gamma gamma, boolean bool) throws InvalidGammaException, ParseFunctionException {
         if (content == null || content.length() == 0) {
             return null;
         } else if (content.startsWith("=")) {
-            return parseContentExpression(content, gamma);
+            return parseContentExpression(content, gamma, bool);
         } else {
             return parseContentLiteral(content);
         }
@@ -208,11 +203,11 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Function or Reference object
      */
-    public Content parseContentExpression(String content, Gamma gamma) throws InvalidGammaException, ParseFunctionException {
+    public Content parseContentExpression(String content, Gamma gamma, boolean bool) throws InvalidGammaException, ParseFunctionException {
         if (content.contains("(")) {
-            return parseContentFunction(content, gamma);
+            return parseContentFunction(content, gamma, bool);
         } else {
-            return parseContentReference(content.substring(1), gamma);
+            return parseContentReference(content.substring(1), gamma, bool);
         }
     }
 
@@ -221,7 +216,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Function object
      */
-    public Content parseContentFunction(String content, Gamma gamma) throws InvalidGammaException, ParseFunctionException {
+    public Content parseContentFunction(String content, Gamma gamma, boolean bool) throws InvalidGammaException, ParseFunctionException {
         String functionName = content.substring(1, content.indexOf("("));
 
         String[] binaryFunctions = {"ADD", "DIV", "MUL", "SUB"};
@@ -229,23 +224,23 @@ public class Spreadsheet implements Serializable {
 
         for (String string : intervalFunctions) {
             if(functionName.equals(string))
-                return parseIntervalFunction(functionName, content, gamma);
+                return parseIntervalFunction(functionName, content, gamma, bool);
         }
 
         for (String string : binaryFunctions) {
             if(functionName.equals(string))
-                return parseBinaryFunction(functionName, content, gamma);
+                return parseBinaryFunction(functionName, content, gamma, bool);
         }
         
         throw new ParseFunctionException(functionName);
         
     }
 
-    public Content parseBinaryFunction(String functionName, String content, Gamma gamma) throws InvalidGammaException {
+    public Content parseBinaryFunction(String functionName, String content, Gamma gamma, boolean bool) throws InvalidGammaException {
         String[] args = content.substring(content.indexOf("(")+1, content.length()-1).split(",");
 
-        Content arg1 = parseBinaryArgument(args[0], gamma);
-        Content arg2 = parseBinaryArgument(args[1], gamma);
+        Content arg1 = parseBinaryArgument(args[0], gamma, bool);
+        Content arg2 = parseBinaryArgument(args[1], gamma, bool);
 
         switch (functionName) {
             case "ADD":
@@ -267,11 +262,11 @@ public class Spreadsheet implements Serializable {
      * @return the content parsed as a Content object
      * @throws InvalidGamaException
      */
-    public Content parseBinaryArgument(String content, Gamma gamma) throws InvalidGammaException {
+    public Content parseBinaryArgument(String content, Gamma gamma, boolean bool) throws InvalidGammaException {
         if (content.length() == 0) {
             return null;
         } else if (content.contains(";") && !content.startsWith("'")) {
-            return parseContentReference(content, gamma);
+            return parseContentReference(content, gamma, bool);
         } else {
             return parseContentLiteral(content);
         }
@@ -282,10 +277,11 @@ public class Spreadsheet implements Serializable {
      * 
      * @return the string content as a Reference object
      */
-    public Content parseContentReference(String content, Gamma gamma) throws InvalidGammaException {
+    public Content parseContentReference(String content, Gamma gamma, boolean bool) throws InvalidGammaException {
         Reference reference = new Reference(new Address(content), _cells);
-        for (Address address : gamma.getAddresses())
-            reference.getCell().registerObserver(_cells.getCell(address));
+        if (bool)
+            for (Address address : gamma.getAddresses())
+                reference.getCell().registerObserver(_cells.getCell(address));
         return reference;
     }
 
@@ -302,12 +298,13 @@ public class Spreadsheet implements Serializable {
         }
     }
 
-    public Content parseIntervalFunction(String functionName, String content, Gamma gamma) throws InvalidGammaException {
+    public Content parseIntervalFunction(String functionName, String content, Gamma gamma, boolean bool) throws InvalidGammaException {
         content = content.substring(content.indexOf("(")+1, content.length()-1);
         Range range = new Range(content);
 
-        for (Cell cell : _cells.getCells(range))
-            cell.registerObserver(_cells.getCell(gamma.getAddress()));
+        if (bool)
+            for (Cell cell : _cells.getCells(range))
+                cell.registerObserver(_cells.getCell(gamma.getAddress()));
 
         switch (functionName) {
             case "AVERAGE":
@@ -364,57 +361,40 @@ public class Spreadsheet implements Serializable {
     public void copy(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException  {
         // TODO: apanhar a exceção InvalidGammaException e lançar a InvalidCellRangeException na App
         Gamma gamma = new Gamma(range);
+        if (!gamma.isValid(_cells))
+            throw new InvalidGammaException(range);
         _cutBuffer = new CellsMap();
 
         int i = 1;
         int j = 1;
 
-        if(gamma.isColumn()) {
-            _cutBuffer.setColumns(1);
-            _cutBuffer.setRows(gamma.getAddresses().length);
-        } else {
-            _cutBuffer.setColumns(gamma.getAddresses().length);
-            _cutBuffer.setRows(1);
-        }
-
         for (Address address : gamma.getAddresses()) {
-//            Cell cell = _cells.getCell(address);
-//            String s = i + ";" + j;
-//            insertContents(s, cell.getContent().string(), false);
-            Cell copy = new Cell(_cells.getCell(address));
-            _cutBuffer.getAllCells().put(new Address(j, i), copy);
+            Cell cell = _cells.getCell(address);
+            String s = i + ";" + j;
+            _cutBuffer.getAllCells().put(new Address(i, j), new Cell());
+            try {
+            insertContents(s, cell.getContent().string(), false);
+            } catch (NullPointerException e) {
+                insertContents(s, "", false);
+            }
+//            Cell copy = new Cell(_cells.getCell(address));
+//            _cutBuffer.getAllCells().put(new Address(j, i), copy);
 
             if(gamma.isColumn())
-                j++;
-            else
                 i++;
+            else
+                j++;
         }
-
+        _cutBuffer.setRows(i);
+        _cutBuffer.setColumns(j);
     }
-
-//    public void cop(String range) throws InvalidGammaException{
-//        Gamma gamma = new Gamma(range);catch (In
-//        Address[] addresses = gamma.getAddresses();
-//        int n = addresses.length;
-//        if (gamma.isColumn()) {
-//            n = addresses[n-1].getRow() - addresses[0].getRow() + 1;
-//            _cutBuffer = new CellsMap(n, 1);
-//        }
-//        else {
-//            n = addresses[n-1].getRow() - addresses[0].getRow() + 1;
-//            _cutBuffer = new CellsMap(1, n);
-//        }
-//        for (Address address : addresses) {
-//            insertContents()
-//        }
-//    }
 
     public void cut(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException {
         copy(range);
         deleteRange(range);
     }
     
-    public void paste(String range) throws InvalidGammaException {
+    public void paste(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException {
         if(_cutBuffer == null || _cutBuffer.getAllCells().size() == 0)
             return;
         Map<Address, Cell> allCells = _cutBuffer.getAllCells();
@@ -425,23 +405,27 @@ public class Spreadsheet implements Serializable {
         if(allCells.size() == 1) {
             for (Address address : addresses) {
                 Cell cell = _cutBuffer.getCell(new Address(1, 1));
-                cell.unsubscribe();
-                _cells.getCell(address).setContent(cell.getContent());
+                try {
+                    insertContents(address.toString(), cell.getContent().string(), true);
+                } catch (NullPointerException e) {
+                    insertContents(address.toString(), "", true);
+                }
+//                cell.unsubscribe();
+//                _cells.getCell(address).setContent(cell.getContent());
             }
         } else {
             if (addresses.length == 1) {
                 Address first = addresses[0];
                 Address last;
-
-                System.out.println("c: "+_cutBuffer.getColumns());
-                System.out.println("l: "+_cutBuffer.getRows());
-
                 if(_cutBuffer.getColumns() == 1) {
                     last = new Address(first.getRow() + allCells.size()-1, first.getColumn());
+                    if (last.getRow() > _cells.getRows())
+                        last = new Address(_cells.getRows(), first.getColumn());
                 } else {
                     last = new Address(first.getRow(), first.getColumn() + allCells.size()-1);
+                    if (last.getColumn() > _cells.getColumns())
+                        last = new Address(first.getRow(), _cells.getColumns());
                 }
-
                 try {
                     gamma = new Gamma(first.toString() + ":" + last.toString());
                     
@@ -457,12 +441,13 @@ public class Spreadsheet implements Serializable {
 
             for (Address address : addresses) {
                 Cell cell = _cutBuffer.getCell(new Address(i, j));
-                cell.unsubscribe();
-                //System.out.println(cell.getContent().toString());
-                System.out.println("IMPORTANTE");
-                _cells.getCell(address).setContent(cell.getContent());
-                System.out.println("^IMPORTANTE^");
-                //System.out.println(_cells.getCell(address).getContent().toString());
+                try {
+                insertContents(address.toString(), cell.getContent().string(), true);
+                } catch (NullPointerException e) {
+                    insertContents(address.toString(), "", true);
+                }
+//                cell.unsubscribe();
+//                _cells.getCell(address).setContent(cell.getContent());
 
                 if(_cutBuffer.getColumns() != 1)
                     j++;
@@ -479,11 +464,11 @@ public class Spreadsheet implements Serializable {
      * @param range
      * @param content
      */
-    public void setContentCell(Gamma gamma, Content content, DataStructure dataStructure) throws InvalidGammaException{
+    public void setContentCell(Gamma gamma, Content content, boolean bool) throws InvalidGammaException{
         if (gamma.getAddress() != null) {
-            setContentCell(gamma.getAddress(), content, dataStructure);
+            setContentCell(gamma.getAddress(), content, bool);
         } else {
-            setContentCell(gamma.getRange(), content, dataStructure);
+            setContentCell(gamma.getRange(), content, bool);
         }
     }
 
@@ -493,9 +478,14 @@ public class Spreadsheet implements Serializable {
      * @param address
      * @param content
      */
-    public void setContentCell(Address address, Content content, DataStructure dataStructure) throws InvalidGammaException{
-        Cell cell = dataStructure.getCell(address);
-        cell.unsubscribe();
+    public void setContentCell(Address address, Content content, boolean bool) throws InvalidGammaException{
+        Cell cell;
+        if (bool) {
+            cell = _cells.getCell(address);
+            cell.unsubscribe();
+        }
+        else
+            cell = _cutBuffer.getCell(address);
         cell.setContent(content);
     }
 
@@ -505,10 +495,14 @@ public class Spreadsheet implements Serializable {
      * @param range
      * @param content
      */
-    public void setContentCell(Range range, Content content, DataStructure dataStructure) throws InvalidGammaException{
-        for (Cell c : dataStructure.getCells(range)) {
-            c.unsubscribe();
-            c.setContent(content);
-        }
+    public void setContentCell(Range range, Content content, boolean bool) throws InvalidGammaException{
+        if (bool)
+            for (Cell c : _cells.getCells(range)) {
+                c.unsubscribe();
+                c.setContent(content);
+            }
+        else
+            for (Cell c : _cutBuffer.getCells(range))
+                c.setContent(content);
     }
 }

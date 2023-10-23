@@ -15,6 +15,7 @@ import java.io.BufferedInputStream;
 
 import xxl.exceptions.ImportFileException;
 import xxl.exceptions.InvalidDimensionException;
+import xxl.exceptions.InvalidGammaException;
 import xxl.exceptions.MissingFileAssociationException;
 import xxl.exceptions.UnavailableFileException;
 import xxl.exceptions.UnrecognizedEntryException;
@@ -177,7 +178,7 @@ public class Calculator {
             } catch (IOException e) {
                 throw new IOException();
             }
-        } catch (IOException | UnrecognizedEntryException | InvalidDimensionException | ParseFunctionException e) {
+        } catch (IOException | UnrecognizedEntryException | InvalidDimensionException | ParseFunctionException | InvalidGammaException e) {
             throw new ImportFileException(filename, e);
         }
     }
