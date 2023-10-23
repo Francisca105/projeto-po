@@ -27,6 +27,11 @@ public class Reference extends Content {
         _cell = ds.getCell(ref);
     }
 
+    public Reference(Address ref, Cell cell) {
+        _ref = ref;
+        _cell = cell;
+    }
+
     /**
      * @return the address of the referenced cell
      */
@@ -48,20 +53,13 @@ public class Reference extends Content {
         return _cell.getContent().value();
     }
 
-    /**
-     * @see xxl.content.Content#showValue()
-     */
-    @Override
-    public String showValue() {
-        if(_cell.getContent() == null || value() == null)
-            return "#VALUE=" + _ref.toString();
-
-        return value() + "=" + _ref.toString();
-    }
-
     @Override
     public String toString() {
         return /* "=" + */_ref.toString();
+    }
+
+    public String string() {
+        return "=" + toString();
     }
 
     public void accept(CellVisitor visitor) {

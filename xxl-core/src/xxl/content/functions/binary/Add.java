@@ -41,4 +41,8 @@ public class Add extends BinaryFunction {
     public String toString() {
         return "ADD" + super.toString();
     }
+
+    public String string() {
+        return "=" + toString();
+    }
 }

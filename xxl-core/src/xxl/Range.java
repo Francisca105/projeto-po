@@ -1,6 +1,7 @@
 package xxl;
 
 import java.util.List;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import xxl.exceptions.InvalidGammaException;
@@ -8,7 +9,7 @@ import xxl.exceptions.InvalidGammaException;
 /**
  * Class representing a range of addresses.
  */
-public class Range {
+public class Range implements Serializable {
     private List<Address> _addresses = new ArrayList<Address>();
 
     /**

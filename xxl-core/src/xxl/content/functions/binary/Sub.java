@@ -40,4 +40,8 @@ public class Sub extends BinaryFunction {
     public String toString() {
         return "SUB" + super.toString();
     }
+
+    public String string() {
+        return "=" + toString();
+    }
 }

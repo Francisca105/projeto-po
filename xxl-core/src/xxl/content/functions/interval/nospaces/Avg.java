@@ -30,7 +30,6 @@ public class Avg extends NoSpacesFunction {
      */
     public Literal value() {
         try {
-            System.out.println("Avg.value()");
             int sum = 0;
             int count = 0;
             Cell[] cells = getCells();
@@ -53,5 +52,9 @@ public class Avg extends NoSpacesFunction {
     @Override
     public String toString() {
         return "AVERAGE" + super.toString();
+    }
+
+    public String string() {
+        return "=" + toString();
     }
 }

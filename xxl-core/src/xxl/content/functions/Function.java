@@ -67,14 +67,6 @@ public abstract class Function extends Content {
      */
     public abstract Literal value();
 
-    /**
-     * @see xxl.content.Content#showValue()
-     */
-    @Override
-    public String showValue() {
-        return value().toString() + this.toString();
-    }
-
 //    @Override
 //    public String toString() {
 //        String arg1 = _arg1.toString();

@@ -34,17 +34,13 @@ public class Str extends Literal {
         return this;
     }
 
-    /**
-     * @see xxl.content.Content#showValue()
-     */
-    @Override
-    public String showValue() {
-        return "'" + _value;
-    }
-
     @Override
     public String toString() {
         return "'" + _value;
+    }
+
+    public String string() {
+        return _value;
     }
 
     public void accept(CellVisitor visitor) {

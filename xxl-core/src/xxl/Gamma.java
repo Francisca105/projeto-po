@@ -55,4 +55,12 @@ public class Gamma {
         else
             return new Address[] {_address};
     }
+
+    public boolean isColumn() {
+        Address[] addresses = getAddresses();
+        if(addresses.length > 1)
+            return addresses[0].getColumn() == addresses[1].getColumn();
+        else
+            return false;
+    }
 }

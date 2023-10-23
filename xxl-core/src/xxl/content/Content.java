@@ -20,7 +20,8 @@ public abstract class Content implements Serializable {
      * 
      * @return the String representation of the content
      */
-    public abstract String showValue();
 
     public abstract void accept(CellVisitor visitor);
+
+    public abstract String string();
 }

@@ -42,4 +42,8 @@ public class Mul extends BinaryFunction {
     public String toString() {
         return "MUL" + super.toString();
     }
+
+    public String string() {
+        return "=" + toString();
+    }
 }

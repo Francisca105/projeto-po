@@ -27,14 +27,6 @@ public class Int extends Literal {
     }
     
     /**
-     * @see xxl.content.Content#showValue()
-     */
-    @Override
-    public String showValue() {
-        return Integer.toString(_value);
-    }
-    
-    /**
      * @see xxl.content.Content#value()
      */
     @Override
@@ -44,6 +36,10 @@ public class Int extends Literal {
 
     @Override
     public String toString() {
+        return Integer.toString(_value);
+    }
+
+    public String string() {
         return Integer.toString(_value);
     }
 

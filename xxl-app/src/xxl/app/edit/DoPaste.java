@@ -2,6 +2,7 @@ package xxl.app.edit;
 
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import xxl.exceptions.InvalidGammaException;
 import xxl.Spreadsheet;
 // FIXME import classes
 
@@ -12,12 +13,16 @@ class DoPaste extends Command<Spreadsheet> {
 
     DoPaste(Spreadsheet receiver) {
         super(Label.PASTE, receiver);
-        // FIXME add fields
+        addStringField("cell", Prompt.address());
     }
 
     @Override
     protected final void execute() throws CommandException {
-        // FIXME implement command
+        try {
+            _receiver.paste(stringField("cell"));
+        } catch (InvalidGammaException e) {
+            throw new InvalidCellRangeException(stringField("cell"));
+        }
     }
 
 }

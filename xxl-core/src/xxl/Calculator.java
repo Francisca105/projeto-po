@@ -18,6 +18,7 @@ import xxl.exceptions.InvalidDimensionException;
 import xxl.exceptions.MissingFileAssociationException;
 import xxl.exceptions.UnavailableFileException;
 import xxl.exceptions.UnrecognizedEntryException;
+import xxl.exceptions.ParseFunctionException;
 
 /**
  * Class representing a spreadsheet application.
@@ -170,13 +171,13 @@ public class Calculator {
                 // Insert contents
                 while(line != null) {
                     String[] toInsert = line.split("\\|");
-                    _spreadsheet.insertContents(toInsert[0], toInsert.length > 1 ? toInsert[1] : null);
+                    _spreadsheet.insertContents(toInsert[0], toInsert.length > 1 ? toInsert[1] : null, true);
                     line = reader.readLine();
                 }                
             } catch (IOException e) {
                 throw new IOException();
             }
-        } catch (IOException | UnrecognizedEntryException | InvalidDimensionException e) {
+        } catch (IOException | UnrecognizedEntryException | InvalidDimensionException | ParseFunctionException e) {
             throw new ImportFileException(filename, e);
         }
     }
