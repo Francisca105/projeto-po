@@ -110,7 +110,7 @@ public class CellsMap extends DataStructure {
             c.setContent(content);
     }
 
-    /*
+    /**
      * @see xxl.datastructure.DataStructure#showRange(String)
      */
     public Collection<String> showRange(String range) throws InvalidGammaException {
@@ -118,7 +118,7 @@ public class CellsMap extends DataStructure {
         Collection<String> result = new ArrayList<String>();
 
         for (Address address : gamma.getAddresses()) {
-            Cell cell = _dataStructure.get(address);
+            Cell cell = getCell(address);
             if (cell == null)
                 throw new InvalidGammaException(range);
 
