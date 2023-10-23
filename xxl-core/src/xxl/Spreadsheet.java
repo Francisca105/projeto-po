@@ -432,7 +432,11 @@ public class Spreadsheet implements Serializable {
             if (addresses.length == 1) {
                 Address first = addresses[0];
                 Address last;
-                if(_cutBuffer.getColumns() != 1) {
+
+                System.out.println("c: "+_cutBuffer.getColumns());
+                System.out.println("l: "+_cutBuffer.getRows());
+
+                if(_cutBuffer.getColumns() == 1) {
                     last = new Address(first.getRow() + allCells.size()-1, first.getColumn());
                 } else {
                     last = new Address(first.getRow(), first.getColumn() + allCells.size()-1);
@@ -454,7 +458,11 @@ public class Spreadsheet implements Serializable {
             for (Address address : addresses) {
                 Cell cell = _cutBuffer.getCell(new Address(i, j));
                 cell.unsubscribe();
+                //System.out.println(cell.getContent().toString());
+                System.out.println("IMPORTANTE");
                 _cells.getCell(address).setContent(cell.getContent());
+                System.out.println("^IMPORTANTE^");
+                //System.out.println(_cells.getCell(address).getContent().toString());
 
                 if(_cutBuffer.getColumns() != 1)
                     j++;

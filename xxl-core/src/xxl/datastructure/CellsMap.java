@@ -55,8 +55,10 @@ public class CellsMap extends DataStructure {
      * @return the cell at the given address
      */
     public Cell getCell(Address address) throws InvalidGammaException {
+        System.out.println("getCell: " + address);
         if (!_dataStructure.containsKey(address))
             throw new InvalidGammaException(address.toString());
+        System.out.println("getCell: obtida");
         return _dataStructure.get(address);
     }
 

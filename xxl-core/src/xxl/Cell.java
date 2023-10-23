@@ -117,8 +117,10 @@ public class Cell implements Serializable, Subject, Observer {
      * @param content
      */
     public void setContent(Content content) {
+        System.out.println("Cell.setContent()");
         _content = content;
         _value = (content == null) ? null : content.value();
+        System.out.println("Cell.setContent(): value");
         notifyObservers();
     }
 
