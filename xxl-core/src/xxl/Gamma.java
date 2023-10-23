@@ -28,16 +28,18 @@ public class Gamma {
     }
 
     /**
-     * get the address
-     * @return address
+     * This gamma is a solo address.
+     *
+     * @return the address
      */
     public Address getAddress() {
         return _address;
     }
 
     /**
-     * get the range
-     * @return range
+     * This gamma is a range of addresses.
+     *
+     * @return the range of addresses
      */
     public Range getRange() {
         return _range;

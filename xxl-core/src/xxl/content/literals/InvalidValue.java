@@ -1,5 +1,7 @@
 package xxl.content.literals;
 
+import xxl.visits.CellVisitor;
+
 /**
  * Class representing an invalid value.
  */
@@ -23,5 +25,9 @@ public class InvalidValue extends Literal {
     @Override
     public String toString() {
         return "#VALUE";
+    }
+
+    public void accept(CellVisitor visitor) {
+        
     }
 }

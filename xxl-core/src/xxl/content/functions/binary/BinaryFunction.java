@@ -1,12 +1,18 @@
 package xxl.content.functions.binary;
 
 import xxl.content.Content;
-import xxl.content.Reference;
 import xxl.content.functions.Function;
 import xxl.content.literals.Int;
 import xxl.content.literals.Literal;
+import xxl.visits.CellVisitor;
 
 public abstract class BinaryFunction extends Function {
+
+    /** First argument */
+    private Content _arg1;
+
+    /** Second argument */
+    private Content _arg2;
 
     /**
      * Constructor
@@ -15,7 +21,24 @@ public abstract class BinaryFunction extends Function {
      * @param arg2
      */
     public BinaryFunction(Content arg1, Content arg2) {
-        super(arg1, arg2);
+        _arg1 = arg1;
+        _arg2 = arg2;
+    }
+
+    /**
+     * 
+     * @return the first argument
+     */
+    public Content getFirstArg() {
+        return _arg1;
+    }
+
+    /**
+     * 
+     * @return the second argument
+     */
+    public Content getSecondArg() {
+        return _arg2;
     }
 
     /**
@@ -51,4 +74,11 @@ public abstract class BinaryFunction extends Function {
     }
 
     public abstract Literal value();
+
+    public abstract void accept(CellVisitor visitor);
+
+    @Override
+    public String toString() {
+        return "(" + getFirstArg().toString() + "," + getSecondArg().toString() + ")";
+    }
 }

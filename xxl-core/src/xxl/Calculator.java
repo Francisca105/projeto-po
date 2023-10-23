@@ -16,7 +16,6 @@ import java.io.BufferedInputStream;
 import xxl.exceptions.ImportFileException;
 import xxl.exceptions.InvalidDimensionException;
 import xxl.exceptions.MissingFileAssociationException;
-import xxl.exceptions.ParseFunctionException;
 import xxl.exceptions.UnavailableFileException;
 import xxl.exceptions.UnrecognizedEntryException;
 
@@ -69,16 +68,15 @@ public class Calculator {
     }
 
     /**
+     * Returns a boolean indicating if the spreadsheet was updated or not.
      * 
      * @param spreadsheet
      * @return true if the spreadsheet was updated or not
      */
     public boolean getToSave() {
-        Spreadsheet s = getSpreadsheet();
-        if(s == null)
-            return false;
-            
-        return s.getToSave();
+        if(_spreadsheet == null)
+            return false;            
+        return _spreadsheet.getToSave();
     }
 
     /**
@@ -178,7 +176,7 @@ public class Calculator {
             } catch (IOException e) {
                 throw new IOException();
             }
-        } catch (IOException | UnrecognizedEntryException | InvalidDimensionException | ParseFunctionException e) {
+        } catch (IOException | UnrecognizedEntryException | InvalidDimensionException e) {
             throw new ImportFileException(filename, e);
         }
     }

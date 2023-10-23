@@ -1,7 +1,13 @@
 package xxl.content.functions.interval.nospaces;
 
-import xxl.content.Content;
+import xxl.Range;
+import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
+import xxl.datastructure.DataStructure;
+import xxl.exceptions.InvalidGammaException;
+import xxl.visits.CellVisitor;
+import xxl.Cell;
+import xxl.content.literals.Int;
 
 /**
  * Class representing the average function.
@@ -9,20 +15,43 @@ import xxl.content.literals.Literal;
 public class Avg extends NoSpacesFunction {
 
     /**
-     * Constructor
+     * Contructor.
      * 
-     * @param arg1
-     * @param arg2
+     * @param range
+     * @param ds
      */
-    public Avg(Content arg1, Content arg2) {
-        super(arg1, arg2);
-        setName("AVG");
+    public Avg(Range range, DataStructure ds) throws InvalidGammaException {
+        super(range, ds);
+        setName("AVERAGE");
     }
 
     /**
      * @see xxl.content.functions.Function#value()
      */
     public Literal value() {
-        return null; // TODO: implemet
+        try {
+            System.out.println("Avg.value()");
+            int sum = 0;
+            int count = 0;
+            Cell[] cells = getCells();
+            for (Cell cell : cells) {
+                if (cell.value() == null)
+                    return new InvalidValue();
+                sum += ((Int)cell.value()).getValue();
+                count++;
+            }
+            return new Int(sum / count); 
+        } catch (ClassCastException e) {
+            return new InvalidValue();
+        }
     };
+
+    public void accept(CellVisitor visitor) {
+        visitor.visitAvgFunction(this);
+    }
+
+    @Override
+    public String toString() {
+        return "AVERAGE" + super.toString();
+    }
 }

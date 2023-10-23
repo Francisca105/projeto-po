@@ -1,7 +1,13 @@
 package xxl.content.functions.interval.spaces;
 
-import xxl.content.Content;
+import xxl.Cell;
+import xxl.Range;
+import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
+import xxl.content.literals.Str;
+import xxl.datastructure.DataStructure;
+import xxl.exceptions.InvalidGammaException;
+import xxl.visits.CellVisitor;
 
 /**
  * Class representing the coalesce function.
@@ -11,11 +17,11 @@ public class Coal extends SpacesFunction {
     /**
      * Contructor.
      * 
-     * @param arg1
-     * @param arg2
+     * @param range
+     * @param ds
      */
-    public Coal(Content arg1, Content arg2) {
-        super(arg1, arg2);
+    public Coal(Range range, DataStructure ds) throws InvalidGammaException {
+        super(range, ds);
         setName("COALESCE");
     }
 
@@ -23,6 +29,23 @@ public class Coal extends SpacesFunction {
      * @see xxl.content.Content#value()
      */
     public Literal value() {
-        return null; // TODO: implemet
+        Cell[] cells = getCells();
+        for (Cell cell : cells) {
+            try {
+                return new Str(((Str)cell.value()).getValue());
+            } catch (ClassCastException e) {
+                // do nothing
+            }
+        }
+        return new Str("");
     };
+
+    public void accept(CellVisitor visitor) {
+        visitor.visitCoalFunction(this);
+    }
+
+    @Override
+    public String toString() {
+        return "COALESCE" + super.toString();
+    }
 }

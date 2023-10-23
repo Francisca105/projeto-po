@@ -1,5 +1,7 @@
 package xxl.content.literals;
 
+import xxl.visits.CellVisitor;
+
 /**
  * Class representing a string content.
  */
@@ -43,5 +45,9 @@ public class Str extends Literal {
     @Override
     public String toString() {
         return "'" + _value;
+    }
+
+    public void accept(CellVisitor visitor) {
+        visitor.visitStr(this);
     }
 }

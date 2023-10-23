@@ -34,7 +34,7 @@ public class Address implements Serializable {
     public Address(String add) throws InvalidGammaException {
         String[] parts = add.split(";");
 
-        if(parts.length != 2)
+        if(parts.length != 2) 
             throw new InvalidGammaException(add);
 
         try {

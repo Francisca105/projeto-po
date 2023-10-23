@@ -3,6 +3,7 @@ package xxl.app.main;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+
 import xxl.Calculator;
 import xxl.Spreadsheet;
 import xxl.exceptions.InvalidDimensionException;

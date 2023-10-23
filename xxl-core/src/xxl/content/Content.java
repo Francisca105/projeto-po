@@ -3,6 +3,7 @@ package xxl.content;
 import java.io.Serializable;
 
 import xxl.content.literals.Literal;
+import xxl.visits.CellVisitor;
 
 /**
  * Abstract class representing a cell content.
@@ -16,7 +17,10 @@ public abstract class Content implements Serializable {
     public abstract Literal value();
 
     /**
+     * 
      * @return the String representation of the content
      */
     public abstract String showValue();
+
+    public abstract void accept(CellVisitor visitor);
 }

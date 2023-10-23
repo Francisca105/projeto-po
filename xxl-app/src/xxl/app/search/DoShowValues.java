@@ -1,12 +1,13 @@
 package xxl.app.search;
 
 import pt.tecnico.uilib.menus.Command;
+
 import xxl.Spreadsheet;
+import xxl.app.visitors.RenderCell;
 import xxl.Cell;
 import xxl.content.literals.Literal;
 
 import java.util.function.Predicate;
-// FIXME import classes
 
 /**
  * Command for searching content values.
@@ -20,8 +21,9 @@ class DoShowValues extends Command<Spreadsheet> {
 
     @Override
     protected final void execute() {
-        String value = stringField("value");
-        _display.popup(_receiver.searchV(value));
+        RenderCell renderer = new RenderCell();
+        _receiver.searchV(stringField("value"), renderer);
+        if (renderer.getRendering().size() != 0)
+            _display.popup(renderer.getRendering());
     }
-
 }

@@ -5,12 +5,15 @@ import xxl.Cell;
 import xxl.content.literals.Literal;
 import xxl.datastructure.DataStructure;
 import xxl.exceptions.InvalidGammaException;
+import xxl.visits.CellVisitor;
 
 /**
  * Class representing a reference.
  */
 public class Reference extends Content {
+
     private Cell _cell;
+    
     private Address _ref;
 
     /**
@@ -31,15 +34,18 @@ public class Reference extends Content {
         return _ref;
     }
 
+    public Cell getCell() {
+        return _cell;
+    }
+
     /**
      * @see xxl.content.Content#value()
      */
     @Override
     public Literal value() {
-        Cell cell = _cell;
-        if(cell.getContent() == null)
+        if(_cell.getContent() == null)
             return null;
-        return cell.getContent().value();
+        return _cell.getContent().value();
     }
 
     /**
@@ -55,6 +61,10 @@ public class Reference extends Content {
 
     @Override
     public String toString() {
-        return "=" + _ref.toString();
+        return /* "=" + */_ref.toString();
+    }
+
+    public void accept(CellVisitor visitor) {
+        visitor.visitReference(this);
     }
 }

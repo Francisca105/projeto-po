@@ -1,8 +1,9 @@
 package xxl.app.search;
 
 import pt.tecnico.uilib.menus.Command;
+
 import xxl.Spreadsheet;
-// FIXME import classes
+import xxl.app.visitors.RenderCell;
 
 /**
  * Command for searching function names.
@@ -16,8 +17,9 @@ class DoShowFunctions extends Command<Spreadsheet> {
 
     @Override
     protected final void execute() {
-        String value = stringField("value");
-        _display.popup(_receiver.searchF(value));
+        RenderCell renderer = new RenderCell();
+        _receiver.searchF(stringField("value"), renderer);
+        if (renderer.getRendering().size() != 0)
+            _display.popup(renderer.getRendering());
     }
-
 }

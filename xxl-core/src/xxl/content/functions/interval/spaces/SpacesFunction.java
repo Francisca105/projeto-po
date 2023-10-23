@@ -2,29 +2,37 @@ package xxl.content.functions.interval.spaces;
 
 import xxl.content.functions.interval.IntervalFunction;
 import xxl.content.literals.Literal;
-
-import xxl.content.Reference;
+import xxl.datastructure.DataStructure;
+import xxl.exceptions.InvalidGammaException;
 import xxl.Range;
-import xxl.content.Content;
 
 /**
  * Abstract class representing a non binary function that can have spaces.
  */
 public abstract class SpacesFunction extends IntervalFunction {
-    private Range _range;
+
     /**
      * Constructor
      * 
-     * @param arg1
-     * @param arg2
+     * @param range
      */
-    public SpacesFunction(Content arg1, Content arg2) {
-        super(arg1, arg2);
-        // _range = new Range();
+    public SpacesFunction(Range range, DataStructure ds) throws InvalidGammaException {
+        super(range, ds);
     }
 
     /**
      * @see xxl.content.Content#value()
      */ 
     public abstract Literal value();
+
+//    public boolean checkArgument(Range arg) {
+//        if (arg == null)
+//            return false;
+//        return true;
+//    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

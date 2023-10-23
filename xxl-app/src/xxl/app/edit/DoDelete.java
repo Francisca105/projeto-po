@@ -2,8 +2,8 @@ package xxl.app.edit;
 
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+
 import xxl.Spreadsheet;
-// FIXME import classes
 import xxl.exceptions.InvalidGammaException;
 
 /**
@@ -24,5 +24,4 @@ class DoDelete extends Command<Spreadsheet> {
             throw new InvalidCellRangeException(stringField("range"));
         }
     }
-
 }

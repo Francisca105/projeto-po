@@ -4,6 +4,7 @@ import xxl.content.Content;
 import xxl.content.literals.Int;
 import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
+import xxl.visits.CellVisitor;
 
 public class Mul extends BinaryFunction {
     /**
@@ -30,5 +31,15 @@ public class Mul extends BinaryFunction {
             return new InvalidValue();
         }
         return new InvalidValue();
+    }
+
+
+    public void accept(CellVisitor visitor) {
+        visitor.visitMulFunction(this);
+    }
+
+    @Override
+    public String toString() {
+        return "MUL" + super.toString();
     }
 }

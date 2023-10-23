@@ -12,6 +12,7 @@ import xxl.Cell;
 import xxl.content.Content;
 import xxl.exceptions.InvalidGammaException;
 import xxl.utils.AddressComparator;
+import xxl.visits.CellVisitor;
 
 /**
  * Class representing a concrete implementation of the data structure.
@@ -73,7 +74,7 @@ public class CellsMap extends DataStructure {
         return cells;
     }
 
-    /**
+/**
      * Sets the content of the cells in the given gamma.
      * 
      * @param range
@@ -95,6 +96,7 @@ public class CellsMap extends DataStructure {
      */
     public void setContentCell(Address address, Content content) throws InvalidGammaException{
         Cell cell = getCell(address);
+        cell.unsubscribe();
         cell.setContent(content);
     }
 
@@ -106,35 +108,60 @@ public class CellsMap extends DataStructure {
      */
     public void setContentCell(Range range, Content content) throws InvalidGammaException{
         Cell[] cell = getCells(range);
-        for (Cell c : cell)
+        for (Cell c : cell) {
+            c.unsubscribe();
             c.setContent(content);
+        }
     }
 
-    /**
-     * @see xxl.datastructure.DataStructure#showRange(String)
-     */
-    public Collection<String> showRange(String range) throws InvalidGammaException {
-        Gamma gamma = new Gamma(range);
-        Collection<String> result = new ArrayList<String>();
+//    /**
+//     * Sets the content of the cell at the given address.
+//     * 
+//     * @param address
+//     * @param content
+//     */
+//    public void setContentCell(Address address, Content content) throws InvalidGammaException{
+//        Cell cell = getCell(address);
+//        cell.unsubscribe();
+//        cell.setContent(content);
+//    }
+//
+//    /*
+//     * @see xxl.datastructure.DataStructure#showRange(String)
+//     */
+//    public Collection<String> showRange(String range) throws InvalidGammaException {
+//        Gamma gamma = new Gamma(range);
+//        Collection<String> result = new ArrayList<String>();
+//
+//        for (Address address : gamma.getAddresses()) {
+//            Cell cell = _dataStructure.get(address);
+//            if (cell == null)
+//                throw new InvalidGammaException(range);
+//
+//            Content content = cell.getContent();
+//
+//            if(content != null) 
+//                result.add(address.toString() + "|" + content.showValue());
+//            else
+//                result.add(address.toString() + "|");
+//        }
+//        return result;
+//    }
 
+    public void showRange(CellVisitor visitor, String range) throws InvalidGammaException {
+        Gamma gamma = new Gamma(range);
         for (Address address : gamma.getAddresses()) {
-            Cell cell = getCell(address);
+            Cell cell = _dataStructure.get(address);
             if (cell == null)
                 throw new InvalidGammaException(range);
-
-            Content content = cell.getContent();
-
-            if(content != null) 
-                result.add(address.toString() + "|" + content.showValue());
-            else
-                result.add(address.toString() + "|");
+            cell.accept(visitor, address.toString());
         }
-        return result;
     }
 
     public void deleteRange(Gamma range) {
         for (Address address : range.getAddresses()) {
             Cell cell = _dataStructure.get(address);
+            cell.unsubscribe();
             cell.setContent(null);
         }
     }

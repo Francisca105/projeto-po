@@ -1,5 +1,7 @@
 package xxl.content.literals;
 
+import xxl.visits.CellVisitor;
+
 /**
  * Class representing an integer content.
  */
@@ -43,5 +45,9 @@ public class Int extends Literal {
     @Override
     public String toString() {
         return Integer.toString(_value);
+    }
+
+    public void accept(CellVisitor visitor) {
+        visitor.visitInt(this);
     }
 }

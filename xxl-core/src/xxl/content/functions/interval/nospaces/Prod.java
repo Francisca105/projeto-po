@@ -1,7 +1,10 @@
 package xxl.content.functions.interval.nospaces;
 
-import xxl.content.Content;
+import xxl.Range;
 import xxl.content.literals.Literal;
+import xxl.datastructure.DataStructure;
+import xxl.exceptions.InvalidGammaException;
+import xxl.visits.CellVisitor;
 
 /**
  * Class representing the product function.
@@ -9,14 +12,14 @@ import xxl.content.literals.Literal;
 public class Prod extends NoSpacesFunction {
 
     /**
-     * Constructor
+     * Contructor.
      * 
-     * @param arg1
-     * @param arg2
+     * @param range
+     * @param ds
      */
-    public Prod(Content arg1, Content arg2) {
-        super(arg1, arg2);
-        setName("PRODUCT");
+    public Prod(Range range, DataStructure ds) throws InvalidGammaException {
+        super(range, ds);
+        setName("COALESCE");
     }
 
     /**
@@ -24,5 +27,9 @@ public class Prod extends NoSpacesFunction {
      */
     public Literal value() {
         return null; // TODO implement
+    }
+
+    public void accept(CellVisitor visitor) {
+        
     }
 }

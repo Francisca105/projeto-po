@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
+
 import xxl.Calculator;
 import xxl.exceptions.*;
-// FIXME import classes
 
 /**
  * Save to file under current name (if unnamed, query for name).
@@ -34,7 +34,7 @@ class DoSave extends Command<Calculator> {
         try {
             _receiver.saveAs(Form.requestString(Prompt.newSaveAs()));
         } catch (MissingFileAssociationException e) {
-            
+            // fail silently
         }
     }
 
