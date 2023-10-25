@@ -177,7 +177,7 @@ public class Calculator {
                 }                
             }
         } catch (IOException | UnrecognizedEntryException | InvalidDimensionException | ParseFunctionException | InvalidGammaException e) {
-            throw new ImportFileException(filename, e); //TODO: excepções
+            throw new ImportFileException(filename, e);
         }
     }
 }

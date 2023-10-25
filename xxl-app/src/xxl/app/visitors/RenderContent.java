@@ -19,24 +19,19 @@ import xxl.content.literals.Str;
 import xxl.content.Reference;
 import xxl.visits.CellVisitor;
 
-public class RenderCell extends CellVisitor {
+public class RenderContent extends CellVisitor {
 
     private String _render = "";
 
-    private Collection<String> _rendering = new ArrayList<String>();
-
-    public Collection<String> getRendering() {
-        return _rendering;
+    public String getRender() {
+        return _render;
     }
 
     public void visitCell(Cell cell, String address) {
-        _render += address + "|";
-        if (cell.getContent() != null) {
-            _render += cell.value().toString();
+        if (cell.getContent() != null)
             cell.getContent().accept(this);
-        }
-        _rendering.add(_render);
-        _render = "";
+            
+        _render = ""; // TODO : check if this is necessary
     }
 
     public void visitInt(Int integer) {

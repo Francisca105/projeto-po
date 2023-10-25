@@ -14,9 +14,9 @@ import xxl.content.literals.Int;
 import xxl.content.literals.Str;
 
 /**
- * This class is used to visit the content of a cell to export.
+ * This class is used to visit the content of a cell.
  */
-public abstract class CellVisitor {
+public abstract class ContentVisitor {
 
     public abstract void visitCell(Cell cell, String address);
 

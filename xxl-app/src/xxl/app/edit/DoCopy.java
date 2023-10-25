@@ -22,7 +22,7 @@ class DoCopy extends Command<Spreadsheet> {
     protected final void execute() throws CommandException {
         try {
             _receiver.copy(stringField("cell"));
-        } catch (InvalidGammaException | UnrecognizedEntryException | ParseFunctionException e) { // TODO: exceptions
+        } catch (InvalidGammaException | UnrecognizedEntryException | ParseFunctionException e) {
             throw new InvalidCellRangeException(stringField("cell"));
         }
     }

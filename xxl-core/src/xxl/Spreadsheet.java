@@ -28,6 +28,7 @@ import xxl.exceptions.InvalidGammaException;
 import xxl.exceptions.ParseFunctionException;
 import xxl.exceptions.UnrecognizedEntryException;
 import xxl.visits.CellVisitor;
+import xxl.app.visitors.RenderContent;
 
 /**
  * Class representing a spreadsheet.
@@ -142,7 +143,6 @@ public class Spreadsheet implements Serializable {
             } catch (ClassCastException | NullPointerException e) {
                  //do nothing 
             }
-            // Todo: comparar o nome da função com um enum das funções para lançar a UnknowFunctionException
             return condition;
         }, visitor);
     }
@@ -387,26 +387,27 @@ public class Spreadsheet implements Serializable {
     }
 
     public void copy(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException  {
-        // TODO: apanhar a exceção InvalidGammaException e lançar a InvalidCellRangeException na App
         Gamma gamma = new Gamma(range);
+
         if (!gamma.isValid(_cells))
             throw new InvalidGammaException(range);
+
         _cutBuffer = new CellsMap();
 
         int i = 1;
         int j = 1;
 
         for (Address address : gamma.getAddresses()) {
+            RenderContent render = new RenderContent();
             Cell cell = _cells.getCell(address);
             String s = i + ";" + j;
             _cutBuffer.getAllCells().put(new Address(i, j), new Cell());
             try {
-            insertContents(s, cell.getContent().string(), false);
+                cell.accept(render, s);
+                insertContents(s, cell.getContent().string(), false);
             } catch (NullPointerException e) {
                 insertContents(s, "", false);
             }
-//            Cell copy = new Cell(_cells.getCell(address));
-//            _cutBuffer.getAllCells().put(new Address(j, i), copy);
 
             if(gamma.isColumn())
                 i++;
@@ -438,8 +439,6 @@ public class Spreadsheet implements Serializable {
                 } catch (NullPointerException e) {
                     insertContents(address.toString(), "", true);
                 }
-//                cell.unsubscribe();
-//                _cells.getCell(address).setContent(cell.getContent());
             }
         } else {
             if (addresses.length == 1) {
@@ -457,7 +456,7 @@ public class Spreadsheet implements Serializable {
                 try {
                     gamma = new Gamma(first.toString() + ":" + last.toString());
                     
-                } catch (Exception e) {
+                } catch (InvalidGammaException e) {
                     e.printStackTrace();
                 }
 
@@ -470,20 +469,17 @@ public class Spreadsheet implements Serializable {
             for (Address address : addresses) {
                 Cell cell = _cutBuffer.getCell(new Address(i, j));
                 try {
-                insertContents(address.toString(), cell.getContent().string(), true);
+                    insertContents(address.toString(), cell.getContent().string(), true);
                 } catch (NullPointerException e) {
                     insertContents(address.toString(), "", true);
                 }
-//                cell.unsubscribe();
-//                _cells.getCell(address).setContent(cell.getContent());
 
                 if(_cutBuffer.getColumns() != 1)
                     j++;
                 else
                     i++;
             }
-        } 
-        
+        }         
     }
 
     /**
