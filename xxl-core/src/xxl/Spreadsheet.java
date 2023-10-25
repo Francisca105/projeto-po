@@ -139,11 +139,10 @@ public class Spreadsheet implements Serializable {
             boolean condition = false;
 
             try {
-                condition = ((Function) (cell.getContent())).getName().startsWith(value);
+                condition = ((Function) (cell.getContent())).getName().contains(value); //TODO: é suposto apresentar todas as que começam ou que contêm?
             } catch (ClassCastException | NullPointerException e) {
                  //do nothing 
             }
-            // Todo: comparar o nome da função com um enum das funções para lançar a UnknowFunctionException
             return condition;
         }, visitor);
     }
