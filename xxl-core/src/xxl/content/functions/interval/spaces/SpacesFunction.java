@@ -24,13 +24,7 @@ public abstract class SpacesFunction extends IntervalFunction {
      * @see xxl.content.Content#value()
      */ 
     public abstract Literal value();
-
-//    public boolean checkArgument(Range arg) {
-//        if (arg == null)
-//            return false;
-//        return true;
-//    }
-
+    
     @Override
     public String toString() {
         return super.toString();

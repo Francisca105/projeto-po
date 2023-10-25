@@ -1,11 +1,7 @@
 package xxl.content.functions.interval.spaces;
 
-import javax.xml.crypto.Data;
-
 import xxl.Cell;
 import xxl.Range;
-import xxl.content.Content;
-import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
 import xxl.content.literals.Str;
 import xxl.datastructure.DataStructure;

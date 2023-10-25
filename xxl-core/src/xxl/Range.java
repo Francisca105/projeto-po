@@ -23,6 +23,10 @@ public class Range implements Serializable {
     public Range(Address start, Address end) throws InvalidGammaException {
         if(!isValid(start, end))
             throw new InvalidGammaException(start.toString() + ":" + end.toString());  
+
+        if(isInverse(start, end)) 
+            insertAddresses(end, start);
+
         insertAddresses(start, end);
     }
 
@@ -42,6 +46,10 @@ public class Range implements Serializable {
             Address end = new Address(parts[1]);
             if(!isValid(start, end))
                 throw new InvalidGammaException(range);
+
+            if(isInverse(start, end)) 
+                insertAddresses(end, start);
+            
             insertAddresses(start, end);
         } catch (InvalidGammaException e) {
             throw new InvalidGammaException(range);
@@ -92,6 +100,19 @@ public class Range implements Serializable {
                 _addresses.add(new Address(i, start.getColumn()));
             }
         }
+    }
+
+    /**
+     * Checks if the range is inversed.
+     * @param start
+     * @param end
+     * @return
+     */
+    public boolean isInverse(Address start, Address end) {
+        if(start.getRow() > end.getRow() || 
+            start.getRow() == end.getRow() && start.getColumn() > end.getColumn())
+            return true;
+        return false;
     }
 
     /**

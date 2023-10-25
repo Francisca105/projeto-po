@@ -1,7 +1,6 @@
 package xxl.content.functions;
 
 import xxl.content.Content;
-import xxl.content.Reference;
 import xxl.content.literals.Literal;
 
 /**
@@ -17,17 +16,6 @@ public abstract class Function extends Content {
 
     /** The name of the function */
     private String _name;
-
-//    /**
-//     * Constructor
-//     * 
-//     * @param arg1
-//     * @param arg2
-//     */
-//    public Function(Content arg1, Content arg2) {
-//        _arg1 = arg1;
-//        _arg2 = arg2;
-//    }
 
     /**
      * Defines the name of the function
@@ -46,39 +34,8 @@ public abstract class Function extends Content {
         return _name;
     }
 
-//    /**
-//     * 
-//     * @return the first argument
-//     */
-//    public Content getFirstArg() {
-//        return _arg1;
-//    }
-//
-//    /**
-//     * 
-//     * @return the secound argument
-//     */
-//    public Content getSecondArg() {
-//        return _arg2;
-//    }
-
     /**
      * @see xxl.content.Content#value()
      */
     public abstract Literal value();
-
-//    @Override
-//    public String toString() {
-//        String arg1 = _arg1.toString();
-//        String arg2 = _arg2.toString();
-//
-//        try {
-//            arg1 = ((Reference) _arg1).getAddress().toString();
-//        } catch (ClassCastException e) { /* */ }
-//        try {
-//            arg2 = ((Reference) _arg2).getAddress().toString();
-//        } catch (ClassCastException e) { /* */ }
-//
-//        return "="+_name + "(" + arg1 + "," + arg2 + ")";
-//    }
 }

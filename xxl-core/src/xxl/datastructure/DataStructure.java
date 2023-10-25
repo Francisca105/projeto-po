@@ -1,15 +1,12 @@
 package xxl.datastructure;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Map;
 
 import xxl.Range;
 import xxl.Address;
 import xxl.Cell;
-import xxl.content.Content;
 import xxl.exceptions.InvalidGammaException;
-import xxl.visits.CellVisitor;
 
 /**
  * Class representing a data structure.
@@ -56,15 +53,6 @@ public abstract class DataStructure implements Serializable {
         _columns = columns;
     }
 
-    // TODO: remove this method
-    // /**
-    //  * Receives a range and returns the Strings to show to the user.
-    //  * 
-    //  * @param range
-    //  * @throws InvalidGamaException
-    //  */
-    // public abstract void showRange(CellVisitor visitor, String range) throws InvalidGammaException;
-
     /**
      * 
      * @param address
@@ -77,9 +65,4 @@ public abstract class DataStructure implements Serializable {
 
     public abstract Cell[] getCells(Range range) throws InvalidGammaException;
 
-    // TODO
-    // public abstract Cell[] getCells(Range range) throws InvalidGammaException;
-
-    // TODO
-    // public abstract void setContentCell(Address address, Content content) throws InvalidGammaException;
 }

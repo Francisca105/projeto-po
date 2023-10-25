@@ -7,19 +7,19 @@ import xxl.content.literals.Literal;
 import xxl.visits.CellVisitor;
 
 public class Mul extends BinaryFunction {
+
     /**
      * Constructor
      * 
      * @param arg1
      * @param arg2
      */
-
     public Mul(Content arg1, Content arg2) {
         super(arg1, arg2);
         setName("MUL");
     }
 
- /**
+    /**
      * @see xxl.content.functions.Function#value()
      */
     public Literal value() {

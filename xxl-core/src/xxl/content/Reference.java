@@ -27,6 +27,12 @@ public class Reference extends Content {
         _cell = ds.getCell(ref);
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param ref
+     * @param cell
+     */
     public Reference(Address ref, Cell cell) {
         _ref = ref;
         _cell = cell;
@@ -39,6 +45,10 @@ public class Reference extends Content {
         return _ref;
     }
 
+    /**
+     * 
+     * @return the referenced cell
+     */
     public Cell getCell() {
         return _cell;
     }

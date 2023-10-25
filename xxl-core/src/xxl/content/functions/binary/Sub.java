@@ -7,6 +7,7 @@ import xxl.content.literals.Literal;
 import xxl.visits.CellVisitor;
 
 public class Sub extends BinaryFunction {
+    
     /**
      * Constructor
      * 

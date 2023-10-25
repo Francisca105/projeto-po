@@ -14,7 +14,6 @@ public class Div extends BinaryFunction {
      * @param arg1
      * @param arg2
      */
-
     public Div(Content arg1, Content arg2) {
         super(arg1, arg2);
         setName("DIV");

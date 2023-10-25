@@ -1,8 +1,5 @@
 package xxl.content.functions.interval;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import xxl.Cell;
 import xxl.Range;
 import xxl.content.functions.Function;
@@ -18,6 +15,7 @@ public abstract class IntervalFunction extends Function {
     /** The range of the function */
     private Range _range;
 
+    /** The cells of the function */
     private Cell[] _cells;
 
     /**
@@ -38,6 +36,10 @@ public abstract class IntervalFunction extends Function {
         return _range;
     }
 
+    /**
+     * 
+     * @return the cells
+     */
     public Cell[] getCells() {
         return _cells;
     }
