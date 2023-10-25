@@ -41,8 +41,4 @@ public class Div extends BinaryFunction {
     public String toString() {
         return "DIV" + super.toString();
     }
-
-    public String string() {
-        return "=" + toString();
-    }
 }

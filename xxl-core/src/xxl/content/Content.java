@@ -22,6 +22,4 @@ public abstract class Content implements Serializable {
      */
 
     public abstract void accept(CellVisitor visitor);
-
-    public abstract String string();
 }

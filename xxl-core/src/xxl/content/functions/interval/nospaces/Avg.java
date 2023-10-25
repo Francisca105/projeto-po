@@ -53,8 +53,4 @@ public class Avg extends NoSpacesFunction {
     public String toString() {
         return "AVERAGE" + super.toString();
     }
-
-    public String string() {
-        return "=" + toString();
-    }
 }

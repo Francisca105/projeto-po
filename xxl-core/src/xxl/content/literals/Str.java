@@ -39,10 +39,6 @@ public class Str extends Literal {
         return "'" + _value;
     }
 
-    public String string() {
-        return toString();
-    }
-
     public void accept(CellVisitor visitor) {
         visitor.visitStr(this);
     }

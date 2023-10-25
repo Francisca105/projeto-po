@@ -39,10 +39,6 @@ public class Int extends Literal {
         return Integer.toString(_value);
     }
 
-    public String string() {
-        return Integer.toString(_value);
-    }
-
     public void accept(CellVisitor visitor) {
         visitor.visitInt(this);
     }

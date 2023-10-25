@@ -48,8 +48,4 @@ public class Conc extends SpacesFunction {
     public String toString() {
         return "CONCAT" + super.toString();
     }
-
-    public String string() {
-        return "=" + toString();
-    }
 }

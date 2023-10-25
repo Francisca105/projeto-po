@@ -51,8 +51,4 @@ public class Prod extends NoSpacesFunction {
     public String toString() {
         return "PRODUCT(" + getRange() + ")";
     }
-
-    public String string() {
-        return "=" + toString();
-    }
 }

@@ -127,12 +127,4 @@ public class Cell implements Serializable, Subject, Observer {
     public void accept(CellVisitor visitor, String address) {
         visitor.visitCell(this, address);
     }
-
-    public void accept(CellVisitor visitor) {
-        visitor.visitCell(this);
-    }
-
-    /*public void accept(ContentVisitor visitor) { // TODO : contentvisitor
-        visitor.visitCell(this);
-    }*/
 }

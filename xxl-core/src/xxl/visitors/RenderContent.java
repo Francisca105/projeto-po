@@ -1,7 +1,4 @@
-package xxl.app.visitors;
-
-import java.util.ArrayList;
-import java.util.Collection;
+package xxl.visitors;
 
 import xxl.Cell;
 import xxl.content.functions.binary.Add;
@@ -24,22 +21,24 @@ public class RenderContent extends CellVisitor {
     private String _render = "";
 
     public String getRender() {
-        return _render;
+        String result = _render;
+        _render = "";
+        return result;
     }
 
     public void visitCell(Cell cell, String address) {
         if (cell.getContent() != null)
             cell.getContent().accept(this);
-            
-        _render = ""; // TODO : check if this is necessary
+        else
+            _render = "";
     }
 
     public void visitInt(Int integer) {
-
+        _render += integer.toString();
     }
 
     public void visitStr(Str string) {
-
+        _render += string.toString();
     }
 
     public void visitReference(Reference reference) {
@@ -67,7 +66,7 @@ public class RenderContent extends CellVisitor {
     }
 
     public void visitIntervalFunction(IntervalFunction intervalFunction) {
-
+        _render += "=" + intervalFunction.toString();
     }
 
     public void visitConcFunction(Conc concFunction) {

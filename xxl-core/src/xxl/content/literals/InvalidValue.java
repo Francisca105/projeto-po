@@ -19,11 +19,7 @@ public class InvalidValue extends Literal {
         return "#VALUE";
     }
 
-    public String string() {
-        return toString();
-    }
-
     public void accept(CellVisitor visitor) {
-        
+        // do nothing
     }
 }

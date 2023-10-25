@@ -47,8 +47,4 @@ public class Coal extends SpacesFunction {
     public String toString() {
         return "COALESCE" + super.toString();
     }
-
-    public String string() {
-        return "=" + toString();
-    }
 }

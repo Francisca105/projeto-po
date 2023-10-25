@@ -40,11 +40,11 @@ public class RenderCell extends CellVisitor {
     }
 
     public void visitInt(Int integer) {
-
+        // do nothing
     }
 
     public void visitStr(Str string) {
-
+        // do nothing
     }
 
     public void visitReference(Reference reference) {

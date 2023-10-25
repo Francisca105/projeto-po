@@ -65,11 +65,7 @@ public class Reference extends Content {
 
     @Override
     public String toString() {
-        return /* "=" + */_ref.toString();
-    }
-
-    public String string() {
-        return "=" + toString();
+        return _ref.toString();
     }
 
     public void accept(CellVisitor visitor) {
