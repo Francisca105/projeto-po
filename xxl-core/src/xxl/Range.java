@@ -1,7 +1,7 @@
 package xxl;
 
-import java.util.List;
 import java.io.Serializable;
+import java.util.List;
 import java.util.ArrayList;
 
 import xxl.exceptions.InvalidGammaException;
@@ -10,6 +10,8 @@ import xxl.exceptions.InvalidGammaException;
  * Class representing a range of addresses.
  */
 public class Range implements Serializable {
+    
+    /** List of the address composing this range. */
     private List<Address> _addresses = new ArrayList<Address>();
 
     /**
@@ -21,14 +23,8 @@ public class Range implements Serializable {
     public Range(Address start, Address end) throws InvalidGammaException {
         if(!isValid(start, end))
             throw new InvalidGammaException(start.toString() + ":" + end.toString());  
-
-        if(isInverse(start, end)) {
-            insertAddresses(end, start);
-        }
-
         insertAddresses(start, end);
     }
-
 
     /**
      * Constructor
@@ -46,39 +42,9 @@ public class Range implements Serializable {
             Address end = new Address(parts[1]);
             if(!isValid(start, end))
                 throw new InvalidGammaException(range);
-
-            if(isInverse(start, end)) {
-                insertAddresses(end, start);
-            }
-
             insertAddresses(start, end);
         } catch (InvalidGammaException e) {
             throw new InvalidGammaException(range);
-        }
-    }
-
-    public boolean isInverse(Address start, Address end) {
-        if(start.getRow() > end.getRow() || 
-            start.getRow() == end.getRow() && start.getColumn() > end.getColumn())
-            return true;
-        return false;
-    }
-
-    /**
-     * Inserts the addresses from the range in the list.
-     * 
-     * @param start
-     * @param end
-     */
-    public void insertAddresses(Address start, Address end) {
-        if(start.getRow() == end.getRow()) {
-            for(int i = start.getColumn(); i <= end.getColumn(); i++) {
-                _addresses.add(new Address(start.getRow(), i));
-            }
-        } else {
-            for(int i = start.getRow(); i <= end.getRow(); i++) {
-                _addresses.add(new Address(i, start.getColumn()));
-            }
         }
     }
 
@@ -111,6 +77,24 @@ public class Range implements Serializable {
     }
 
     /**
+     * Inserts the addresses from the range in the list.
+     * 
+     * @param start
+     * @param end
+     */
+    public void insertAddresses(Address start, Address end) {
+        if(start.getRow() == end.getRow()) {
+            for(int i = start.getColumn(); i <= end.getColumn(); i++) {
+                _addresses.add(new Address(start.getRow(), i));
+            }
+        } else {
+            for(int i = start.getRow(); i <= end.getRow(); i++) {
+                _addresses.add(new Address(i, start.getColumn()));
+            }
+        }
+    }
+
+    /**
      * Checks whether the range is valid.
      * 
      * @return true if the range is valid, false otherwise
@@ -124,3 +108,16 @@ public class Range implements Serializable {
         return getStart().toString() + ":" + getEnd().toString();
     }
 }
+
+//    /**
+//     * 
+//     * @param start
+//     * @param end
+//     * @return true if the range is inversed, false otherwise
+//     */
+//    public boolean isInversed(Address start, Address end) {
+//        if(start.getRow() > end.getRow() || 
+//            start.getRow() == end.getRow() && start.getColumn() > end.getColumn())
+//            return true;
+//        return false;
+//    }

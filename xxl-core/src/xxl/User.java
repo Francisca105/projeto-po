@@ -11,6 +11,7 @@ public class User {
     /** Username of the user. */
     private String _name;
 
+    /** Collection of spreadsheets owned by the user. */
     private Map<String, Spreadsheet> _spreadsheets = new HashMap<String, Spreadsheet>();
 
     /**
@@ -40,7 +41,7 @@ public class User {
     }
 
     /**
-     * Adds a spreadsheet to the user collection.
+     * Adds a spreadsheet to the user's collection.
      * 
      * @param spreadsheet
      */

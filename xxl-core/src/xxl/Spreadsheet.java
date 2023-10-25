@@ -3,11 +3,13 @@ package xxl;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
+import xxl.content.Content;
+import xxl.content.functions.Function;
 import xxl.content.functions.binary.Add;
 import xxl.content.functions.binary.Div;
 import xxl.content.functions.binary.Mul;
@@ -16,13 +18,11 @@ import xxl.content.functions.interval.nospaces.Avg;
 import xxl.content.functions.interval.nospaces.Prod;
 import xxl.content.functions.interval.spaces.Coal;
 import xxl.content.functions.interval.spaces.Conc;
-import xxl.content.functions.Function;
 import xxl.content.literals.Int;
 import xxl.content.literals.Str;
-import xxl.content.Content;
 import xxl.content.Reference;
-import xxl.datastructure.CellsMap;
 import xxl.datastructure.DataStructure;
+import xxl.datastructure.CellsMap;
 import xxl.exceptions.InvalidDimensionException;
 import xxl.exceptions.InvalidGammaException;
 import xxl.exceptions.ParseFunctionException;
@@ -40,14 +40,14 @@ public class Spreadsheet implements Serializable {
     /** Name of the spreadsheet. */
     private String _name = "";
 
-    /** Data structure of the spreadsheet */
+    /** Data structure storing the cells of the spreadsheet. */
     private CellsMap _cells;
 
-    /** Cut buffer of the spreadsheet */
+    /** Cut buffer of the spreadsheet. */
     private DataStructure _cutBuffer;
 
-    /** Spreadsheet object has been changed. */
-    private boolean _toSave;
+    /** Boolean indicating if the spreadsheet object has been changed. */
+    private boolean _hasChanged;
 
     /** Collection of users of the spreadsheet. */
     private Map<String, User> _user = new HashMap<String, User>();
@@ -59,28 +59,11 @@ public class Spreadsheet implements Serializable {
      * @param columns
      */
     public Spreadsheet(int rows, int columns) throws InvalidDimensionException {
-        if (rows <= 0 || columns <= 0) {
+        if (rows <= 0 || columns <= 0)
             throw new InvalidDimensionException();
-        }
         _cells = new CellsMap(rows, columns);
+        setToSave(true);
     }
-
-    /**
-     * 
-     * @return the data structure representing the spreadsheet
-     */
-    public DataStructure getCells() {
-        return _cells;
-    }
-
-//    /**
-//     * 
-//     * @return the data structure representing the spreadsheet
-//     */
-//    public Collection<String> showCellsRange(String range) throws InvalidGammaException {
-//        return getCells().showRange(range);
-//    }
-
 
     /**
      * 
@@ -92,20 +75,27 @@ public class Spreadsheet implements Serializable {
 
     /**
      * 
+     * @return the data structure storing the cells of the spreadsheet
+     */
+    public DataStructure getCells() {
+        return _cells;
+    }
+
+    /**
+     * 
      * @return the saved status
      */
     public boolean getToSave() {
-        return _toSave;
+        return _hasChanged;
     }
 
     /**
      * Sets the saved status.
      * 
-     * @param toSave
-     * @return 
+     * @param hasChanged
      */
-    public void setToSave(boolean toSave) {
-        _toSave = toSave;
+    public void setToSave(boolean hasChanged) {
+        _hasChanged = hasChanged;
     }
 
     /**
@@ -118,6 +108,7 @@ public class Spreadsheet implements Serializable {
         _name = name;
     }
 
+    //TODO: search com visitors
     /**
      * 
      * @return the list of an searched item
@@ -166,6 +157,7 @@ public class Spreadsheet implements Serializable {
         return search(cell -> cell.value().toString().equals(value), visitor);
     }
 
+    //TODO: exceções
     /**
      * Insert specified content in specified range.
      *
@@ -186,34 +178,41 @@ public class Spreadsheet implements Serializable {
     /**
      * Parses a string content as a Content.
      * 
+     * @param content
+     * @param gamma (useful only if the content is a function or a reference)
+     * @param bool  (differentiates between the spreadsheet(true) and the cut buffer(false))
      * @return the string content as a Content object
      */
     public Content parseContent(String content, Gamma gamma, boolean bool) throws InvalidGammaException, ParseFunctionException {
-        if (content == null || content.length() == 0) {
+        if (content == null || content.length() == 0)
             return null;
-        } else if (content.startsWith("=")) {
+        else if (content.startsWith("="))
             return parseContentExpression(content, gamma, bool);
-        } else {
+        else
             return parseContentLiteral(content);
-        }
     }
 
     /**
      * Parses a string content as a Function or Reference.
      * 
+     * @param content
+     * @param gamma
+     * @param bool
      * @return the string content as a Function or Reference object
      */
     public Content parseContentExpression(String content, Gamma gamma, boolean bool) throws InvalidGammaException, ParseFunctionException {
-        if (content.contains("(")) {
+        if (content.contains("("))
             return parseContentFunction(content, gamma, bool);
-        } else {
+        else
             return parseContentReference(content.substring(1), gamma, bool);
-        }
     }
 
     /**
      * Parses a string content as a Function.
-     * 
+     *
+     * @param content
+     * @param gamma
+     * @param bool 
      * @return the string content as a Function object
      */
     public Content parseContentFunction(String content, Gamma gamma, boolean bool) throws InvalidGammaException, ParseFunctionException {
@@ -236,6 +235,15 @@ public class Spreadsheet implements Serializable {
         
     }
 
+    /**
+     * Parses a string content as a BinaryFunction.
+     *
+     * @param functionName
+     * @param content
+     * @param gamma
+     * @param bool 
+     * @return the string content as a binary function object of the given functionName
+     */
     public Content parseBinaryFunction(String functionName, String content, Gamma gamma, boolean bool) throws InvalidGammaException {
         String[] args = content.substring(content.indexOf("(")+1, content.length()-1).split(",");
 
@@ -259,45 +267,28 @@ public class Spreadsheet implements Serializable {
      * Auxiliar method to parse the content of a function argument.
      * 
      * @param content
-     * @return the content parsed as a Content object
-     * @throws InvalidGamaException
+     * @param gamma
+     * @param bool
+     * @return the string content as a Content object
      */
     public Content parseBinaryArgument(String content, Gamma gamma, boolean bool) throws InvalidGammaException {
-        if (content.length() == 0) {
+        if (content.length() == 0)
             return null;
-        } else if (content.contains(";") && !content.startsWith("'")) {
+        else if (content.contains(";") && !content.startsWith("'"))
             return parseContentReference(content, gamma, bool);
-        } else {
+        else
             return parseContentLiteral(content);
-        }
     }
 
     /**
-     * Parses a string content as a Reference.
+     * Parses a string content as an IntervalFunction.
      * 
-     * @return the string content as a Reference object
+     * @param functionName
+     * @param content
+     * @param gamma
+     * @param bool
+     * @return the string content as an interval function object of the given functionName
      */
-    public Content parseContentReference(String content, Gamma gamma, boolean bool) throws InvalidGammaException {
-        Reference reference = new Reference(new Address(content), _cells);
-        if (bool)
-            for (Address address : gamma.getAddresses())
-                reference.getCell().registerObserver(_cells.getCell(address));
-        return reference;
-    }
-
-    /**
-     * Parses a string content as a Literal.
-     * 
-     * @return the string content as a Literal object
-     */
-    public Content parseContentLiteral(String content) {
-        if (content.charAt(0) == '\'') {
-            return new Str(content.substring(1));
-        } else {
-            return new Int(Integer.parseInt(content));
-        }
-    }
-
     public Content parseIntervalFunction(String functionName, String content, Gamma gamma, boolean bool) throws InvalidGammaException {
         content = content.substring(content.indexOf("(")+1, content.length()-1);
         Range range = new Range(content);
@@ -320,6 +311,35 @@ public class Spreadsheet implements Serializable {
         return new Str(content);
     }
 
+    /**
+     * Parses a string content as a Reference.
+     *
+     * @param content
+     * @param gamma
+     * @param bool
+     * @return the string content as a Reference object
+     */
+    public Content parseContentReference(String content, Gamma gamma, boolean bool) throws InvalidGammaException {
+        Reference reference = new Reference(new Address(content), _cells);
+        if (bool)
+            for (Address address : gamma.getAddresses())
+                reference.getCell().registerObserver(_cells.getCell(address));
+        return reference;
+    }
+
+    /**
+     * Parses a string content as a Literal.
+     * 
+     * @param content
+     * @return the string content as a literal object of the correspondent type
+     */
+    public Content parseContentLiteral(String content) {
+        if (content.charAt(0) == '\'')
+            return new Str(content.substring(1));
+        else
+            return new Int(Integer.parseInt(content));
+    }
+
     public void deleteRange(String range) throws InvalidGammaException {
         Gamma gamma = new Gamma(range);
 
@@ -330,7 +350,12 @@ public class Spreadsheet implements Serializable {
         }
     }
 
-    // Show range of cells
+    /**
+     * Accepts a visitor for the cells of the given range.
+     * 
+     * @param visitor
+     * @param range
+     */
     public void acceptCellsRangeVisitor(CellVisitor visitor, String range) throws InvalidGammaException {
         Gamma gamma = new Gamma(range);
 
@@ -346,16 +371,19 @@ public class Spreadsheet implements Serializable {
 
     /* CUT BUFFER */
 
-    // Show cut buffer
+    /**
+     * Accepts a visitor for all the cells of the cut buffer.
+     * 
+     * @param visitor
+     */
     public void acceptCellsVisitor(CellVisitor visitor) {
-        if (_cutBuffer != null) {
+        if (_cutBuffer != null)
             for (Map.Entry<Address, Cell> entry : _cutBuffer.getAllCells().entrySet()) {
                 Address address = entry.getKey();
                 Cell cell = entry.getValue();
                 
                 cell.accept(visitor, address.toString());
             }
-        }
     }
 
     public void copy(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException  {
@@ -506,3 +534,11 @@ public class Spreadsheet implements Serializable {
                 c.setContent(content);
     }
 }
+
+//    /**
+//     * 
+//     * @return the data structure representing the spreadsheet
+//     */
+//    public Collection<String> showCellsRange(String range) throws InvalidGammaException {
+//        return getCells().showRange(range);
+//    }

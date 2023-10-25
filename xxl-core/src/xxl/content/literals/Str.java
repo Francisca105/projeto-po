@@ -40,7 +40,7 @@ public class Str extends Literal {
     }
 
     public String string() {
-        return _value;
+        return toString();
     }
 
     public void accept(CellVisitor visitor) {

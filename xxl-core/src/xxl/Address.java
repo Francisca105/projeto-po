@@ -29,13 +29,13 @@ public class Address implements Serializable {
     /**
      * Constructor.
      * 
-     * @param add
+     * @param address
      */
-    public Address(String add) throws InvalidGammaException {
-        String[] parts = add.split(";");
+    public Address(String address) throws InvalidGammaException {
+        String[] parts = address.split(";");
 
         if(parts.length != 2) 
-            throw new InvalidGammaException(add);
+            throw new InvalidGammaException(address);
 
         try {
             _row = Integer.parseInt(parts[0]);
@@ -47,7 +47,7 @@ public class Address implements Serializable {
 
     /**
      * 
-     * @return the row
+     * @return the address row
      */
     public int getRow() {
         return _row;
@@ -55,7 +55,7 @@ public class Address implements Serializable {
 
     /**
      * 
-     * @return the column
+     * @return the address column
      */
     public int getColumn() {
         return _column;

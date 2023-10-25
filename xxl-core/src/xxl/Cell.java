@@ -5,12 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xxl.content.Content;
-import xxl.content.Reference;
-import xxl.content.functions.Function;
-import xxl.content.literals.Int;
-import xxl.content.literals.Str;
-import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
+import xxl.content.literals.InvalidValue;
 import xxl.visits.CellVisitor;
 
 /**
@@ -27,72 +23,16 @@ public class Cell implements Serializable, Subject, Observer {
     /** List of observers of the cell. */
     private List<Observer> _observers = new ArrayList<Observer>();
 
+    /** Subject of the cell. */
     private Subject _subject;
 
     /**
      * Constructor.
+     * 
      */
     public Cell() {
         _content = null;
         _value = null;
-    }
-
-    /**
-     * Constructor of an copy of the given cell.
-     * 
-     * @param cell
-     */
-    public Cell(Cell cell) {
-        /*// Copy the value
-        _value = copyLiteral(cell._value);
-
-        // Copy the observers
-        _observers = new ArrayList<Observer>(cell.getObservers()); // FIXME: é assim?
-        
-        // Copy the subject
-        _subject = cell._subject; // FIXME : é assim?
-
-        // Copy the content
-        if(cell.getContent() != null) {
-            try {
-                Function content = (Function) cell.getContent();
-                
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-            try {
-                Literal content = (Literal) cell.getContent();
-                _content = copyLiteral(content);
-            } catch (ClassCastException e) {
-                // TODO: handle exception
-            }
-        }*/
-
-        // TODO : temporario
-        _content = cell.getContent();
-        _value = cell.value();
-        _observers = cell.getObservers();
-        _subject = cell._subject;
-
-    }
-
-    public Reference copyReference(Reference r) {
-        return new Reference(r.getAddress(), new Cell(r.getCell()));
-    }
-
-    public Literal copyLiteral(Literal l) {
-        boolean is_int = false;
-        Literal value;
-        try {
-            Int intValue = (Int) l; // FIXME: this is a hack :O
-            is_int = true;
-        } catch(ClassCastException e) { /* */ }
-        if(is_int)
-            value = new Int(((Int) l).getValue());
-        else
-            value = new Str(new String(((Str) l).getValue()));
-
-        return value;
     }
 
     /**
@@ -102,15 +42,7 @@ public class Cell implements Serializable, Subject, Observer {
     public Content getContent() {
         return _content;
     }
-
-    /**
-     * 
-     * @return the observers of the cell
-     */
-    public List<Observer> getObservers() {
-        return _observers;
-    }
-
+    
     /**
      * Sets the cell content.
      * 
@@ -121,7 +53,7 @@ public class Cell implements Serializable, Subject, Observer {
         _value = (content == null) ? null : content.value();
         notifyObservers();
     }
-
+    
     /**
      * 
      * @return the cell value
@@ -131,9 +63,16 @@ public class Cell implements Serializable, Subject, Observer {
             return new InvalidValue();
         return _value;
     }
-
     /**
-     * Notifies all observers of the cell.
+     * 
+     * @return a list containing the cell observers
+     */
+    public List<Observer> getObservers() {
+        return _observers;
+    }
+    
+    /**
+     * Notifies all observers of the cell that the cell has changed.
      * 
      */
     public void notifyObservers() {
@@ -144,7 +83,7 @@ public class Cell implements Serializable, Subject, Observer {
     /**
      * Registers an observer to the cell.
      * 
-     * @param o
+     * @param observer
      */
     public void registerObserver(Observer observer) {
         _observers.add(observer);
@@ -153,16 +92,16 @@ public class Cell implements Serializable, Subject, Observer {
     /**
      * Removes an observer from the cell.
      * 
-     * @param o
+     * @param observer
      */
     public void removeObserver(Observer observer) {
         int i = _observers.indexOf(observer);
         if (i >= 0)
             _observers.remove(i);
     }
-
+    
     /**
-     * Updates the cell value if the content of a cell it depends on has changed.
+     * Updates the cell value if the content of the cell it depends on has changed.
      * 
      */
     public void update() {
@@ -170,12 +109,18 @@ public class Cell implements Serializable, Subject, Observer {
         notifyObservers();
     }
 
+    /**
+     * If this cell depends on another cell, it stops that dependecy.
+     * 
+     */
     public void unsubscribe() {
         if (_subject != null)
             _subject.removeObserver(this);
     }
 
     /**
+     * Accepts a visitor.
+     * 
      * @param visitor
      * @param address
      */
@@ -183,3 +128,61 @@ public class Cell implements Serializable, Subject, Observer {
         visitor.visitCell(this, address);
     }
 }
+
+//    /**
+//     * Constructor of an copy of the given cell.
+//     * 
+//     * @param cell
+//     */
+//    public Cell(Cell cell) {
+//        /*// Copy the value
+//        _value = copyLiteral(cell._value);
+//
+//        // Copy the observers
+//        _observers = new ArrayList<Observer>(cell.getObservers()); // FIXME: é assim?
+//        
+//        // Copy the subject
+//        _subject = cell._subject; // FIXME : é assim?
+//
+//        // Copy the content
+//        if(cell.getContent() != null) {
+//            try {
+//                Function content = (Function) cell.getContent();
+//                
+//            } catch (Exception e) {
+//                // TODO: handle exception
+//            }
+//            try {
+//                Literal content = (Literal) cell.getContent();
+//                _content = copyLiteral(content);
+//            } catch (ClassCastException e) {
+//                // TODO: handle exception
+//            }
+//        }*/
+//
+//        // TODO : temporario
+//        _content = cell.getContent();
+//        _value = cell.value();
+//        _observers = cell.getObservers();
+//        _subject = cell._subject;
+//
+//    }
+//
+//    public Reference copyReference(Reference r) {
+//        return new Reference(r.getAddress(), new Cell(r.getCell()));
+//    }
+//
+//    public Literal copyLiteral(Literal l) {
+//        boolean is_int = false;
+//        Literal value;
+//        try {
+//            Int intValue = (Int) l; // FIXME: this is a hack :O
+//            is_int = true;
+//        } catch(ClassCastException e) { /* */ }
+//        if(is_int)
+//            value = new Int(((Int) l).getValue());
+//        else
+//            value = new Str(new String(((Str) l).getValue()));
+//
+//        return value;
+//    }

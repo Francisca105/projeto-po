@@ -1,6 +1,13 @@
 package xxl;
 
+/** 
+ * Interface representing an observer in an Observer pattern.
+ */
 public interface Observer {
 
-    public void update();
+    /**
+     * Updates the observer.
+     * 
+     */
+    void update();
 }

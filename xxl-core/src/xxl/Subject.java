@@ -1,10 +1,27 @@
 package xxl;
 
+/** 
+ * Interface representing a subject in an Observer pattern.
+ */
 public interface Subject {
 
-    public void registerObserver(Observer o);
+    /**
+     * Registers an observer.
+     * 
+     * @param observer
+     */
+    void registerObserver(Observer observer);
 
-    public void removeObserver(Observer o);
+    /**
+     * Removes an observer.
+     * 
+     * @param observer
+     */
+    void removeObserver(Observer observer);
 
-    public void notifyObservers();
+    /**
+     * Notifies all observers that their subject has changed.
+     * 
+     */
+    void notifyObservers();
 }

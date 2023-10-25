@@ -1,6 +1,5 @@
 package xxl;
 
-import xxl.content.functions.binary.Add;
 import xxl.datastructure.DataStructure;
 import xxl.exceptions.InvalidGammaException;
 
@@ -9,7 +8,7 @@ import xxl.exceptions.InvalidGammaException;
  */
 public class Gamma {
 
-    /** This gamma is a range. */
+    /** This gamma is a range (multiple addresses). */
     private Range _range;
 
     /** This gamma is an address. */
@@ -22,15 +21,13 @@ public class Gamma {
      * @throws InvalidGamaException
      */
     public Gamma (String range) throws InvalidGammaException {
-        if(range.contains(":")) {
+        if(range.contains(":"))
             _range = new Range(range);
-        } else {
+        else
             _address = new Address(range);
-        }
     }
 
     /**
-     * This gamma is a solo address.
      *
      * @return the address
      */
@@ -39,7 +36,6 @@ public class Gamma {
     }
 
     /**
-     * This gamma is a range of addresses.
      *
      * @return the range of addresses
      */
@@ -58,6 +54,12 @@ public class Gamma {
             return new Address[] {_address};
     }
 
+    /**
+     * Checks whether if the gamma is a row or a column.
+     * For convention purposes, a gamma with only a cell is not considered a column.
+     * 
+     * @return true if this gamma is a column
+     */
     public boolean isColumn() {
         Address[] addresses = getAddresses();
         if (addresses.length > 1)
@@ -66,12 +68,19 @@ public class Gamma {
             return false;
     }
 
+    /**
+     * Checks whether if the gamma is valid for the given data structure.
+     * 
+     * @param dataStructure
+     * @return true if this gamma is valid
+     */
     public boolean isValid(DataStructure dataStructure) {
         Address[] addresses = getAddresses();
         int rows = dataStructure.getRows();
         int columns = dataStructure.getColumns();
         int length = addresses.length;
-        if (addresses[0].getRow() > rows || addresses[0].getColumn() > columns || addresses[length-1].getRow() > rows || addresses[length-1].getColumn() > columns)
+        if (addresses[0].getRow() > rows || addresses[0].getColumn() > columns || addresses[length - 1].getRow() > rows
+                || addresses[length - 1].getColumn() > columns)
             return false;
         return true;
     }

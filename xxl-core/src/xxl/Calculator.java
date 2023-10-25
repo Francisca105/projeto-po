@@ -63,17 +63,17 @@ public class Calculator {
 
     /**
      * 
-     * @return the spreadsheet
+     * @return the current spreadsheet
      */
     public Spreadsheet getSpreadsheet() {
         return _spreadsheet;
     }
 
     /**
-     * Returns a boolean indicating if the spreadsheet was updated or not.
+     * Returns whether the spreadsheet has changed or not.
      * 
      * @param spreadsheet
-     * @return true if the spreadsheet was updated or not
+     * @return true if the spreadsheet has changed, false otherwise
      */
     public boolean getToSave() {
         if(_spreadsheet == null)
@@ -143,7 +143,7 @@ public class Calculator {
     }
 
     /**
-     * Read text input file and create domain entities..
+     * Read text input file and create domain entities.
      *
      * @param filename name of the text input file
      * @throws ImportFileException
@@ -175,11 +175,9 @@ public class Calculator {
                     _spreadsheet.insertContents(toInsert[0], toInsert.length > 1 ? toInsert[1] : null, true);
                     line = reader.readLine();
                 }                
-            } catch (IOException e) {
-                throw new IOException();
             }
         } catch (IOException | UnrecognizedEntryException | InvalidDimensionException | ParseFunctionException | InvalidGammaException e) {
-            throw new ImportFileException(filename, e);
+            throw new ImportFileException(filename, e); //TODO: excepções
         }
     }
 }

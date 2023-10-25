@@ -30,11 +30,19 @@ class DoSave extends Command<Calculator> {
         }
     }
 
+    /**
+     * Saves the current spreadsheet to a new file.
+     * 
+     * @throws IOException
+     */
     private void saveAs() throws IOException {
         try {
-            _receiver.saveAs(Form.requestString(Prompt.newSaveAs()));
+            String filename = Form.requestString(Prompt.newSaveAs());
+            while (filename.isEmpty())  // empty filename
+                filename = Form.requestString(Prompt.newSaveAs());
+            _receiver.saveAs(filename);
         } catch (MissingFileAssociationException e) {
-            // fail silently
+            e.printStackTrace();
         }
     }
 
