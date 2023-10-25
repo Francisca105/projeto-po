@@ -25,9 +25,7 @@ public class Prod extends NoSpacesFunction {
         setName("PRODUCT");
     }
 
-    /**
-     * @see xxl.content.functions.Function#value()
-     */
+    @Override
     public Literal value() {
         try {
             int prod = 1;
@@ -43,12 +41,13 @@ public class Prod extends NoSpacesFunction {
         }
     }
 
-    public void accept(CellVisitor visitor) {
-        visitor.visitProdFunction(this);
-    }
-
     @Override
     public String toString() {
         return "PRODUCT(" + getRange() + ")";
+    }
+
+    @Override
+    public void accept(CellVisitor visitor) {
+        visitor.visitProdFunction(this);
     }
 }

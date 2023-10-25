@@ -24,9 +24,7 @@ public class Coal extends SpacesFunction {
         setName("COALESCE");
     }
 
-    /**
-     * @see xxl.content.Content#value()
-     */
+    @Override
     public Literal value() {
         Cell[] cells = getCells();
         for (Cell cell : cells) {
@@ -39,12 +37,13 @@ public class Coal extends SpacesFunction {
         return new Str("");
     };
 
-    public void accept(CellVisitor visitor) {
-        visitor.visitCoalFunction(this);
-    }
-
     @Override
     public String toString() {
         return "COALESCE" + super.toString();
+    }
+
+    @Override
+    public void accept(CellVisitor visitor) {
+        visitor.visitCoalFunction(this);
     }
 }

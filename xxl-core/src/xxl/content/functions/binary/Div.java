@@ -6,6 +6,9 @@ import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
 import xxl.visits.CellVisitor;
 
+/**
+ * Class representing a division function.
+ */
 public class Div extends BinaryFunction {
 
     /**
@@ -19,26 +22,24 @@ public class Div extends BinaryFunction {
         setName("DIV");
     }
 
- /**
-     * @see xxl.content.functions.Function#value()
-     */
+    @Override
     public Literal value() {
         try {
             if (hasValidArguments())
                 return new Int(parseIntValue(getFirstArg()) / parseIntValue(getSecondArg()));
-        }
-        catch (ClassCastException | ArithmeticException e) {
+        } catch (ClassCastException | ArithmeticException e) {
             return new InvalidValue();
         }
         return new InvalidValue();
     }
-
-    public void accept(CellVisitor visitor) {
-        visitor.visitDivFunction(this);
-    }
-
+    
     @Override
     public String toString() {
         return "DIV" + super.toString();
+    }
+
+    @Override
+    public void accept(CellVisitor visitor) {
+        visitor.visitDivFunction(this);
     }
 }

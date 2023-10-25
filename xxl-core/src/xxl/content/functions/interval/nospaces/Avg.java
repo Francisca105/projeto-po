@@ -25,9 +25,7 @@ public class Avg extends NoSpacesFunction {
         setName("AVERAGE");
     }
 
-    /**
-     * @see xxl.content.functions.Function#value()
-     */
+    @Override
     public Literal value() {
         try {
             int sum = 0;
@@ -45,12 +43,13 @@ public class Avg extends NoSpacesFunction {
         }
     };
 
-    public void accept(CellVisitor visitor) {
-        visitor.visitAvgFunction(this);
-    }
-
     @Override
     public String toString() {
         return "AVERAGE" + super.toString();
+    }
+
+    @Override
+    public void accept(CellVisitor visitor) {
+        visitor.visitAvgFunction(this);
     }
 }

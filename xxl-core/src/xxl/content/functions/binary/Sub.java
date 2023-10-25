@@ -6,6 +6,9 @@ import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
 import xxl.visits.CellVisitor;
 
+/**
+ * Class representing a subtraction function.
+ */
 public class Sub extends BinaryFunction {
     
     /**
@@ -19,26 +22,24 @@ public class Sub extends BinaryFunction {
         setName("SUB");
     }
 
- /**
-     * @see xxl.content.functions.Function#value()
-     */
+    @Override
     public Literal value() {
         try {
             if (hasValidArguments())
                 return new Int(parseIntValue(getFirstArg()) - parseIntValue(getSecondArg()));
-        }
-        catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             return new InvalidValue();
         }
         return new InvalidValue();
     }
 
-    public void accept(CellVisitor visitor) {
-        visitor.visitSubFunction(this);
-    }
-
     @Override
     public String toString() {
         return "SUB" + super.toString();
+    }
+
+    @Override
+    public void accept(CellVisitor visitor) {
+        visitor.visitSubFunction(this);
     }
 }

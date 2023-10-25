@@ -7,9 +7,7 @@ import xxl.visits.CellVisitor;
  */
 public class InvalidValue extends Literal {
     
-    /**
-     * @see xxl.content.Content#value()
-     */
+    @Override
     public Literal value() {
         return this;
     }
@@ -19,6 +17,7 @@ public class InvalidValue extends Literal {
         return "#VALUE";
     }
 
+    @Override
     public void accept(CellVisitor visitor) {
         // do nothing
     }

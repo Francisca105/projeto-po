@@ -3,8 +3,9 @@ package xxl.app.edit;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 
-import xxl.Spreadsheet;
 import xxl.app.visitors.RenderCell;
+
+import xxl.Spreadsheet;
 import xxl.exceptions.InvalidGammaException;
 
 /**

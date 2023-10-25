@@ -3,9 +3,9 @@ package xxl.datastructure;
 import java.io.Serializable;
 import java.util.Map;
 
-import xxl.Range;
-import xxl.Address;
 import xxl.Cell;
+import xxl.Address;
+import xxl.Range;
 import xxl.exceptions.InvalidGammaException;
 
 /**
@@ -57,12 +57,19 @@ public abstract class DataStructure implements Serializable {
      * 
      * @param address
      * @return the cell at the given address
-     * @throws InvalidGamaException
      */
     public abstract Cell getCell(Address address) throws InvalidGammaException;
 
-    public abstract Map<Address, Cell> getAllCells();
-
+    /**
+     * 
+     * @param range
+     * @return an array of the cells in the given range
+     */
     public abstract Cell[] getCells(Range range) throws InvalidGammaException;
 
+    /**
+     * 
+     * @return a map containing all the cells and their addresses as keys
+     */
+    public abstract Map<Address, Cell> getAllCells();
 }

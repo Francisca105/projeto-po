@@ -26,9 +26,6 @@ public class Str extends Literal {
         return _value;
     }
 
-    /**
-     * @see xxl.content.Content#value()
-     */
     @Override
     public Literal value() {
         return this;
@@ -39,6 +36,7 @@ public class Str extends Literal {
         return "'" + _value;
     }
 
+    @Override
     public void accept(CellVisitor visitor) {
         visitor.visitStr(this);
     }

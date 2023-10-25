@@ -24,9 +24,7 @@ public class Conc extends SpacesFunction {
         setName("CONCAT");
     }
 
-    /**
-     * @see xxl.content.Content#value()
-     */
+    @Override
     public Literal value() {
         String result = "";
         Cell[] cells = getCells();
@@ -40,12 +38,13 @@ public class Conc extends SpacesFunction {
         return new Str(result);
     }
 
-    public void accept(CellVisitor visitor) {
-        visitor.visitConcFunction(this);
-    }
-
     @Override
     public String toString() {
         return "CONCAT" + super.toString();
+    }
+
+    @Override
+    public void accept(CellVisitor visitor) {
+        visitor.visitConcFunction(this);
     }
 }

@@ -19,7 +19,7 @@ class DoDelete extends Command<Spreadsheet> {
     @Override
     protected final void execute() throws CommandException {
         try {
-            _receiver.deleteRange(stringField("range"));
+            _receiver.deleteGamma(stringField("range"));
         } catch (InvalidGammaException e) {
             throw new InvalidCellRangeException(stringField("range"));
         }

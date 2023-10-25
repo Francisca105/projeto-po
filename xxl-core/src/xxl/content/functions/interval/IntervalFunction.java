@@ -15,7 +15,7 @@ public abstract class IntervalFunction extends Function {
     /** The range of the function */
     private Range _range;
 
-    /** The cells of the function */
+    /** The array of cells of the function */
     private Cell[] _cells;
 
     /**
@@ -38,7 +38,7 @@ public abstract class IntervalFunction extends Function {
 
     /**
      * 
-     * @return the cells
+     * @return the array of cells
      */
     public Cell[] getCells() {
         return _cells;

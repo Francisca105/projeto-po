@@ -12,8 +12,10 @@ import xxl.visits.CellVisitor;
  */
 public class Reference extends Content {
 
+    /** Cell that is pointing to. */
     private Cell _cell;
     
+    /** Address of the referenced cell. */
     private Address _ref;
 
     /**
@@ -53,9 +55,6 @@ public class Reference extends Content {
         return _cell;
     }
 
-    /**
-     * @see xxl.content.Content#value()
-     */
     @Override
     public Literal value() {
         if(_cell.getContent() == null)
@@ -68,6 +67,7 @@ public class Reference extends Content {
         return _ref.toString();
     }
 
+    @Override
     public void accept(CellVisitor visitor) {
         visitor.visitReference(this);
     }

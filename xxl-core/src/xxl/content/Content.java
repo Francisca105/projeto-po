@@ -17,9 +17,9 @@ public abstract class Content implements Serializable {
     public abstract Literal value();
 
     /**
+     * Accepts a visitor.
      * 
-     * @return the String representation of the content
+     * @param visitor
      */
-
     public abstract void accept(CellVisitor visitor);
 }

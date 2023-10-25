@@ -27,8 +27,8 @@ import xxl.exceptions.InvalidDimensionException;
 import xxl.exceptions.InvalidGammaException;
 import xxl.exceptions.ParseFunctionException;
 import xxl.exceptions.UnrecognizedEntryException;
-import xxl.visitors.RenderContent;
 import xxl.visits.CellVisitor;
+import xxl.visitors.RenderContent;
 
 /**
  * Class representing a spreadsheet.
@@ -221,18 +221,15 @@ public class Spreadsheet implements Serializable {
         String[] binaryFunctions = {"ADD", "DIV", "MUL", "SUB"};
         String[] intervalFunctions = {"AVERAGE", "PRODUCT", "CONCAT", "COALESCE"};
 
-        for (String string : intervalFunctions) {
+        for (String string : intervalFunctions)
             if(functionName.equals(string))
                 return parseIntervalFunction(functionName, content, gamma, bool);
-        }
 
-        for (String string : binaryFunctions) {
+        for (String string : binaryFunctions)
             if(functionName.equals(string))
                 return parseBinaryFunction(functionName, content, gamma, bool);
-        }
-        
-        throw new ParseFunctionException(functionName);
-        
+
+        throw new ParseFunctionException(functionName);     
     }
 
     /**
@@ -307,7 +304,6 @@ public class Spreadsheet implements Serializable {
             case "COALESCE":
                 return new Coal(range, _cells);
         }
-
         return new Str(content);
     }
 
@@ -340,10 +336,15 @@ public class Spreadsheet implements Serializable {
             return new Int(Integer.parseInt(content));
     }
 
-    public void deleteRange(String range) throws InvalidGammaException {
-        Gamma gamma = new Gamma(range);
+    /**
+     * Deletes the content of the cells in the given gamma.
+     * 
+     * @param gamma
+     */
+    public void deleteGamma(String gamma) throws InvalidGammaException {
+        Gamma _gamma = new Gamma(gamma);
 
-        for (Address address : gamma.getAddresses()) {
+        for (Address address : _gamma.getAddresses()) {
             Cell cell = _cells.getCell(address);
             cell.unsubscribe();
             cell.setContent(null);
@@ -386,7 +387,12 @@ public class Spreadsheet implements Serializable {
             }
     }
 
-    public void copy(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException  {
+    /**
+     * Copies the cells in the given gamma to the cut buffer.
+     * 
+     * @param range
+     */
+    public void copy(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException {
         Gamma gamma = new Gamma(range);
         if (!gamma.isValid(_cells))
             throw new InvalidGammaException(range);
@@ -394,7 +400,6 @@ public class Spreadsheet implements Serializable {
 
         int i = 1;
         int j = 1;
-
         RenderContent content = new RenderContent();
 
         for (Address address : gamma.getAddresses()) {
@@ -417,11 +422,21 @@ public class Spreadsheet implements Serializable {
         _cutBuffer.setColumns(j);
     }
 
-    public void cut(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException {
-        copy(range);
-        deleteRange(range);
+    /**
+     * Copies the cells in the given gamma to the cut buffer and deletes their content from the spreadsheet.
+     * 
+     * @param gamma
+     */
+    public void cut(String gamma) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException {
+        copy(gamma);
+        deleteGamma(gamma);
     }
     
+    /**
+     * Pastes the content of the cut buffer in the given range.
+     * 
+     * @param range
+     */
     public void paste(String range) throws InvalidGammaException, UnrecognizedEntryException, ParseFunctionException {
         if(_cutBuffer == null || _cutBuffer.getAllCells().size() == 0)
             return;
@@ -456,12 +471,10 @@ public class Spreadsheet implements Serializable {
                         last = new Address(first.getRow(), _cells.getColumns());
                 }
                 try {
-                    gamma = new Gamma(first.toString() + ":" + last.toString());
-                    
+                    gamma = new Gamma(first.toString() + ":" + last.toString());                    
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 addresses = gamma.getAddresses();
             }
 
@@ -476,14 +489,12 @@ public class Spreadsheet implements Serializable {
                 } catch (NullPointerException e) {
                     insertContents(address.toString(), "", true);
                 }
-
                 if(_cutBuffer.getColumns() != 1)
                     j++;
                 else
                     i++;
             }
-        } 
-        
+        }     
     }
 
     /**
@@ -492,12 +503,11 @@ public class Spreadsheet implements Serializable {
      * @param range
      * @param content
      */
-    public void setContentCell(Gamma gamma, Content content, boolean bool) throws InvalidGammaException{
-        if (gamma.getAddress() != null) {
+    public void setContentCell(Gamma gamma, Content content, boolean bool) throws InvalidGammaException {
+        if (gamma.getAddress() != null)
             setContentCell(gamma.getAddress(), content, bool);
-        } else {
+         else
             setContentCell(gamma.getRange(), content, bool);
-        }
     }
 
     /**
@@ -523,7 +533,7 @@ public class Spreadsheet implements Serializable {
      * @param range
      * @param content
      */
-    public void setContentCell(Range range, Content content, boolean bool) throws InvalidGammaException{
+    public void setContentCell(Range range, Content content, boolean bool) throws InvalidGammaException {
         if (bool)
             for (Cell c : _cells.getCells(range)) {
                 c.unsubscribe();

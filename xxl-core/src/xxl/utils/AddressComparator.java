@@ -29,8 +29,8 @@ public class AddressComparator implements Comparator<Address>, Serializable {
      * @param a first address
      * @param b second address
      */
-    public int compareRow(Address a, Address o) {
-        return Integer.compare(a.getRow(), o.getRow());
+    public int compareRow(Address a, Address b) {
+        return Integer.compare(a.getRow(), b.getRow());
     }
 
     /**
@@ -39,7 +39,7 @@ public class AddressComparator implements Comparator<Address>, Serializable {
      * @param a first address
      * @param b second address
      */
-    public int compareColumn(Address a, Address o) {
-        return Integer.compare(a.getColumn(), o.getColumn());
+    public int compareColumn(Address a, Address b) {
+        return Integer.compare(a.getColumn(), b.getColumn());
     }
 }

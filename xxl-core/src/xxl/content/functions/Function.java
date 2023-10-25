@@ -8,27 +8,21 @@ import xxl.content.literals.Literal;
  */
 public abstract class Function extends Content {
 
-    /** First argument */
-    private Content _arg1;
-
-    /** Secound argument */
-    private Content _arg2;
-
     /** The name of the function */
     private String _name;
 
     /**
-     * Defines the name of the function
+     * Sets the name of the function
      * 
-     * @return
+     * @param name
      */
     public void setName(String name) {
         _name = name;
     }
 
     /**
-     * Gets the name of the function
-     * @return string
+     *
+     * @return the name of the function
      */
     public String getName() {
         return _name;

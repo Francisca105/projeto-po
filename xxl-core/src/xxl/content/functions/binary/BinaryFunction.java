@@ -5,7 +5,6 @@ import xxl.content.Content;
 import xxl.content.functions.Function;
 import xxl.content.literals.Int;
 import xxl.content.literals.Literal;
-import xxl.visits.CellVisitor;
 
 public abstract class BinaryFunction extends Function {
 
@@ -43,10 +42,9 @@ public abstract class BinaryFunction extends Function {
     }
 
     /**
-     * Checks if the argument is valid.
      * 
      * @param arg
-     * @return true if the argument is valid
+     * @return true if the argument is valid, false otherwise
      */
     public boolean checkArgument(Content arg) {
         if (arg.value() == null)
@@ -57,7 +55,7 @@ public abstract class BinaryFunction extends Function {
     /**
      * Checks if the arguments are valid
      * 
-     * @return true if the arguments are valid
+     * @return true if both arguments are valid, false otherwise
      */
     public boolean hasValidArguments() {
         return (checkArgument(getSecondArg())) && checkArgument(getFirstArg());
@@ -65,7 +63,6 @@ public abstract class BinaryFunction extends Function {
 
     /**
      * Converts the value of the argument to an integer
-     * This is only going to be used for the arguments of the function with Integer values
      * 
      * @param arg
      * @return the value of the argument as an integer
@@ -74,9 +71,10 @@ public abstract class BinaryFunction extends Function {
         return ((Int)arg.value()).getValue();    
     }
 
+    /**
+     * @see xxl.content.functions.Function#value()
+     */
     public abstract Literal value();
-
-    public abstract void accept(CellVisitor visitor);
 
     @Override
     public String toString() {

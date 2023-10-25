@@ -26,9 +26,6 @@ public class Int extends Literal {
         return _value;
     }
     
-    /**
-     * @see xxl.content.Content#value()
-     */
     @Override
     public Literal value() {
         return this;
@@ -39,6 +36,7 @@ public class Int extends Literal {
         return Integer.toString(_value);
     }
 
+    @Override
     public void accept(CellVisitor visitor) {
         visitor.visitInt(this);
     }

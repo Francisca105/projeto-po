@@ -6,6 +6,9 @@ import xxl.content.literals.InvalidValue;
 import xxl.content.literals.Literal;
 import xxl.visits.CellVisitor;
 
+/**
+ * Class representing a multiplication function.
+ */
 public class Mul extends BinaryFunction {
 
     /**
@@ -19,27 +22,24 @@ public class Mul extends BinaryFunction {
         setName("MUL");
     }
 
-    /**
-     * @see xxl.content.functions.Function#value()
-     */
+    @Override
     public Literal value() {
         try {
             if (hasValidArguments())
                 return new Int(parseIntValue(getFirstArg()) * parseIntValue(getSecondArg()));
-        }
-        catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             return new InvalidValue();
         }
         return new InvalidValue();
     }
 
-
-    public void accept(CellVisitor visitor) {
-        visitor.visitMulFunction(this);
-    }
-
     @Override
     public String toString() {
         return "MUL" + super.toString();
+    }
+
+    @Override
+    public void accept(CellVisitor visitor) {
+        visitor.visitMulFunction(this);
     }
 }

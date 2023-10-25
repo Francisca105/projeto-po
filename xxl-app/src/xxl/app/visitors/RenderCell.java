@@ -5,11 +5,9 @@ import java.util.Collection;
 
 import xxl.Cell;
 import xxl.content.functions.binary.Add;
-import xxl.content.functions.binary.BinaryFunction;
 import xxl.content.functions.binary.Div;
 import xxl.content.functions.binary.Mul;
 import xxl.content.functions.binary.Sub;
-import xxl.content.functions.interval.IntervalFunction;
 import xxl.content.functions.interval.nospaces.Avg;
 import xxl.content.functions.interval.nospaces.Prod;
 import xxl.content.functions.interval.spaces.Coal;
@@ -19,16 +17,31 @@ import xxl.content.literals.Str;
 import xxl.content.Reference;
 import xxl.visits.CellVisitor;
 
+/*
+ * This class is used to render multiple cells to be shown to the user.
+ */
 public class RenderCell extends CellVisitor {
 
+    /* The rendering of a cell. */
     private String _render = "";
 
+    /* The rendering of cells. (can be only one) */
     private Collection<String> _rendering = new ArrayList<String>();
 
+    /**
+     * 
+     * @return the rendering of cells (can be only one)
+     */
     public Collection<String> getRendering() {
         return _rendering;
     }
 
+    /**
+     * Renders a cell.
+     *
+     * @param cell
+     * @param address
+     */
     public void visitCell(Cell cell, String address) {
         _render += address + "|";
         if (cell.getContent() != null) {
@@ -51,10 +64,6 @@ public class RenderCell extends CellVisitor {
         _render += "=" + reference.toString();
     }
 
-    public void visitBinaryFunction(BinaryFunction binaryFunction) {
-        _render += "=" + binaryFunction.toString();
-    }
-
     public void visitAddFunction(Add addFunction) {
         _render += "=" + addFunction.toString();
     }
@@ -69,10 +78,6 @@ public class RenderCell extends CellVisitor {
 
     public void visitDivFunction(Div divFunction) {
         _render += "=" + divFunction.toString();
-    }
-
-    public void visitIntervalFunction(IntervalFunction intervalFunction) {
-
     }
 
     public void visitConcFunction(Conc concFunction) {

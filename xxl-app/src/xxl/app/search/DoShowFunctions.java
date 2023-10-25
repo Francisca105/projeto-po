@@ -2,8 +2,9 @@ package xxl.app.search;
 
 import pt.tecnico.uilib.menus.Command;
 
-import xxl.Spreadsheet;
 import xxl.app.visitors.RenderCell;
+
+import xxl.Spreadsheet;
 
 /**
  * Command for searching function names.
