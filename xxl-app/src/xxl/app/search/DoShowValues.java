@@ -2,7 +2,6 @@ package xxl.app.search;
 
 import pt.tecnico.uilib.menus.Command;
 
-import xxl.app.visitors.RenderCell;
 import xxl.app.visitors.RenderValues;
 
 import xxl.Spreadsheet;

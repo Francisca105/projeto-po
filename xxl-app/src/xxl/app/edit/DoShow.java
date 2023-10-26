@@ -22,7 +22,7 @@ class DoShow extends Command<Spreadsheet> {
     protected final void execute() throws CommandException {
         try {
             RenderCell renderer = new RenderCell();
-            _receiver.acceptCellsRangeVisitor(renderer, stringField("range"));
+            _receiver.showRange(renderer, stringField("range"));
 
             if (renderer.getRendering().size() != 0)
                 _display.popup(renderer.getRendering());

@@ -319,12 +319,12 @@ public class Spreadsheet implements Serializable {
     }
 
     /**
-     * Accepts a visitor for the cells of the given range.
+     * Accepts a visitor for the cells of the given range in order to render them.
      * 
      * @param visitor
      * @param range
      */
-    public void acceptCellsRangeVisitor(CellVisitor visitor, String range) throws InvalidGammaException {
+    public void showRange(CellVisitor visitor, String range) throws InvalidGammaException {
         Gamma gamma = new Gamma(range);
 
         for (Address address : gamma.getAddresses()) {
@@ -340,16 +340,15 @@ public class Spreadsheet implements Serializable {
     /* CUT BUFFER */
 
     /**
-     * Accepts a visitor for all the cells of the cut buffer.
+     * Accepts a visitor for all the cells of the cut buffer in order to render them.
      * 
      * @param visitor
      */
-    public void acceptCellsVisitor(CellVisitor visitor) {
+    public void showCutBuffer(CellVisitor visitor) {
         if (_cutBuffer != null)
             for (Map.Entry<Address, Cell> entry : _cutBuffer.getAllCells().entrySet()) {
                 Address address = entry.getKey();
-                Cell cell = entry.getValue();
-                
+                Cell cell = entry.getValue();                
                 cell.accept(visitor, address.toString());
             }
     }
@@ -410,62 +409,58 @@ public class Spreadsheet implements Serializable {
         Map<Address, Cell> allCells = _cutBuffer.getAllCells();
         
         Gamma gamma = new Gamma(range);
+        if (!gamma.isValid(_cells))
+            throw new InvalidGammaException(range);
         Address[] addresses = gamma.getAddresses();
 
         RenderContent content = new RenderContent();
 
-        if(allCells.size() > 1 && addresses.length > 1 && allCells.size() != addresses.length)
-            return;
-        
-        if(allCells.size() == 1) {
-            for (Address address : addresses) {
-                Cell cell = _cutBuffer.getCell(new Address(1, 1));
-                try {
-                    cell.accept(content, "");
-                    insertContents(address.toString(), content.getRender(), true);
-                } catch (NullPointerException e) {
-                    insertContents(address.toString(), "", true);
-                }
-            }
+        if(addresses.length > 1 && allCells.size() != addresses.length)
+            throw new InvalidGammaException(range);
+
+        if (addresses.length == 1) {
+            Address first = addresses[0];
+            Address last;
+            if(_cutBuffer.getColumns() == 1)
+                last = new Address(_cells.getRows(), first.getColumn());
+            else
+                last = new Address(first.getRow(), _cells.getColumns());
+            
+            gamma = new Gamma(first.toString() + ":" + last.toString()); 
+            addresses = gamma.getAddresses();
         } else {
-            if (addresses.length == 1) {
-                Address first = addresses[0];
-                Address last;
-                if(_cutBuffer.getColumns() == 1) {
-                    last = new Address(_cells.getRows(), first.getColumn());
-                } else {
-                    last = new Address(first.getRow(), _cells.getColumns());
-                }
-                
-                gamma = new Gamma(first.toString() + ":" + last.toString()); 
-                addresses = gamma.getAddresses();
+            Address first = addresses[0];
+            Address second = addresses[1];
+            if(first.getRow() == second.getRow() && _cutBuffer.getRows() != 1)
+                throw new InvalidGammaException(range);
+            else if (first.getColumn() == second.getColumn() && _cutBuffer.getColumns() != 1)
+                throw new InvalidGammaException(range);
+        }
+
+        int i = 1;
+        int j = 1;
+
+        for (Address address : addresses) {
+            Cell cell = _cutBuffer.getCell(new Address(i, j));
+            try {
+                cell.accept(content, "");
+                insertContents(address.toString(), content.getRender(), true);
+            } catch (NullPointerException e) {
+                insertContents(address.toString(), "", true);
             }
 
-            int i = 1;
-            int j = 1;
-
-            for (Address address : addresses) {
-                Cell cell = _cutBuffer.getCell(new Address(i, j));
-                try {
-                    cell.accept(content, "range");
-                    insertContents(address.toString(), content.getRender(), true);
-                } catch (NullPointerException e) {
-                    insertContents(address.toString(), "", true);
-                }
-
-                if(_cutBuffer.getColumns() != 1) {
-                    if(j == _cutBuffer.getColumns()-1) {
-                        j = 1;
-                    } else
-                        j++;
-                } else {
-                    if(i == _cutBuffer.getRows()-1) {
-                        i = 1;
-                    } else
-                        i++;
-                }
+            if(_cutBuffer.getColumns() != 1) {
+                if(j == _cutBuffer.getColumns()-1)
+                    j = 1;
+                else
+                    j++;
+            } else {
+                if(i == _cutBuffer.getRows()-1)
+                    i = 1;
+                else
+                    i++;
             }
-        }     
+        }
     }
 
     /**
@@ -473,6 +468,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @param range
      * @param content
+     * @param bool
      */
     public void setContentCell(Gamma gamma, Content content, boolean bool) throws InvalidGammaException {
         if (gamma.getAddress() != null)
@@ -486,6 +482,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @param address
      * @param content
+     * @param bool
      */
     public void setContentCell(Address address, Content content, boolean bool) throws InvalidGammaException{
         Cell cell;
@@ -503,6 +500,7 @@ public class Spreadsheet implements Serializable {
      * 
      * @param range
      * @param content
+     * @param bool
      */
     public void setContentCell(Range range, Content content, boolean bool) throws InvalidGammaException {
         if (bool)

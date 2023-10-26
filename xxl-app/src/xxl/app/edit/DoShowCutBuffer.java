@@ -18,7 +18,7 @@ class DoShowCutBuffer extends Command<Spreadsheet> {
     @Override
     protected final void execute() {
         RenderCell renderer = new RenderCell();
-        _receiver.acceptCellsVisitor(renderer);
+        _receiver.showCutBuffer(renderer);
         if (renderer.getRendering().size() != 0)
             _display.popup(renderer.getRendering());
     }

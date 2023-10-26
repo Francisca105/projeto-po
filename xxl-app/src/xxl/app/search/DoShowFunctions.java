@@ -1,12 +1,8 @@
 package xxl.app.search;
 
-import pt.tecnico.uilib.forms.Form;
-
 import pt.tecnico.uilib.menus.Command;
 
-import xxl.app.visitors.RenderCell;
 import xxl.app.visitors.RenderFunction;
-import xxl.utils.FunctionComparator;
 import xxl.Spreadsheet;
 
 /**

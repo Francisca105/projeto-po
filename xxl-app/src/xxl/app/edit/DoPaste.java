@@ -23,7 +23,6 @@ class DoPaste extends Command<Spreadsheet> {
         try {
             _receiver.paste(stringField("cell"));
         } catch (InvalidGammaException | UnrecognizedEntryException | ParseFunctionException e) {
-            e.printStackTrace();
             throw new InvalidCellRangeException(stringField("cell"));
         }
     }

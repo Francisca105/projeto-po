@@ -7,7 +7,8 @@ import xxl.Address;
 import xxl.exceptions.InvalidGammaException;
 
 /**
- * Class representing an function comparator.
+ * Class representing a string comparator that first compares the name of the function.
+ * If the function names are equal, then the addresses are compared.
  */
 public class FunctionComparator implements Comparator<String>, Serializable {
 
@@ -17,6 +18,7 @@ public class FunctionComparator implements Comparator<String>, Serializable {
      * 
      * @param a first address
      * @param b second address
+     * @returns an integer indicating the relational order of the two addresses
      */
     public int compare(String a, String b) {
         String fNameA = getFunctionName(a);
