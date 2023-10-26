@@ -437,11 +437,7 @@ public class Spreadsheet implements Serializable {
                     if (last.getColumn() > _cells.getColumns())
                         last = new Address(first.getRow(), _cells.getColumns());
                 }
-                try {
-                    gamma = new Gamma(first.toString() + ":" + last.toString());                    
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                gamma = new Gamma(first.toString() + ":" + last.toString());                    
                 addresses = gamma.getAddresses();
             }
 

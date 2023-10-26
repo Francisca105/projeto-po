@@ -58,7 +58,7 @@ public abstract class BinaryFunction extends Function {
      * @return true if both arguments are valid, false otherwise
      */
     public boolean hasValidArguments() {
-        return (checkArgument(getSecondArg())) && checkArgument(getFirstArg());
+        return (checkArgument(getSecondArg()) && checkArgument(getFirstArg()));
     }
 
     /**

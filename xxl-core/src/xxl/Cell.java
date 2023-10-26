@@ -105,7 +105,11 @@ public class Cell implements Serializable, Subject, Observer {
      * 
      */
     public void update() {
-        _value = _content.value();
+        try {
+            _value = (_content.value() != null) ? _content.value() : null;
+        } catch (NullPointerException e) {
+            _value = null;
+        }
         notifyObservers();
     }
 
