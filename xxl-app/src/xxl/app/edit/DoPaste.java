@@ -7,7 +7,6 @@ import xxl.exceptions.InvalidGammaException;
 import xxl.exceptions.ParseFunctionException;
 import xxl.exceptions.UnrecognizedEntryException;
 import xxl.Spreadsheet;
-// FIXME import classes
 
 /**
  * Paste command.

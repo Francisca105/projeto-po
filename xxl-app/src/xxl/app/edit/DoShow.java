@@ -23,9 +23,11 @@ class DoShow extends Command<Spreadsheet> {
         try {
             RenderCell renderer = new RenderCell();
             _receiver.acceptCellsRangeVisitor(renderer, stringField("range"));
+
             if (renderer.getRendering().size() != 0)
                 _display.popup(renderer.getRendering());
-        } catch (InvalidGammaException e) {
+                
+        } catch (InvalidGammaException | NullPointerException e) {
             throw new InvalidCellRangeException(stringField("range"));
         }
     }

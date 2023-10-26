@@ -2,14 +2,10 @@ package xxl;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.function.Predicate;
 
 import xxl.content.Content;
-import xxl.content.functions.Function;
 import xxl.content.functions.binary.Add;
 import xxl.content.functions.binary.Div;
 import xxl.content.functions.binary.Mul;
@@ -68,6 +64,14 @@ public class Spreadsheet implements Serializable {
 
     /**
      * 
+     * @return the users of the spreadsheet
+     */
+    public Map<String, User> getUsers() {
+        return _user;
+    }
+
+    /**
+     * 
      * @return the name of the spreadsheet
      */
     public String getName() {
@@ -109,55 +113,17 @@ public class Spreadsheet implements Serializable {
         _name = name;
     }
 
-    //TODO: search com visitors
     /**
-     * 
-     * @return the list of an searched item
+     * Searches in the spreadsheet for a cell that satisfies the given condition.
      */
-    public Collection<String> search(Predicate<Cell> predicate, CellVisitor visitor) {
-        Collection<String> result = new ArrayList<String>();
-
+    public void search(CellVisitor visitor, String string) {
         for (Map.Entry<Address, Cell> entry : _cells.getAllCells().entrySet()) {
-            Address address = entry.getKey();
-            Cell cell = entry.getValue();
-            if (predicate.test(cell)) {
+                Address address = entry.getKey();
+                Cell cell = entry.getValue();             
                 cell.accept(visitor, address.toString());
             }
-        }
-
-        return result;
     }
 
-    /**
-     * Searches in the spreadsheet for a function name.
-     * 
-     * @param value
-     * @return the list of the searched items
-     */
-    public Collection<String> searchF(String value, CellVisitor visitor) {
-        return search(cell -> {
-            boolean condition = false;
-
-            try {
-                condition = ((Function) (cell.getContent())).getName().contains(value); //TODO: é suposto apresentar todas as que começam ou que contêm?
-            } catch (ClassCastException | NullPointerException e) {
-                 //do nothing 
-            }
-            return condition;
-        }, visitor);
-    }
-
-    /**
-     * Searches in the spreadsheet for a literal value.
-     * 
-     * @param value
-     * @return the list of the searched items
-     */
-    public Collection<String> searchV(String value, CellVisitor visitor) {
-        return search(cell -> cell.value().toString().equals(value), visitor);
-    }
-
-    //TODO: exceções
     /**
      * Insert specified content in specified range.
      *
@@ -343,7 +309,8 @@ public class Spreadsheet implements Serializable {
      */
     public void deleteGamma(String gamma) throws InvalidGammaException {
         Gamma _gamma = new Gamma(gamma);
-
+        if (!_gamma.isValid(_cells))
+            throw new InvalidGammaException(gamma);
         for (Address address : _gamma.getAddresses()) {
             Cell cell = _cells.getCell(address);
             cell.unsubscribe();

@@ -129,16 +129,3 @@ public class Range implements Serializable {
         return getStart().toString() + ":" + getEnd().toString();
     }
 }
-
-//    /**
-//     * 
-//     * @param start
-//     * @param end
-//     * @return true if the range is inversed, false otherwise
-//     */
-//    public boolean isInversed(Address start, Address end) {
-//        if(start.getRow() > end.getRow() || 
-//            start.getRow() == end.getRow() && start.getColumn() > end.getColumn())
-//            return true;
-//        return false;
-//    }
