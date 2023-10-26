@@ -413,6 +413,9 @@ public class Spreadsheet implements Serializable {
         Address[] addresses = gamma.getAddresses();
 
         RenderContent content = new RenderContent();
+
+        if(allCells.size() > 1 && addresses.length > 1 && allCells.size() != addresses.length)
+            return;
         
         if(allCells.size() == 1) {
             for (Address address : addresses) {
@@ -429,15 +432,12 @@ public class Spreadsheet implements Serializable {
                 Address first = addresses[0];
                 Address last;
                 if(_cutBuffer.getColumns() == 1) {
-                    last = new Address(first.getRow() + allCells.size()-1, first.getColumn());
-                    if (last.getRow() > _cells.getRows())
-                        last = new Address(_cells.getRows(), first.getColumn());
+                    last = new Address(_cells.getRows(), first.getColumn());
                 } else {
-                    last = new Address(first.getRow(), first.getColumn() + allCells.size()-1);
-                    if (last.getColumn() > _cells.getColumns())
-                        last = new Address(first.getRow(), _cells.getColumns());
+                    last = new Address(first.getRow(), _cells.getColumns());
                 }
-                gamma = new Gamma(first.toString() + ":" + last.toString());                    
+                
+                gamma = new Gamma(first.toString() + ":" + last.toString()); 
                 addresses = gamma.getAddresses();
             }
 
@@ -452,10 +452,18 @@ public class Spreadsheet implements Serializable {
                 } catch (NullPointerException e) {
                     insertContents(address.toString(), "", true);
                 }
-                if(_cutBuffer.getColumns() != 1)
-                    j++;
-                else
-                    i++;
+
+                if(_cutBuffer.getColumns() != 1) {
+                    if(j == _cutBuffer.getColumns()-1) {
+                        j = 1;
+                    } else
+                        j++;
+                } else {
+                    if(i == _cutBuffer.getRows()-1) {
+                        i = 1;
+                    } else
+                        i++;
+                }
             }
         }     
     }

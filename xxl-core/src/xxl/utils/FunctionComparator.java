@@ -22,10 +22,10 @@ public class FunctionComparator implements Comparator<String>, Serializable {
         String fNameA = getFunctionName(a);
         String fNameB = getFunctionName(b);
         int comparedFunctionNames = fNameA.compareTo(fNameB);
-        
+
         if (comparedFunctionNames != 0)
             return comparedFunctionNames;
-        
+
         String addressA = a.split("\\|")[0];
         String addressB = b.split("\\|")[0];
 
@@ -39,7 +39,7 @@ public class FunctionComparator implements Comparator<String>, Serializable {
         } catch (InvalidGammaException e) {
             // no need to handle this exception
         }
-        return comparedAddresses;   
+        return comparedAddresses;
     }
 
     /**
