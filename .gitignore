@@ -11,4 +11,4 @@ export CLASSPATH=/home/jose/po/dev-xxl/xxl-app/xxl-app.jar:/home/jose/po/dev-xxl
 export CLASSPATH=/home/francisca105/ist/dev-xxl/xxl-app/xxl-app.jar:/home/francisca105/ist/dev-xxl/xxl-core/xxl-core.jar:/home/francisca105/ist/po-uilib/po-uilib.jar
 
 
-java -Dimport=/home/francisca105/ist/PO-2023-TESTS/tests/Francisca/teste1.import xxl.app.App < /home/francisca105/ist/PO-2023-TESTS/tests/Francisca/teste2.in > /home/francisca105/ist/PO-2023-TESTS/tests/Francisca/teste2.out
+java -Dimport=/home/francisca105/ist/PO-2023-TESTS/tests/Francisca/teste6.import xxl.app.App < /home/francisca105/ist/PO-2023-TESTS/tests/Francisca/teste6.in > /home/francisca105/ist/PO-2023-TESTS/tests/Francisca/teste6.out

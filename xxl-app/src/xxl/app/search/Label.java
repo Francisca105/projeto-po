@@ -14,4 +14,6 @@ interface Label {
     /** Show cells with specified function. */
     String SEARCH_FUNCTIONS = "Procurar funções";
 
+    String SEARCH_STRINGS = "Procurar strings";
+
 }
